@@ -2,7 +2,7 @@ name: Prepare prod release
 on:
   workflow_dispatch:
   schedule:
-      - cron: "0 0 * * 1" # Every Monday midnight
+    - cron: "0 0 * * 1" # Every Monday midnight
 jobs:
   open-pr:
     runs-on: ubuntu-latest

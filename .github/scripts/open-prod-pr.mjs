@@ -32,7 +32,7 @@ if (branchesDiffer === "") {
       "--body",
       "Merge canary to main, to trigger a prod release",
     ],
-    {}
+    {},
   );
 
   if (result.status === 0) {

@@ -1,13 +1,8 @@
 import { NextPage } from "next";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
 import { Button } from "@saleor/macaw-ui";
-import dynamic from "next/dynamic";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { Link, TextField } from "@material-ui/core";
-
-const ClientContent = dynamic(() => import("../DashboardActions"), {
-  ssr: false,
-});
 
 const AddToSaleorForm = () => (
   <form
@@ -15,15 +10,16 @@ const AddToSaleorForm = () => (
       display: "flex",
       gap: "2rem",
     }}
+    method="post"
     onSubmit={(event) => {
       event.preventDefault();
 
       const saleorUrl = new FormData(event.currentTarget).get("saleor-url");
-      const manifestUrl = new URL("/api/manifest", window.location.origin);
+      const manifestUrl = new URL("/api/manifest", window.location.origin).toString();
       const redirectUrl = new URL(
         `/dashboard/apps/install?manifestUrl=${manifestUrl}`,
-        saleorUrl as string
-      ).href;
+        saleorUrl as string,
+      ).toString();
 
       window.open(redirectUrl, "_blank");
     }}
@@ -52,7 +48,7 @@ const IndexPage: NextPage = () => {
     if (appBridgeState?.ready) {
       e.preventDefault();
 
-      appBridge?.dispatch({
+      void appBridge?.dispatch({
         type: "redirect",
         payload: {
           newContext: true,
@@ -69,7 +65,7 @@ const IndexPage: NextPage = () => {
 
   return (
     <div>
-      <h1>Welcome to Saleor App Template (Next.js) 🚀</h1>
+      <h1>Welcome to Payment App 💰</h1>
       <p>This is a boilerplate you can start with, to create an app connected to Saleor</p>
       <h2>Resources</h2>
       <ul>
@@ -115,9 +111,9 @@ const IndexPage: NextPage = () => {
         </li>
       </ul>
 
-      {appBridgeState?.ready && mounted ? (
-        <ClientContent />
-      ) : (
+      <pre>{JSON.stringify(appBridgeState, null, 2)}</pre>
+
+      {!appBridgeState?.ready && mounted && (
         <div>
           <p>Install this app in your Dashboard and check extra powers!</p>
           {mounted && !global.location.href.includes("localhost") && <AddToSaleorForm />}
