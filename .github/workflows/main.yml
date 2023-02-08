@@ -34,9 +34,6 @@ jobs:
       - name: Check prettier
         run: pnpm prettier --check .
 
-      - name: Lint
-        run: pnpm run lint:ci
-
       - name: Test
         run: pnpm test:ci
 

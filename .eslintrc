@@ -58,5 +58,21 @@
     // for security reasons, always require buttons to provide type="button" ("submit" on rare occasions)
     "react/button-has-type": ["error", { "button": true, "submit": true, "reset": false }]
   },
+  "overrides": [
+    {
+      "files": ["*.test.tsx"],
+      "rules": {
+        // let's make our lives easier in tests
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off"
+      }
+    },
+    {
+      // https://github.com/testing-library/eslint-plugin-testing-library#run-the-plugin-only-against-test-files
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ],
   "ignorePatterns": ["next.config.js"]
 }
