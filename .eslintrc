@@ -74,5 +74,5 @@
       "extends": ["plugin:testing-library/react"]
     }
   ],
-  "ignorePatterns": ["next.config.js"]
+  "ignorePatterns": ["*.js", "*.jsx"]
 }

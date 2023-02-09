@@ -20,7 +20,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ${{ github.workspace }}/.next/cache
