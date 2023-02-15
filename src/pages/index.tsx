@@ -1,8 +1,7 @@
 import { NextPage } from "next";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
-import { Button } from "@saleor/macaw-ui";
+import { Button } from "@saleor/macaw-ui/next";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { Link, TextField } from "@material-ui/core";
 
 const AddToSaleorForm = () => (
   <form
@@ -24,7 +23,10 @@ const AddToSaleorForm = () => (
       window.open(redirectUrl, "_blank");
     }}
   >
-    <TextField type="url" required label="Saleor URL" name="saleor-url" />
+    <label>
+      Saleor URL
+      <input type="url" required name="saleor-url" />
+    </label>
     <Button type="submit">Add to Saleor</Button>
   </form>
 );
@@ -70,44 +72,44 @@ const IndexPage: NextPage = () => {
       <h2>Resources</h2>
       <ul>
         <li>
-          <Link
+          <a
             onClick={handleLinkClick}
             target="_blank"
             rel="noreferrer"
             href="https://github.com/saleor/app-examples"
           >
             App Examples repository
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
+          <a
             onClick={handleLinkClick}
             target="_blank"
             rel="noreferrer"
             href="https://github.com/saleor/saleor-app-sdk"
           >
             Saleor App SDK
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
+          <a
             onClick={handleLinkClick}
             target="_blank"
             href="https://docs.saleor.io/docs/3.x/developer/extending/apps/key-concepts"
             rel="noreferrer"
           >
             Apps documentation
-          </Link>
+          </a>
         </li>
         <li>
-          <Link
+          <a
             onClick={handleLinkClick}
             target="_blank"
             href="https://github.com/saleor/saleor-cli"
             rel="noreferrer"
           >
             Saleor CLI
-          </Link>
+          </a>
         </li>
       </ul>
 

@@ -8,7 +8,7 @@ const buildEslintCommand = (filenames) =>
     .join(" --file ")}`;
 
 module.exports = {
-  "*.{js,jsx,ts,tsx}": [buildEslintCommand],
-  "*.{js,ts,tsx,css,md,json,yml,yaml,json}": "prettier --write",
+  "*.{js,mjs,jsx,ts,tsx}": [buildEslintCommand],
+  "*.{js,mjs,ts,tsx,css,md,json,yml,yaml,json}": "prettier --write",
   "graphql/**/*.graphql": "prettier --write",
 };

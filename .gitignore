@@ -50,3 +50,6 @@ generated/
 
 # Sentry
 next.config.original.js
+
+# env vars
+.env

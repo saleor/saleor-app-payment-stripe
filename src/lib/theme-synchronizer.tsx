@@ -1,6 +1,11 @@
-import { useAppBridge } from "@saleor/app-sdk/app-bridge";
-import { useTheme } from "@saleor/macaw-ui";
+import { ThemeType, useAppBridge } from "@saleor/app-sdk/app-bridge";
+import { DefaultTheme, useTheme } from "@saleor/macaw-ui/next";
 import { memo, useEffect } from "react";
+
+const mapAppBridgeToMacawTheme: Record<ThemeType, DefaultTheme> = {
+  light: "defaultLight",
+  dark: "defaultDark",
+};
 
 /**
  * Macaw-ui stores its theme mode in memory and local storage. To synchronize App with Dashboard,
@@ -10,22 +15,19 @@ import { memo, useEffect } from "react";
  */
 function _ThemeSynchronizer() {
   const { appBridgeState } = useAppBridge();
-  const { setTheme, themeType } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   useEffect(() => {
     if (!setTheme || !appBridgeState?.theme) {
       return;
     }
 
-    if (themeType !== appBridgeState?.theme) {
-      setTheme(appBridgeState.theme);
-      /**
-       * Hack to fix macaw, which is going into infinite loop on light mode (probably de-sync local storage with react state)
-       * TODO Fix me when Macaw 2.0 is shipped
-       */
-      window.localStorage.setItem("macaw-ui-theme", appBridgeState.theme);
+    const mappedAppBridgeTheme = mapAppBridgeToMacawTheme[appBridgeState?.theme];
+
+    if (theme !== mappedAppBridgeTheme) {
+      setTheme(mappedAppBridgeTheme);
     }
-  }, [appBridgeState?.theme, setTheme, themeType]);
+  }, [appBridgeState?.theme, setTheme, theme]);
 
   return null;
 }

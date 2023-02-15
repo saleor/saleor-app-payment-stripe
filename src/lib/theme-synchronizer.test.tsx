@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { AppBridgeState } from "@saleor/app-sdk/app-bridge";
 import { render, waitFor } from "@testing-library/react";
+import { DefaultTheme } from "@saleor/macaw-ui/next";
 import { ThemeSynchronizer } from "./theme-synchronizer";
 
 const appBridgeState: AppBridgeState = {
@@ -26,15 +27,15 @@ vi.mock("@saleor/app-sdk/app-bridge", () => {
   };
 });
 
-vi.mock("@saleor/macaw-ui", () => {
+vi.mock("@saleor/macaw-ui/next", () => {
   return {
     useTheme() {
       return {
         setTheme: mockThemeChange,
-        themeType: "light",
+        theme: "defaultLight",
       };
     },
-  };
+  } satisfies Pick<typeof import("@saleor/macaw-ui/next"), "useTheme">;
 });
 
 describe("ThemeSynchronizer", () => {
@@ -42,7 +43,7 @@ describe("ThemeSynchronizer", () => {
     render(<ThemeSynchronizer />);
 
     return waitFor(() => {
-      expect(mockThemeChange).toHaveBeenCalledWith("dark");
+      expect(mockThemeChange).toHaveBeenCalledWith<[DefaultTheme]>("defaultDark");
     });
   });
 });

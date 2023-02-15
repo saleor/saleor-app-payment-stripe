@@ -22,19 +22,20 @@
     "schemaVersion": "3.10"
   },
   "dependencies": {
-    "@material-ui/core": "4.12.4",
-    "@material-ui/icons": "4.11.3",
-    "@material-ui/lab": "4.0.0-alpha.61",
+    "@hookform/resolvers": "2.9.11",
     "@saleor/app-sdk": "0.28.0",
-    "@saleor/macaw-ui": "0.7.2",
+    "@saleor/macaw-ui": "0.8.0-pre.21",
     "@sentry/nextjs": "7.36.0",
     "@urql/exchange-auth": "1.0.0",
+    "@vanilla-extract/css": "1.9.5",
+    "@vanilla-extract/next-plugin": "2.1.1",
     "@vitejs/plugin-react": "3.1.0",
     "@vitest/coverage-c8": "0.28.4",
     "ajv": "8.12.0",
     "ajv-formats": "2.1.1",
     "graphql": "16.6.0",
     "graphql-tag": "2.12.6",
+    "jose": "4.11.4",
     "jsdom": "21.1.0",
     "lodash": "4.17.21",
     "modern-errors": "5.5.0",
@@ -43,9 +44,12 @@
     "pino": "8.9.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "7.43.1",
     "urql": "3.0.3",
     "vite": "4.1.1",
-    "vitest": "0.28.4"
+    "vitest": "0.28.4",
+    "yup": "1.0.0-beta.8",
+    "zod": "3.20.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.0.0",

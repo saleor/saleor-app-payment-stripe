@@ -37,7 +37,9 @@ const VARIABLES_BLACKLIST = new Set([
   "token",
 ]);
 
-const removeBlacklistedVariables = (obj: {} | undefined | string): {} | undefined | string => {
+const removeBlacklistedVariables = (
+  obj: {} | undefined | string | null,
+): {} | undefined | string | null => {
   if (!obj || typeof obj === "string") {
     return obj;
   }

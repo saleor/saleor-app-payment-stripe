@@ -49,6 +49,7 @@ export const HttpStatus = {
   TooManyRequests: 429,
   RequestHeaderFieldsTooLarge: 431,
   UnavailableForLegalReasons: 451,
+  InternalServerError: 500,
 } as const;
 export type HttpStatus = (typeof HttpStatus)[keyof typeof HttpStatus];
 

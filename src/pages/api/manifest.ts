@@ -8,7 +8,7 @@ export default createManifestHandler({
     const manifest: AppManifest = {
       name: packageJson.name,
       tokenTargetUrl: `${context.appBaseUrl}/api/register`,
-      appUrl: context.appBaseUrl,
+      appUrl: `${context.appBaseUrl}/config`,
       permissions: [
         /**
          * Set permissions for app if needed

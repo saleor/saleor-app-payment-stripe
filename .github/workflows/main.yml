@@ -35,6 +35,8 @@ jobs:
         run: pnpm prettier --check .
 
       - name: Build project
+        env:
+          SECRET_KEY: "preview seceret key"
         run: pnpm build
 
       - name: Test
