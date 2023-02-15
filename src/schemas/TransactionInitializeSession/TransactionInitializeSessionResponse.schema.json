@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "pspReference": { "type": "string" },
+    "data": { "type": "object", "additionalProperties": true, "properties": {} },
+    "result": {
+      "anyOf": [
+        { "type": "string", "const": "CHARGE_SUCCESS" },
+        { "type": "string", "const": "CHARGE_FAILURE" },
+        { "type": "string", "const": "CHARGE_REQUESTED" },
+        { "type": "string", "const": "AUTHORIZATION_SUCCESS" },
+        { "type": "string", "const": "AUTHORIZATION_FAILURE" },
+        { "type": "string", "const": "AUTHORIZATION_REQUESTED" }
+      ]
+    },
+    "amount": { "type": "number", "minimum": 0 },
+    "time": { "type": "string", "format": "date-time" },
+    "externalUrl": { "type": "string" },
+    "message": { "type": "string" }
+  },
+  "required": ["pspReference", "data", "result", "amount", "time", "externalUrl", "message"]
+}

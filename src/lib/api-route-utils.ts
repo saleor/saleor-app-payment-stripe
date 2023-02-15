@@ -1,12 +1,19 @@
 import ModernError from "modern-errors";
-import { ObjectSchema } from "yup";
-import { JSONValue } from "../types";
+import type { ValidateFunction } from "ajv";
+import type { JSONValue } from "../types";
 
 export const JsonParseError = ModernError.subclass("JsonParseError");
-export const parseJsonRequest = async <S extends ObjectSchema<{}>>(req: Request, schema: S) => {
+export const JsonSchemaError = ModernError.subclass("JsonSchemaError");
+export const parseJsonRequest = async <S extends ValidateFunction>(req: Request, validate: S) => {
+  type Result = S extends ValidateFunction<infer T> ? T : never;
   try {
-    const json = (await req.json()) as JSONValue;
-    return [null, schema.validateSync(json)] as const;
+    const json: unknown = await req.json();
+    const isValid = validate(json);
+    if (isValid) {
+      return [null, json as Result] as const;
+    } else {
+      return [JsonSchemaError.normalize(validate.errors), null] as const;
+    }
   } catch (err) {
     return [JsonParseError.normalize(err), null] as const;
   }
