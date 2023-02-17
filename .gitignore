@@ -39,7 +39,6 @@ yarn-error.log*
 .auth_token
 
 #editor
-.vscode
 .idea
 
 # GraphQL auto-generated
