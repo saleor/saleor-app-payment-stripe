@@ -3,7 +3,12 @@
   "type": "object",
   "properties": {
     "pspReference": { "type": "string" },
-    "data": { "type": "object", "additionalProperties": true, "properties": {} },
+    "data": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {},
+      "tsType": "JSONObject"
+    },
     "result": {
       "anyOf": [
         { "type": "string", "const": "CHARGE_SUCCESS" },

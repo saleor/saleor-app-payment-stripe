@@ -1,7 +1,7 @@
 export type JSONValue = string | number | boolean | JSONObject | JSONArray | null;
 
-interface JSONObject {
+export interface JSONObject {
   readonly [x: string]: JSONValue;
 }
 
-interface JSONArray extends ReadonlyArray<JSONValue> {}
+export interface JSONArray extends ReadonlyArray<JSONValue> {}

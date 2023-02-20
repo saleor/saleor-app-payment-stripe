@@ -21,6 +21,19 @@ export const parseJsonRequest = async <S extends ValidateFunction>(req: Request,
   }
 };
 
+export const validateData = async <S extends ValidateFunction>(data: unknown, validate: S) => {
+  type Result = S extends ValidateFunction<infer T> ? T : never;
+  try {
+    const isValid = validate(data);
+    if (!isValid) {
+      throw JsonSchemaError.normalize(validate.errors);
+    }
+    return data as Result;
+  } catch (err) {
+    throw UnknownError.normalize(err);
+  }
+};
+
 export const parseRawBodyToJson = async <T>(req: NextApiRequest, schema: z.ZodType<T>) => {
   try {
     if (typeof req.body !== "string") {

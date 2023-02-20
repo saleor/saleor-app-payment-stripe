@@ -1,6 +1,6 @@
 import { JSONValue } from "../types";
 
-const getResponse =
+export const getResponse =
   (status: number) =>
   (data: JSONValue, headers: Headers = new Headers()) => {
     if (data) {

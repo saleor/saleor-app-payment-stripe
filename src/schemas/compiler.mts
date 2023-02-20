@@ -19,6 +19,7 @@ export async function compileSchemaToTypes(schemaName: string, schema: JSONValue
   const types = await compile(schema as JSONSchema4, schemaName, { unknownAny: true });
   const typesWithDefaultExport = [
     `import type { ValidateFunction } from "ajv";`,
+    `import type { JSONObject } from '../../types';`,
     types,
     `declare const Validate${schemaName}: ValidateFunction<${schemaName}>;`,
     `export default Validate${schemaName};`,
