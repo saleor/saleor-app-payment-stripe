@@ -9,5 +9,6 @@
       "tsType": "JSONObject"
     }
   },
+  "additionalProperties": false,
   "required": ["data"]
 }

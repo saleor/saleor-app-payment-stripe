@@ -24,5 +24,6 @@
     "externalUrl": { "type": "string" },
     "message": { "type": "string" }
   },
+  "additionalProperties": false,
   "required": ["pspReference", "data", "result", "amount", "time", "externalUrl", "message"]
 }

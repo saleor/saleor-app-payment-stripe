@@ -6,10 +6,29 @@ extensions:
     generates:
       generated/graphql.ts:
         config:
+          immutableTypes: true
+          strictScalars: true
+          defaultScalarType: "unknown"
+          useTypeImports: true
           dedupeFragments: true
+          scalars:
+            _Any: "unknown"
+            Date: "string"
+            DateTime: "string"
+            GenericScalar: "JSONValue"
+            JSON: "JSONValue"
+            JSONString: "string"
+            Metadata: "Record<string, string>"
+            PositiveDecimal: "number"
+            Upload: "unknown"
+            UUID: "string"
+            WeightScalar: "number"
         plugins:
+          - add:
+              content: "import type { JSONValue } from '@/types';"
           - typescript
-          - typescript-operations
+          - typescript-operations:
+              exportFragmentSpreadSubTypes: true
           - urql-introspection
           - typescript-urql:
               documentVariablePrefix: "Untyped"
