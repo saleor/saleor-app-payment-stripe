@@ -1,5 +1,6 @@
 import { SaleorApp } from "@saleor/app-sdk/saleor-app";
 import { APL, FileAPL, UpstashAPL, VercelAPL } from "@saleor/app-sdk/APL";
+import { env } from "./lib/env.mjs";
 
 /**
  * By default auth data are stored in the `.auth-data.json` (FileAPL).
@@ -10,7 +11,7 @@ import { APL, FileAPL, UpstashAPL, VercelAPL } from "@saleor/app-sdk/APL";
  */
 
 export let apl: APL;
-switch (process.env.APL) {
+switch (env.APL) {
   case "vercel":
     apl = new VercelAPL();
     break;

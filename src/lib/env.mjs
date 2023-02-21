@@ -16,6 +16,7 @@ const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
   SECRET_KEY: z.string().min(8, { message: "Cannot be too short" }),
   SENTRY_DSN: z.optional(z.string().min(1)),
+  APL: z.optional(z.enum(["vercel", "upstash", "file"])).default("file"),
 });
 
 /**
@@ -37,6 +38,7 @@ const processEnv = {
   SECRET_KEY: process.env.SECRET_KEY,
   SENTRY_DSN: process.env.SENTRY_DSN,
   NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  APL: process.env.APL,
 };
 
 // Don't touch the part below
