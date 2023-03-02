@@ -14,9 +14,11 @@
         { "type": "string", "const": "CHARGE_SUCCESS" },
         { "type": "string", "const": "CHARGE_FAILURE" },
         { "type": "string", "const": "CHARGE_REQUESTED" },
+        { "type": "string", "const": "CHARGE_ACTION_REQUIRED" },
         { "type": "string", "const": "AUTHORIZATION_SUCCESS" },
         { "type": "string", "const": "AUTHORIZATION_FAILURE" },
-        { "type": "string", "const": "AUTHORIZATION_REQUESTED" }
+        { "type": "string", "const": "AUTHORIZATION_REQUESTED" },
+        { "type": "string", "const": "AUTHORIZATION_ACTION_REQUIRED" }
       ]
     },
     "amount": { "type": "number", "minimum": 0 },

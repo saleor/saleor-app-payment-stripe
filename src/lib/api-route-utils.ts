@@ -42,7 +42,7 @@ export const parseRawBodyToJson = async <T>(req: NextApiRequest, schema: z.ZodTy
     if (req.body === "") {
       throw new JsonParseError("No request body");
     }
-    const json = JSON.parse(req.body) as unknown;
+    const json = JSON.parse(req.body);
     return [null, schema.parse(json)] as const;
   } catch (err) {
     return [JsonParseError.normalize(err), null] as const;

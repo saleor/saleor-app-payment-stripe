@@ -29,8 +29,7 @@ describe("test endpoint", () => {
     const req = createRequestMock("POST", { date: new Date().toISOString() });
     const res = await testHandler(req);
     expect(res.status).toEqual(HttpStatus.OK);
-    const response = await res.json();
+    const response = (await res.json()) as any;
     expect(response.products.data.products).toBeTruthy();
-    console.log(response.date);
   });
 });

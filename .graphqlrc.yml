@@ -15,6 +15,7 @@ extensions:
             _Any: "unknown"
             Date: "string"
             DateTime: "string"
+            Decimal: "number"
             GenericScalar: "JSONValue"
             JSON: "JSONValue"
             JSONString: "string"

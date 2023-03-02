@@ -19,7 +19,7 @@
     "prepare": "husky install"
   },
   "saleor": {
-    "schemaVersion": "3.10"
+    "schemaVersion": "support-for-payment-apps"
   },
   "dependencies": {
     "@hookform/resolvers": "2.9.11",

@@ -16,7 +16,7 @@ declare module "vitest" {
 }
 
 export const omitPathsFromJson = (paths: string[]) => (input: string) =>
-  JSON.stringify(omit(paths, JSON.parse(input)));
+  JSON.stringify(omit(paths, JSON.parse(input) as object));
 
 const HEADERS_BLACKLIST = new Set([
   "authorization-bearer",
@@ -121,13 +121,19 @@ export const setupRecording = (config?: PollyConfig) => {
       .on("beforePersist", (_req, recording: PollyRecording) => {
         if (responseIsJson(recording)) {
           tryIgnore(
-            () => (recording.response.content!.text = JSON.parse(recording.response.content!.text)),
+            () =>
+              (recording.response.content!.text = JSON.parse(
+                recording.response.content!.text,
+              ) as string),
           );
         }
 
         if (requestIsJson(recording)) {
           tryIgnore(
-            () => (recording.request.postData!.text = JSON.parse(recording.request.postData!.text)),
+            () =>
+              (recording.request.postData!.text = JSON.parse(
+                recording.request.postData!.text,
+              ) as string),
           );
         }
       })
