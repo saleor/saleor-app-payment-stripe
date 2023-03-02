@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { AppBridgeState } from "@saleor/app-sdk/app-bridge";
+import { type AppBridgeState } from "@saleor/app-sdk/app-bridge";
 import { render, waitFor } from "@testing-library/react";
-import { DefaultTheme } from "@saleor/macaw-ui/next";
+import { type DefaultTheme } from "@saleor/macaw-ui/next";
 import { ThemeSynchronizer } from "./theme-synchronizer";
 
 const appBridgeState: AppBridgeState = {

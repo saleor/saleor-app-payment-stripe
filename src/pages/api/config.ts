@@ -1,11 +1,14 @@
-import { createProtectedHandler, ProtectedHandlerContext } from "@saleor/app-sdk/handlers/next";
-import { NextApiRequest, NextApiResponse } from "next";
+import {
+  createProtectedHandler,
+  type ProtectedHandlerContext,
+} from "@saleor/app-sdk/handlers/next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import { HttpStatus } from "../../lib/api-response";
 import { parseRawBodyToJson, unpackPromise } from "../../lib/api-route-utils";
 import { createClient } from "../../lib/create-graphq-client";
 import { createSettingsManager } from "../../modules/app-configuration/metadata-manager";
 import {
-  PaymentProviderConfig,
+  type PaymentProviderConfig,
   paymentProviderSchema,
 } from "../../modules/payment-configuration/payment-config";
 import { PaymentProviderConfiguratior } from "../../modules/payment-configuration/payment-configuration";

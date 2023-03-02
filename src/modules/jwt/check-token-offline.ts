@@ -1,4 +1,4 @@
-import { Permission } from "@saleor/app-sdk/types";
+import { type Permission } from "@saleor/app-sdk/types";
 import { decodeJwt } from "jose";
 
 const isPermissionsArray = (permissions: unknown): permissions is Permission[] => {

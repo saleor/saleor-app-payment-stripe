@@ -1,5 +1,5 @@
-import { HttpMethod } from "../lib/api-response";
-import { JSONValue } from "../types";
+import { type HttpMethod } from "../lib/api-response";
+import { type JSONValue } from "../types";
 
 export const host = `https://localhost:4213`;
 

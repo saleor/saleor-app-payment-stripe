@@ -1,7 +1,7 @@
-import { PageConfig } from "next";
+import { type PageConfig } from "next";
 import { badRequest, methodNotAllowed, ok } from "../../lib/api-response";
 import { parseJsonRequest } from "../../lib/api-route-utils";
-import { JSONValue } from "../../types";
+import { type JSONValue } from "../../types";
 import TestSchema from "@/schemas/Test/Test.mjs";
 
 export const config: PageConfig = {

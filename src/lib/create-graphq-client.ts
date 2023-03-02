@@ -1,4 +1,4 @@
-import { AuthConfig, authExchange } from "@urql/exchange-auth";
+import { type AuthConfig, authExchange } from "@urql/exchange-auth";
 import {
   cacheExchange,
   createClient as urqlCreateClient,

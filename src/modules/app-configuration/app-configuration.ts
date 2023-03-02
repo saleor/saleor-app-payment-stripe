@@ -1,4 +1,4 @@
-import { SettingsManager } from "@saleor/app-sdk/settings-manager";
+import { type SettingsManager } from "@saleor/app-sdk/settings-manager";
 import { merge } from "lodash/fp";
 import { toStringOrEmpty } from "../../lib/api-route-utils";
 

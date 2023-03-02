@@ -2,12 +2,12 @@ import { useAppBridge, withAuthorization } from "@saleor/app-sdk/app-bridge";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Text } from "@saleor/macaw-ui/next";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkTokenPermissions } from "../modules/jwt/check-token-offline";
 import {
-  PaymentProviderConfig,
+  type PaymentProviderConfig,
   paymentProviderFormSchema,
   paymentProviderSchema,
 } from "../modules/payment-configuration/payment-config";

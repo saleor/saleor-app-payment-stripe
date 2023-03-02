@@ -1,6 +1,11 @@
 import { Box, Text } from "@saleor/macaw-ui/next";
 import { useEffect, useState } from "react";
-import { FieldPath, FieldValues, useController, UseControllerProps } from "react-hook-form";
+import {
+  type FieldPath,
+  type FieldValues,
+  useController,
+  type UseControllerProps,
+} from "react-hook-form";
 import { OBFUSCATION_DOTS } from "../../app-configuration/app-configuration";
 import { input, label as labelStyles, wrapper } from "./Input.css";
 

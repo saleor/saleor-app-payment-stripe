@@ -1,6 +1,6 @@
 import ModernError from "modern-errors";
-import { z } from "zod";
-import { NextApiRequest } from "next";
+import { type z } from "zod";
+import { type NextApiRequest } from "next";
 import type { ValidateFunction } from "ajv";
 import type { JSONValue } from "../types";
 

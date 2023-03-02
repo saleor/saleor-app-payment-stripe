@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { type PropsWithChildren } from "react";
 import dynamic from "next/dynamic";
 
 const Wrapper = (props: PropsWithChildren<{}>) => <React.Fragment>{props.children}</React.Fragment>;

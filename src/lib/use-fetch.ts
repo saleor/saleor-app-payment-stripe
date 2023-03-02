@@ -1,8 +1,8 @@
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
 import ModernError from "modern-errors";
 import { useCallback, useEffect, useRef } from "react";
-import { z } from "zod";
-import { JSONValue } from "../types";
+import { type z } from "zod";
+import { type JSONValue } from "../types";
 import { tryJsonParse } from "./api-route-utils";
 
 export const FetchError = ModernError.subclass("FetchError", {

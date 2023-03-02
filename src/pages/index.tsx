@@ -1,7 +1,7 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
 import { Button } from "@saleor/macaw-ui/next";
-import { MouseEventHandler, useEffect, useState } from "react";
+import { type MouseEventHandler, useEffect, useState } from "react";
 
 const AddToSaleorForm = () => (
   <form

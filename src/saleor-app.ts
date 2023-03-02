@@ -1,5 +1,5 @@
 import { SaleorApp } from "@saleor/app-sdk/saleor-app";
-import { APL, FileAPL, UpstashAPL, VercelAPL } from "@saleor/app-sdk/APL";
+import { type APL, FileAPL, UpstashAPL, VercelAPL } from "@saleor/app-sdk/APL";
 import { env } from "./lib/env.mjs";
 
 /**

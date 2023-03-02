@@ -1,4 +1,4 @@
-import { JSONValue } from "../types";
+import { type JSONValue } from "../types";
 
 export const getResponse =
   (status: number) =>
