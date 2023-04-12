@@ -4,34 +4,32 @@ import {
 } from "@saleor/app-sdk/handlers/next";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { HttpStatus } from "../../lib/api-response";
-import { parseRawBodyToJson, unpackPromise } from "../../lib/api-route-utils";
 import { createClient } from "../../lib/create-graphq-client";
-import { createSettingsManager } from "../../modules/app-configuration/metadata-manager";
 import {
-  type PaymentProviderConfig,
-  paymentProviderSchema,
-} from "../../modules/payment-configuration/payment-config";
-import { PaymentProviderConfiguratior } from "../../modules/payment-configuration/payment-configuration";
+  type PaymentAppConfig,
+  paymentAppCombinedSchema,
+} from "../../modules/payment-app-configuration/payment-app-config";
 import { saleorApp } from "../../saleor-app";
+import { unpackPromise } from "@/lib/utils";
+import { parseRawBodyToJson } from "@/backend-lib/api-route-utils";
+import { getPaymentAppConfigurator } from "@/modules/payment-app-configuration/payment-app-configuration-factory";
 
-type GetPaymentProviderConfigResponse = PaymentProviderConfig;
+type GetPaymentAppConfigResponse = PaymentAppConfig;
 
-type PostPaymentProviderConfigResponse = {
+type PostPaymentAppConfigResponse = {
   ok: true;
 };
 
-interface ErrorPaymentProviderConfigResponse {
+interface ErrorPaymentAppConfigResponse {
   ok: false;
   message: string;
 }
 
-type OkPaymentProviderConfigResponse =
-  | GetPaymentProviderConfigResponse
-  | PostPaymentProviderConfigResponse;
+type OkPaymentAppConfigResponse = GetPaymentAppConfigResponse | PostPaymentAppConfigResponse;
 
 export const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<OkPaymentProviderConfigResponse | ErrorPaymentProviderConfigResponse>,
+  res: NextApiResponse<OkPaymentAppConfigResponse | ErrorPaymentAppConfigResponse>,
   ctx: ProtectedHandlerContext,
 ) => {
   if (req.method === "POST") {
@@ -55,17 +53,14 @@ export default createProtectedHandler(handler, saleorApp.apl, ["MANAGE_SETTINGS"
 
 async function handleGetRequest(
   _req: NextApiRequest,
-  res: NextApiResponse<GetPaymentProviderConfigResponse | ErrorPaymentProviderConfigResponse>,
+  res: NextApiResponse<GetPaymentAppConfigResponse | ErrorPaymentAppConfigResponse>,
   ctx: ProtectedHandlerContext,
 ) {
   const client = createClient(ctx.authData.saleorApiUrl, async () => ({
     token: ctx.authData.token,
   }));
 
-  const configurator = new PaymentProviderConfiguratior(
-    createSettingsManager(client),
-    ctx.authData.saleorApiUrl,
-  );
+  const configurator = getPaymentAppConfigurator(client, ctx.authData.saleorApiUrl);
 
   const [err, obfuscatedConfig] = await unpackPromise(configurator.getConfigObfuscated());
 
@@ -80,15 +75,15 @@ async function handleGetRequest(
     return res.status(HttpStatus.OK).json(obfuscatedConfig);
   }
 
-  return res.status(HttpStatus.OK).json({ fakeApiKey: "" });
+  return res.status(HttpStatus.OK).json({ apiKey: "" });
 }
 
 async function handlePostRequest(
   req: NextApiRequest,
-  res: NextApiResponse<PostPaymentProviderConfigResponse | ErrorPaymentProviderConfigResponse>,
+  res: NextApiResponse<PostPaymentAppConfigResponse | ErrorPaymentAppConfigResponse>,
   ctx: ProtectedHandlerContext,
 ) {
-  const [err, json] = await parseRawBodyToJson(req, paymentProviderSchema);
+  const [err, json] = await parseRawBodyToJson(req, paymentAppCombinedSchema);
 
   if (err) {
     return res.status(HttpStatus.BadRequest).json({
@@ -108,10 +103,7 @@ async function handlePostRequest(
     Promise.resolve({ token: ctx.authData.token }),
   );
 
-  const configurator = new PaymentProviderConfiguratior(
-    createSettingsManager(client),
-    ctx.authData.saleorApiUrl,
-  );
+  const configurator = getPaymentAppConfigurator(client, ctx.authData.saleorApiUrl);
 
   await configurator.setConfig(json);
 

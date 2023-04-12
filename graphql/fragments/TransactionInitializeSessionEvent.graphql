@@ -1,0 +1,20 @@
+fragment TransactionInitializeSessionEvent on TransactionInitializeSession {
+  __typename
+  recipient {
+    ...PaymentGatewayRecipient
+  }
+  data
+  merchantReference
+  action {
+    amount
+    currency
+    actionType
+  }
+  transaction {
+    id
+  }
+  sourceObject {
+    __typename
+    ...OrderOrCheckoutSourceObject
+  }
+}

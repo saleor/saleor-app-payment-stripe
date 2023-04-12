@@ -1,6 +1,11 @@
-import { type SettingsManager } from "@saleor/app-sdk/settings-manager";
-import { merge } from "lodash/fp";
-import { toStringOrEmpty } from "../../lib/api-route-utils";
+import {
+  type SettingsValue,
+  type MetadataEntry,
+  type SettingsManager,
+} from "@saleor/app-sdk/settings-manager";
+import merge from "lodash-es/merge";
+import { toStringOrEmpty } from "../../lib/utils";
+import { logger as pinoLogger } from "@/lib/logger";
 
 export interface AppConfigurator<TConfig extends Record<string, unknown>> {
   setConfig(config: TConfig): Promise<void>;
@@ -20,6 +25,23 @@ export const obfuscateValue = (value: string) => {
   return `${OBFUSCATION_DOTS}${visibleValue}`;
 };
 
+// Taken from @saleor/app-sdk/src/settings-manager
+export const serializeSettingsToMetadata = ({
+  key,
+  value,
+  domain,
+}: SettingsValue): MetadataEntry => {
+  // domain specific metadata use convention key__domain, e.g. `secret_key__example.com`
+  if (!domain) {
+    return { key, value };
+  }
+
+  return {
+    key: [key, domain].join("__"),
+    value,
+  };
+};
+
 export const deobfuscateValues = (values: Record<string, unknown>) => {
   const entries = Object.entries(values).map(
     ([key, value]) =>
@@ -29,20 +51,20 @@ export const deobfuscateValues = (values: Record<string, unknown>) => {
 };
 
 export const filterConfigValues = <T extends Record<string, unknown>>(values: T) => {
-  const entries = Object.entries(values).filter(([_, value]) => value !== null);
+  const entries = Object.entries(values).filter(
+    ([_, value]) => value !== null && value !== undefined,
+  );
   return Object.fromEntries(entries);
 };
 
-export class PrivateMetadataAppConfigurator<TConfig extends Record<string, unknown>>
+export abstract class MetadataConfigurator<TConfig extends Record<string, unknown>>
   implements AppConfigurator<TConfig>
 {
   constructor(
-    private metadataManager: SettingsManager,
-    private saleorApiUrl: string,
-    private metadataKey: string,
-  ) {
-    this.metadataKey = metadataKey;
-  }
+    protected metadataManager: SettingsManager,
+    protected saleorApiUrl: string,
+    protected metadataKey: string,
+  ) {}
 
   async getConfig(): Promise<TConfig | undefined> {
     const data = await this.metadataManager.get(this.metadataKey, this.saleorApiUrl);
@@ -55,6 +77,61 @@ export class PrivateMetadataAppConfigurator<TConfig extends Record<string, unkno
     } catch (e) {
       throw new Error("Invalid metadata value, cant be parsed");
     }
+  }
+
+  async getRawConfig(
+    prepareValue: (val: string) => string = (data) => data,
+  ): Promise<MetadataEntry[]> {
+    const data = await this.metadataManager.get(this.metadataKey, this.saleorApiUrl);
+
+    return [
+      // metadataManager strips out domain from key, we need to add it back
+      serializeSettingsToMetadata({
+        key: this.metadataKey,
+        value: prepareValue(data ?? ""),
+        domain: this.saleorApiUrl,
+      }),
+    ];
+  }
+
+  async setConfig(newConfig: Partial<TConfig>, replace = false) {
+    const logger = pinoLogger.child({
+      saleorApiUrl: this.saleorApiUrl,
+      metadataKey: this.metadataKey,
+    });
+    const filteredNewConfig = filterConfigValues(newConfig);
+    if (Object.keys(filteredNewConfig).length === 0 && !replace) {
+      logger.debug({ newConfig, filteredNewConfig }, "No config to safe in metadata");
+      return;
+    }
+
+    const existingConfig = replace ? {} : await this.getConfig();
+
+    return this.metadataManager.set({
+      key: this.metadataKey,
+      value: JSON.stringify(merge(existingConfig, filteredNewConfig)),
+      domain: this.saleorApiUrl,
+    });
+  }
+
+  async clearConfig() {
+    return this.metadataManager.set({
+      key: this.metadataKey,
+      value: "",
+      domain: this.saleorApiUrl,
+    });
+  }
+}
+
+export class PublicMetadataAppConfiguration<
+  TConfig extends Record<string, unknown>,
+> extends MetadataConfigurator<TConfig> {}
+
+export class PrivateMetadataAppConfigurator<
+  TConfig extends Record<string, unknown>,
+> extends MetadataConfigurator<TConfig> {
+  constructor(metadataManager: SettingsManager, saleorApiUrl: string, metadataKey: string) {
+    super(metadataManager, saleorApiUrl, metadataKey);
   }
 
   obfuscateConfig(config: TConfig): TConfig {
@@ -72,16 +149,5 @@ export class PrivateMetadataAppConfigurator<TConfig extends Record<string, unkno
       return undefined;
     }
     return this.obfuscateConfig(config);
-  }
-
-  async setConfig(newConfig: TConfig, replace = false) {
-    const filteredNewConfig = filterConfigValues(newConfig);
-    const existingConfig = replace ? {} : await this.getConfig();
-
-    return this.metadataManager.set({
-      key: this.metadataKey,
-      value: JSON.stringify(merge(existingConfig, filteredNewConfig)),
-      domain: this.saleorApiUrl,
-    });
   }
 }

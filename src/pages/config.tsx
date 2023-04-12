@@ -7,10 +7,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { checkTokenPermissions } from "../modules/jwt/check-token-offline";
 import {
-  type PaymentProviderConfig,
-  paymentProviderFormSchema,
-  paymentProviderSchema,
-} from "../modules/payment-configuration/payment-config";
+  type PaymentAppConfig,
+  paymentAppCombinedFormSchema,
+  paymentAppCombinedSchema,
+} from "../modules/payment-app-configuration/payment-app-config";
 import { AppContainer } from "../modules/ui/AppContainer/AppContainer";
 import { Input } from "../modules/ui/Input/Input";
 import { Form } from "../modules/ui/Form/Form";
@@ -26,10 +26,10 @@ const ConfigPage: NextPage = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const formMethods = useForm<PaymentProviderConfig>({
-    resolver: zodResolver(paymentProviderFormSchema),
+  const formMethods = useForm<PaymentAppConfig>({
+    resolver: zodResolver(paymentAppCombinedFormSchema),
     defaultValues: {
-      fakeApiKey: "",
+      apiKey: "",
     },
   });
 
@@ -43,7 +43,7 @@ const ConfigPage: NextPage = () => {
   } = formMethods;
 
   useFetch("/api/config", {
-    schema: paymentProviderSchema,
+    schema: paymentAppCombinedSchema,
     onFinished: () => setIsLoading(false),
     onSuccess: (data) => {
       reset(data);
@@ -115,14 +115,14 @@ const ConfigPage: NextPage = () => {
                 control={control}
                 autoClearEncrypted
                 label="API_KEY"
-                name="fakeApiKey"
+                name="apiKey"
                 disabled={isLoading}
               />
               <Button
                 variant="secondary"
                 size="small"
                 type="button"
-                onClick={() => resetField("fakeApiKey")}
+                onClick={() => resetField("apiKey")}
               >
                 Reset
               </Button>

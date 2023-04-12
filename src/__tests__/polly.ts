@@ -1,13 +1,16 @@
 import path from "path";
 import NodeHttpAdapter from "@pollyjs/adapter-node-http";
 import FetchAdapter from "@pollyjs/adapter-fetch";
-import type { PollyConfig } from "@pollyjs/core";
+import type { Headers, PollyConfig } from "@pollyjs/core";
 import { Polly } from "@pollyjs/core";
 import FSPersister from "@pollyjs/persister-fs";
 import { afterEach, beforeEach, expect } from "vitest";
-import { mergeAll, omit } from "lodash/fp";
+import merge from "lodash-es/merge";
+import omit from "lodash-es/omit";
 import omitDeep from "omit-deep-lodash";
-import { tryJsonParse, tryIgnore } from "../lib/api-route-utils";
+import { tryJsonParse, tryIgnore } from "../lib/utils";
+import { env } from "@/lib/env.mjs";
+import { testEnv } from "@/__tests__/test-env.mjs";
 
 declare module "vitest" {
   export interface TestContext {
@@ -15,14 +18,19 @@ declare module "vitest" {
   }
 }
 
-export const omitPathsFromJson = (paths: string[]) => (input: string) =>
-  JSON.stringify(omit(paths, JSON.parse(input) as object));
+export const omitPathsFromJson = (paths: string[]) => (input: string) => {
+  return JSON.stringify(omit(JSON.parse(input) as object, paths));
+};
+export const omitPathsFromHeaders = (paths: string[]) => (headers: Headers) => {
+  return omit(headers, paths);
+};
 
 const HEADERS_BLACKLIST = new Set([
   "authorization-bearer",
   "authorization",
   "saleor-signature",
   "set-cookie",
+  "x-api-key",
 ]);
 
 const VARIABLES_BLACKLIST = new Set([
@@ -35,6 +43,7 @@ const VARIABLES_BLACKLIST = new Set([
   "redirectUrl",
   "refreshToken",
   "token",
+  "authorisationToken",
 ]);
 
 const removeBlacklistedVariables = (
@@ -194,7 +203,7 @@ export const setupRecording = (config?: PollyConfig) => {
     const [, ...names] = currentTestName.split(" > ");
     const polly = new Polly(
       names.join("/"),
-      mergeAll([
+      merge(
         defaultConfig,
         {
           persisterOptions: {
@@ -204,7 +213,7 @@ export const setupRecording = (config?: PollyConfig) => {
           },
         },
         config,
-      ]),
+      ),
     );
     ctx.polly = polly;
   });
@@ -218,7 +227,7 @@ const getRecordingSettings = (): Pick<
   "mode" | "recordIfMissing" | "recordFailedRequests"
 > => {
   // use replay mode by default, override if POLLY_MODE env variable is passed
-  const mode = process.env.CI ? "replay" : process.env.POLLY_MODE ?? "replay";
+  const mode = env.CI ? "replay" : testEnv.POLLY_MODE;
 
   if (mode === "record") {
     return {

@@ -1,5 +1,10 @@
 name: QA
-on: [pull_request]
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - canary
 
 concurrency:
   group: tests-${{ github.event.pull_request.number || github.ref }}
@@ -13,7 +18,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 7.11.0
+          version: 8.0.0
 
       - uses: actions/setup-node@v3
         with:
@@ -34,10 +39,45 @@ jobs:
       - name: Check prettier
         run: pnpm prettier --check .
 
-      - name: Build project
-        env:
-          SECRET_KEY: "preview seceret key"
-        run: pnpm build
+      - name: Generate
+        run: pnpm generate
 
       - name: Test
         run: pnpm test:ci
+        env:
+          # Secrets
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TEST_SALEOR_APP_TOKEN: ${{ secrets.TEST_SALEOR_APP_TOKEN }}
+          # Variables
+          TEST_SALEOR_API_URL: ${{ vars.TEST_SALEOR_API_URL }}
+          TEST_SALEOR_APP_ID: ${{ vars.TEST_SALEOR_APP_ID }}
+          TEST_SALEOR_JWKS: ${{ vars.TEST_SALEOR_JWKS }}
+
+      - name: Dependency cruiser
+        if: ${{ github.event_name != 'push' }}
+        run: pnpm exec dependency-cruiser src
+
+      - name: Download coverage report from canary
+        if: ${{ github.event_name != 'push' }}
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow_conclusion: success
+          branch: canary
+          event: push
+          name: coverage-artifacts
+          path: coverage-main/
+
+      - name: Coverage report
+        if: ${{ github.event_name != 'push' }}
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.2
+        with:
+          skip-step: all
+          coverage-file: coverage/report.json
+          base-coverage-file: coverage-main/report.json
+
+      - name: Upload coverage report
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/canary' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-artifacts
+          path: coverage/

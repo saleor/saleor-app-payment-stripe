@@ -1,14 +1,11 @@
-name: Assign PR to creator
+name: Assign PR to author
 
 on:
   pull_request:
-    types: [opened]
+  merge_group:
 
 jobs:
   assign_creator:
     runs-on: ubuntu-latest
     steps:
-      - name: Assign PR to creator
-        uses: thomaseizinger/assign-pr-creator-action@v1.0.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: toshimaru/auto-author-assign@v1.6.2

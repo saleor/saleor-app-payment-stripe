@@ -8,3 +8,4 @@ src/schemas/**/*.cts
 src/schemas/**/*.js
 src/schemas/**/*.mjs
 src/schemas/**/*.cjs
+coverage/**

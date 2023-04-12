@@ -3,7 +3,7 @@ import ModernError from "modern-errors";
 import { useCallback, useEffect, useRef } from "react";
 import { type z } from "zod";
 import { type JSONValue } from "../types";
-import { tryJsonParse } from "./api-route-utils";
+import { tryJsonParse } from "./utils";
 
 export const FetchError = ModernError.subclass("FetchError", {
   props: {

@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "typeRoots": ["node_modules/@types", "typings"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", "**/*.mts"],
   "exclude": ["node_modules"]

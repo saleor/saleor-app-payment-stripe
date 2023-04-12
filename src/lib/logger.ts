@@ -1,12 +1,12 @@
+// We have to use process.env, otherwise pino doesn't work
+/* eslint-disable node/no-process-env */
 import pino from "pino";
 
-const availableLevels = ["fatal", "error", "warn", "info", "debug", "trace", "silent"] as const;
-const level = availableLevels.includes(process.env.APP_DEBUG) ? process.env.APP_DEBUG : "error";
-
+/* c8 ignore start */
 export const logger = pino({
-  level,
+  level: process.env.APP_DEBUG ?? "info",
   transport:
-    process.env.NODE_ENV === "development"
+    process.env.NODE_ENV === "development" || process.env.CI || process.env.NODE_ENV === "test"
       ? {
           target: "pino-pretty",
           options: {
@@ -15,5 +15,6 @@ export const logger = pino({
         }
       : undefined,
 });
+/* c8 ignore stop */
 
 export const createLogger = logger.child.bind(logger);

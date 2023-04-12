@@ -11,6 +11,7 @@ extensions:
           defaultScalarType: "unknown"
           useTypeImports: true
           dedupeFragments: true
+          skipTypename: true
           scalars:
             _Any: "unknown"
             Date: "string"
@@ -26,9 +27,12 @@ extensions:
             WeightScalar: "number"
         plugins:
           - add:
-              content: "import type { JSONValue } from '@/types';"
+              content: |
+                /* c8 ignore start */
+                import type { JSONValue } from '@/types';
           - typescript
           - typescript-operations:
+              skipTypeNameForRoot: true
               exportFragmentSpreadSubTypes: true
           - urql-introspection
           - typescript-urql:

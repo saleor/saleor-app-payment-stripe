@@ -1,6 +1,6 @@
 import { type PageConfig } from "next";
 import { badRequest, methodNotAllowed, ok } from "../../lib/api-response";
-import { parseJsonRequest } from "../../lib/api-route-utils";
+import { parseJsonRequest } from "../../backend-lib/api-route-utils";
 import { type JSONValue } from "../../types";
 import TestSchema from "@/schemas/Test/Test.mjs";
 
