@@ -17,6 +17,7 @@ export default createManifestHandler({
       ],
       id: "saleor.app",
       version: packageJson.version,
+      requiredSaleorVersion: ">=3.13",
       webhooks: [
         /**
          * Configure webhooks here. They will be created in Saleor during installation
