@@ -9,8 +9,8 @@ export const env = createEnv({
    * Will throw if you access these variables on the client.
    */
   server: {
-    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    ENV: z.enum(["development", "test", "production"]).default("development"),
+    NODE_ENV: z.enum(["development", "test", "staging", "production"]).default("development"),
+    ENV: z.enum(["development", "test", "staging", "production"]).default("development"),
     SECRET_KEY: z.string().min(8, { message: "Cannot be too short" }),
     SENTRY_DSN: z.string().min(1).optional(),
     APL: z.enum(["saleor-cloud", "upstash", "file"]).optional().default("file"),
