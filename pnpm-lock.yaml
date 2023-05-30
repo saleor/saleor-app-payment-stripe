@@ -25,6 +25,9 @@ dependencies:
   '@sentry/nextjs':
     specifier: 7.53.1
     version: registry.npmjs.org/@sentry/nextjs@7.53.1(next@13.4.4)(react@18.2.0)(webpack@5.84.1)
+  '@t3-oss/env-nextjs':
+    specifier: 0.4.0
+    version: registry.npmjs.org/@t3-oss/env-nextjs@0.4.0(typescript@5.0.4)(zod@3.21.4)
   '@urql/exchange-auth':
     specifier: 1.0.0
     version: 1.0.0(graphql@16.6.0)
@@ -32,8 +35,8 @@ dependencies:
     specifier: 1.11.0
     version: registry.npmjs.org/@vanilla-extract/css@1.11.0
   '@vanilla-extract/next-plugin':
-    specifier: 2.1.3
-    version: registry.npmjs.org/@vanilla-extract/next-plugin@2.1.3(@types/node@20.2.5)(next@13.4.4)(webpack@5.84.1)
+    specifier: 2.1.2
+    version: registry.npmjs.org/@vanilla-extract/next-plugin@2.1.2(@types/node@20.2.5)(next@13.4.4)(webpack@5.84.1)
   '@vanilla-extract/recipes':
     specifier: 0.4.0
     version: registry.npmjs.org/@vanilla-extract/recipes@0.4.0(@vanilla-extract/css@1.11.0)
@@ -291,7 +294,7 @@ packages:
       '@babel/core': 7.20.12
       '@babel/generator': 7.20.14
       '@babel/parser': 7.20.15
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       '@babel/traverse': 7.20.13
       '@babel/types': 7.20.7
       babel-preset-fbjs: 3.4.0(@babel/core@7.20.12)
@@ -338,9 +341,9 @@ packages:
       '@babel/traverse': 7.20.13
       '@babel/types': 7.20.7
       convert-source-map: 1.9.0
-      debug: 4.3.4
+      debug: registry.npmjs.org/debug@4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.3
+      json5: registry.npmjs.org/json5@2.2.3
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -371,7 +374,7 @@ packages:
       '@babel/compat-data': 7.20.14
       '@babel/core': 7.20.12
       '@babel/helper-validator-option': 7.18.6
-      browserslist: 4.21.5
+      browserslist: registry.npmjs.org/browserslist@4.21.7
       lru-cache: 5.1.1
       semver: 6.3.0
     dev: true
@@ -524,7 +527,7 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.19.1
       chalk: registry.npmjs.org/chalk@2.4.2
-      js-tokens: 4.0.0
+      js-tokens: registry.npmjs.org/js-tokens@4.0.0
     dev: true
 
   /@babel/parser@7.20.15:
@@ -854,7 +857,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.20.15
       '@babel/types': 7.20.7
-      debug: 4.3.4
+      debug: registry.npmjs.org/debug@4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -978,7 +981,7 @@ packages:
     dependencies:
       '@graphql-typed-document-node/core': registry.npmjs.org/@graphql-typed-document-node/core@3.2.0(graphql@16.6.0)
       graphql: 16.6.0
-      tslib: 2.5.0
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /@jridgewell/gen-mapping@0.1.1:
@@ -1405,17 +1408,6 @@ packages:
       concat-map: 0.0.1
     dev: true
 
-  /browserslist@4.21.5:
-    resolution: {integrity: sha512-tUkiguQGW7S3IhB7N+c2MV/HZPSCPAAiYBZXLsBhFB/PCy6ZKKsZrmBayHV9fdGV/ARIfJ14NkxKzRDjvp7L6w==}
-    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
-    hasBin: true
-    dependencies:
-      caniuse-lite: 1.0.30001452
-      electron-to-chromium: 1.4.296
-      node-releases: 2.0.10
-      update-browserslist-db: 1.0.10(browserslist@4.21.5)
-    dev: true
-
   /bser@2.1.1:
     resolution: {integrity: sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==}
     dependencies:
@@ -1438,7 +1430,7 @@ packages:
     resolution: {integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==}
     dependencies:
       pascal-case: 3.1.2
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /camelcase@5.3.1:
@@ -1446,15 +1438,11 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite@1.0.30001452:
-    resolution: {integrity: sha512-Lkp0vFjMkBB3GTpLR8zk4NwW5EdRdnitwYJHDOOKIU85x4ckYCPQ+9WlVvSVClHxVReefkUMtWZH2l9KGlD51w==}
-    dev: true
-
   /capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
       upper-case-first: 2.0.2
     dev: true
 
@@ -1495,7 +1483,7 @@ packages:
       path-case: 3.0.4
       sentence-case: 3.0.4
       snake-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /cliui@6.0.0:
@@ -1530,7 +1518,7 @@ packages:
     resolution: {integrity: sha512-I2hSBi7Vvs7BEuJDr5dDHfzb/Ruj3FyvFyh7KLilAjNQw3Be+xgqUBA2W6scVEcL0hL1dwPRtIqEPVUCKkSsyQ==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
       upper-case: 2.0.2
     dev: true
 
@@ -1691,15 +1679,11 @@ packages:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /ee-first@1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
-    dev: true
-
-  /electron-to-chromium@1.4.296:
-    resolution: {integrity: sha512-i/6Q+Y9bluDa2a0NbMvdtG5TuS/1Fr3TKK8L+7UUL9QjRS5iFJzCC3r70xjyOnLiYG8qGV4/mMpe6HuAbdJW4w==}
     dev: true
 
   /emoji-regex@8.0.0:
@@ -1786,11 +1770,6 @@ packages:
       is-callable: 1.2.7
       is-date-object: 1.0.5
       is-symbol: 1.0.4
-    dev: true
-
-  /escalade@3.1.1:
-    resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
-    engines: {node: '>=6'}
     dev: true
 
   /escape-html@1.0.3:
@@ -1948,8 +1927,8 @@ packages:
     dependencies:
       cross-fetch: 3.1.5
       fbjs-css-vars: 1.0.2
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
+      loose-envify: registry.npmjs.org/loose-envify@1.4.0
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       promise: 7.3.1
       setimmediate: 1.0.5
       ua-parser-js: 0.7.33
@@ -1961,7 +1940,7 @@ packages:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
     engines: {node: '>= 0.8'}
     dependencies:
-      debug: 2.6.9
+      debug: registry.npmjs.org/debug@2.6.9
       encodeurl: 1.0.2
       escape-html: 1.0.3
       on-finished: 2.4.1
@@ -2142,7 +2121,7 @@ packages:
     resolution: {integrity: sha512-H/vuk5TEEVZwrR0lp2zed9OCo1uAILMlx0JEMgC26rzyJJ3N1v6XkwHHXJQdR2doSjcGPM6OKPYoJgf0plJ11Q==}
     dependencies:
       capital-case: 1.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /http-errors@2.0.0:
@@ -2216,7 +2195,7 @@ packages:
   /invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
     dependencies:
-      loose-envify: 1.4.0
+      loose-envify: registry.npmjs.org/loose-envify@1.4.0
     dev: true
 
   /ipaddr.js@1.9.1:
@@ -2305,7 +2284,7 @@ packages:
   /is-lower-case@2.0.2:
     resolution: {integrity: sha512-bVcMJy4X5Og6VZfdOZstSexlEy20Sr0k/p/b2IlQJlfdKAQuMpiv5w2Ccxb8sKdRUNAG1PnHVHjFSdRDVS6NlQ==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /is-map@2.0.2:
@@ -2384,7 +2363,7 @@ packages:
   /is-upper-case@2.0.2:
     resolution: {integrity: sha512-44pxmxAvnnAOwBg4tHPnkfvgjPwbc5QIsSstNU+YcJ1ovxVzCWpSGosPJOZh/a1tdl81fbgnLc9LLv+x2ywbPQ==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /is-weakmap@2.0.1:
@@ -2437,12 +2416,6 @@ packages:
       minimist: 1.2.8
     dev: true
 
-  /json5@2.2.3:
-    resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dev: true
-
   /jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
     dependencies:
@@ -2475,13 +2448,13 @@ packages:
   /lower-case-first@2.0.2:
     resolution: {integrity: sha512-EVm/rR94FJTZi3zefZ82fLWab+GX14LJN4HrWBcuo6Evmsl9hEfnqxgcHCKb9q+mNf6EVdsjx/qucYFIIB84pg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /lower-case@2.0.2:
     resolution: {integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /lru-cache@5.1.1:
@@ -2593,7 +2566,7 @@ packages:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /nocache@3.0.4:
@@ -2639,10 +2612,6 @@ packages:
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
-    dev: true
-
-  /node-releases@2.0.10:
-    resolution: {integrity: sha512-5GFldHPXVG/YZmFzJvKK2zDSzPKhEp0+ZR5SVaoSag9fsL5YgHbUHDfnG5494ISANDcK4KwPXAx2xqVEydmd7w==}
     dev: true
 
   /nullthrows@1.1.1:
@@ -2745,7 +2714,7 @@ packages:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /parse-filepath@1.0.2:
@@ -2766,14 +2735,14 @@ packages:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /path-case@3.0.4:
     resolution: {integrity: sha512-qO4qCFjXqVTrcbPt/hQfhTQ+VhFsqNKOPtytgNKkKxSoEp3XPUQ8ObFuePylOIok5gjn69ry8XiULxCwot3Wfg==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /path-exists@4.0.0:
@@ -2804,10 +2773,6 @@ packages:
 
   /path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
-    dev: true
-
-  /picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: true
 
   /promise@7.3.1:
@@ -2909,7 +2874,7 @@ packages:
   /relay-runtime@12.0.0:
     resolution: {integrity: sha512-QU6JKr1tMsry22DXNy9Whsq5rmvwr3LSZiiWV/9+DFpuTWvp+WFhobWMc8TC4OjKFfNhEZy7mOiqUAn5atQtug==}
     dependencies:
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       fbjs: 3.0.4
       invariant: 2.2.4
     transitivePeerDependencies:
@@ -2986,7 +2951,7 @@ packages:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
     dependencies:
-      debug: 2.6.9
+      debug: registry.npmjs.org/debug@2.6.9
       depd: 2.0.0
       destroy: 1.2.0
       encodeurl: 1.0.2
@@ -3007,7 +2972,7 @@ packages:
     resolution: {integrity: sha512-8LS0JInaQMCRoQ7YUytAo/xUu5W2XnQxV2HI/6uM6U7CITS1RqPElr30V6uIqyMKM9lJGRVFy5/4CuzcixNYSg==}
     dependencies:
       no-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
       upper-case-first: 2.0.2
     dev: true
 
@@ -3068,13 +3033,13 @@ packages:
     resolution: {integrity: sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg==}
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /sponge-case@1.0.1:
     resolution: {integrity: sha512-dblb9Et4DAtiZ5YSUZHLl4XhH4uK80GhAZrVXdN4O2P4gQ40Wa5UIOPUHlA/nFd2PLblBZWUioLMMAVrgpoYcA==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /statuses@2.0.1:
@@ -3148,13 +3113,13 @@ packages:
   /swap-case@2.0.2:
     resolution: {integrity: sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /title-case@3.0.3:
     resolution: {integrity: sha512-e1zGYRvbffpcHIrnuqT0Dh+gEJtDaxDSoG4JAIpq4oDFyooziLBIiYQv0GBT4FUAnUop5uZ1hiIAj7oAF6sOCA==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /to-arraybuffer@1.0.1:
@@ -3266,27 +3231,16 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /update-browserslist-db@1.0.10(browserslist@4.21.5):
-    resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
-    hasBin: true
-    peerDependencies:
-      browserslist: '>= 4.21.0'
-    dependencies:
-      browserslist: 4.21.5
-      escalade: 3.1.1
-      picocolors: 1.0.0
-    dev: true
-
   /upper-case-first@2.0.2:
     resolution: {integrity: sha512-514ppYHBaKwfJRK/pNC6c/OxfGa0obSnAl106u97Ed0I625Nin96KAjttZF6ZL3e1XLtphxnqrOi9iWgm+u+bg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /upper-case@2.0.2:
     resolution: {integrity: sha512-KgdgDGJt2TpuwBUIjgG6lzw2GWFRCW9Qkfkiv0DxqHHLYJHmtmdUIKcZd8rHgFSjopVTlw6ggzCm1b8MFQwikg==}
     dependencies:
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.5.2
     dev: true
 
   /uri-js@4.4.1:
@@ -6989,6 +6943,33 @@ packages:
     dependencies:
       tslib: registry.npmjs.org/tslib@2.5.2
 
+  registry.npmjs.org/@t3-oss/env-core@0.4.0(typescript@5.0.4)(zod@3.21.4):
+    resolution: {integrity: sha512-6JlMp0Vru15q/axHzBKsQQjiyGS6k+EsZBY1iErGVmOGzNSoVluBahnYFP7tEkwZ7KoRgSq4NRIc1Ez7SVYuxQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@t3-oss/env-core/-/env-core-0.4.0.tgz}
+    id: registry.npmjs.org/@t3-oss/env-core/0.4.0
+    name: '@t3-oss/env-core'
+    version: 0.4.0
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      typescript: registry.npmjs.org/typescript@5.0.4
+      zod: registry.npmjs.org/zod@3.21.4
+    dev: false
+
+  registry.npmjs.org/@t3-oss/env-nextjs@0.4.0(typescript@5.0.4)(zod@3.21.4):
+    resolution: {integrity: sha512-K1u2i+S/uEhjfg++FqWlOzS6x237EARRbWGowH2MkDkFu2q7ZJSiJBJT8e47L7NHWH5IyZrTCM6BdOxyWEnQuQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@t3-oss/env-nextjs/-/env-nextjs-0.4.0.tgz}
+    id: registry.npmjs.org/@t3-oss/env-nextjs/0.4.0
+    name: '@t3-oss/env-nextjs'
+    version: 0.4.0
+    peerDependencies:
+      typescript: '>=4.7.2'
+      zod: ^3.0.0
+    dependencies:
+      '@t3-oss/env-core': registry.npmjs.org/@t3-oss/env-core@0.4.0(typescript@5.0.4)(zod@3.21.4)
+      typescript: registry.npmjs.org/typescript@5.0.4
+      zod: registry.npmjs.org/zod@3.21.4
+    dev: false
+
   registry.npmjs.org/@testing-library/dom@9.2.0:
     resolution: {integrity: sha512-xTEnpUKiV/bMyEsE5bT4oYA0x0Z/colMtxzUY8bKyPXBNLn/e0V4ZjBZkEhms0xE4pv9QsPfSRu9AWS4y5wGvA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@testing-library/dom/-/dom-9.2.0.tgz}
     name: '@testing-library/dom'
@@ -7504,11 +7485,11 @@ packages:
       - supports-color
       - terser
 
-  registry.npmjs.org/@vanilla-extract/next-plugin@2.1.3(@types/node@20.2.5)(next@13.4.4)(webpack@5.84.1):
-    resolution: {integrity: sha512-jOxWY3HSECKjTDKxlUvQATwgO2uY+6x4aJ/FrtRK7IaSa9u54BamAxiKOZ7vUVQj2roB3jvh9QOleCuJ4eWVyQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vanilla-extract/next-plugin/-/next-plugin-2.1.3.tgz}
-    id: registry.npmjs.org/@vanilla-extract/next-plugin/2.1.3
+  registry.npmjs.org/@vanilla-extract/next-plugin@2.1.2(@types/node@20.2.5)(next@13.4.4)(webpack@5.84.1):
+    resolution: {integrity: sha512-k8P2opwu9uGIhWNu1GaTBKdvKRK412/Z9ov0DC82am4JKCqTLo6aWH6UnCodnfI3KqTLKgdqdG3ekrFUpDlR9g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vanilla-extract/next-plugin/-/next-plugin-2.1.2.tgz}
+    id: registry.npmjs.org/@vanilla-extract/next-plugin/2.1.2
     name: '@vanilla-extract/next-plugin'
-    version: 2.1.3
+    version: 2.1.2
     peerDependencies:
       next: '>=12.0.5'
     dependencies:
@@ -9066,6 +9047,19 @@ packages:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/debounce/-/debounce-1.2.1.tgz}
     name: debounce
     version: 1.2.1
+    dev: true
+
+  registry.npmjs.org/debug@2.6.9:
+    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/debug/-/debug-2.6.9.tgz}
+    name: debug
+    version: 2.6.9
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.0.0
     dev: true
 
   registry.npmjs.org/debug@3.2.7:
@@ -15150,7 +15144,6 @@ packages:
     version: 5.0.4
     engines: {node: '>=12.20'}
     hasBin: true
-    dev: true
 
   registry.npmjs.org/ua-parser-js@0.7.35:
     resolution: {integrity: sha512-veRf7dawaj9xaWEu9HoTVn5Pggtc/qj+kqTOFvNiN1l0YdxwC1kvel57UCjThjGa3BHBihE8/UJAHI+uQHmd/g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.35.tgz}
