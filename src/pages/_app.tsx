@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "../styles/global.css";
 import "@saleor/macaw-ui/next/style";
 
 import { AppBridgeProvider } from "@saleor/app-sdk/app-bridge";

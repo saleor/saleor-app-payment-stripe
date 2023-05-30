@@ -2,7 +2,6 @@ name: Assign PR to author
 
 on:
   pull_request:
-  merge_group:
 
 jobs:
   assign_creator:

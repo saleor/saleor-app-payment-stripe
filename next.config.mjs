@@ -1,8 +1,10 @@
+// @ts-check
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
 const withVanillaExtract = createVanillaExtractPlugin();
+import { withSentryConfig } from "@sentry/nextjs";
 
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
@@ -13,10 +15,17 @@ const withVanillaExtract = createVanillaExtractPlugin();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  /** @param { import("webpack").Configuration } config */
+  webpack(config) {
+    config.experiments = { ...config.experiments, topLevelAwait: true };
+    return config;
+  },
 };
 
 const isSentryEnabled = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
 
+const vanillaExtractConfig = withVanillaExtract(config);
+
 export default isSentryEnabled
-  ? withSentryConfig(withVanillaExtract(config), { silent: true }, { hideSourcemaps: true })
-  : withVanillaExtract(config);
+  ? withSentryConfig(vanillaExtractConfig, { silent: true }, { hideSourceMaps: true })
+  : vanillaExtractConfig;

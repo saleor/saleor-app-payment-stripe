@@ -1,0 +1,70 @@
+name: Open release
+
+on:
+  push:
+    branches:
+      - canary
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Prepare release with Changesets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+        # Tags are fetched for Changeset to distinguish from new ones while running `changeset tag`
+      - name: Git fetch tags
+        run: git fetch --tags origin
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.0.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm --version && pnpm install --frozen-lockfile
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        id: changesets
+        with:
+          title: Release Adyen App
+          commit: Release Adyen App
+          publish: pnpm github:release
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Open PR to main
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.changesets.outputs.published == 'true'
+        id: open-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main"
+          pr_title: "[Automated] Release ${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
+          pr_body: "Changelog: https://github.com/saleor/saleor-app-payment-adyen/releases/tag/v${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
+
+      - name: Approve PR to main
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.changesets.outputs.published == 'true'
+        uses: hmarr/auto-approve-action@v3
+        with:
+          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+          github-token: ${{ secrets.PAT }}
+
+      - name: Merge PR to main
+        if: steps.changesets.outputs.hasChangesets == 'false' && steps.changesets.outputs.published == 'true'
+        run: gh pr merge --squash --auto ${{ steps.open-pr.outputs.pr_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+
+      - name: print outputs
+        if: always()
+        run: "echo '${{toJSON(steps.changesets)}}}'"

@@ -98,7 +98,9 @@ module.exports = {
       severity: "error",
       from: {},
       to: {
+        pathNot: "@saleor/app-sdk/types",
         couldNotResolve: true,
+        dependencyTypesNot: ["type-only"],
       },
     },
     {
@@ -146,7 +148,7 @@ module.exports = {
       from: {
         path: "^(src)",
         pathNot:
-          "(setup-tests\\.ts$)|(\\.(spec|test)\\.(js|jsx|mjs|cjs|ts|tsx|cts|ctsx|mts|mtsx\\.md))$",
+          "(src/schemas/compiler.mts)|(.*/__tests__/.*)|(setup-tests\\.ts$)|(\\.(spec|test)\\.(js|jsx|mjs|cjs|ts|tsx|cts|ctsx|mts|mtsx\\.md))$",
       },
       to: {
         dependencyTypes: ["npm-dev"],
