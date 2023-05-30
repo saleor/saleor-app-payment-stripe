@@ -13,8 +13,16 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/setup-tests.ts",
     css: false,
+    outputFile: {
+      json: "coverage/report.json",
+    },
     coverage: {
       reporter: ["text", "json", "html", "text-summary"],
     },
+    clearMocks: true,
+    mockReset: true,
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
   },
 });
