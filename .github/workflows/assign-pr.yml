@@ -1,0 +1,10 @@
+name: Assign PR to author
+
+on:
+  pull_request:
+
+jobs:
+  assign_creator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: toshimaru/auto-author-assign@v1.6.2

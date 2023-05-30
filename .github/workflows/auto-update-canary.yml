@@ -1,0 +1,29 @@
+name: Auto update canary
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: auto-update-canary-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: "canary"
+
+      - run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git fetch origin main
+          git merge origin/main --no-ff
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}

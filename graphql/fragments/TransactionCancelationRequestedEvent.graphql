@@ -1,0 +1,14 @@
+fragment TransactionCancelationRequestedEvent on TransactionCancelationRequested {
+  __typename
+  recipient {
+    ...PaymentGatewayRecipient
+  }
+  action {
+    actionType
+    amount
+  }
+  transaction {
+    id
+    pspReference
+  }
+}

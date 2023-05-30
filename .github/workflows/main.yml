@@ -1,0 +1,86 @@
+name: QA
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - canary
+
+concurrency:
+  group: tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.json') }}-
+
+      - name: Install dependencies
+        run: pnpm --version && pnpm install --frozen-lockfile
+
+      - name: Check prettier
+        run: pnpm prettier --check .
+
+      - name: Generate
+        run: pnpm generate
+
+      - name: Test
+        run: pnpm test:ci
+        env:
+          # Secrets
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TEST_SALEOR_APP_TOKEN: ${{ secrets.TEST_SALEOR_APP_TOKEN }}
+          TEST_PAYMENT_APP_API_KEY: ${{ secrets.TEST_PAYMENT_APP_API_KEY }}
+          TEST_PAYMENT_APP_API_KEY_ID: ${{ secrets.TEST_PAYMENT_APP_API_KEY_ID }}
+          # Variables
+          TEST_SALEOR_API_URL: ${{ vars.TEST_SALEOR_API_URL }}
+          TEST_SALEOR_APP_ID: ${{ vars.TEST_SALEOR_APP_ID }}
+          TEST_SALEOR_JWKS: ${{ vars.TEST_SALEOR_JWKS }}
+          TEST_PAYMENT_APP_CLIENT_KEY: ${{ vars.TEST_PAYMENT_APP_CLIENT_KEY }}
+
+      - name: Dependency cruiser
+        if: ${{ github.event_name != 'push' }}
+        run: pnpm exec dependency-cruiser src
+
+      - name: Download coverage report from canary
+        if: ${{ github.event_name != 'push' }}
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow_conclusion: success
+          branch: canary
+          event: push
+          name: coverage-artifacts
+          path: coverage-main/
+
+      - name: Coverage report
+        if: ${{ github.event_name != 'push' }}
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.4
+        with:
+          skip-step: all
+          coverage-file: coverage/report.json
+          base-coverage-file: coverage-main/report.json
+
+      - name: Upload coverage report
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/canary' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-artifacts
+          path: coverage/
