@@ -36,8 +36,8 @@ jobs:
         uses: changesets/action@v1
         id: changesets
         with:
-          title: Release Adyen App
-          commit: Release Adyen App
+          title: Release Payment Template App
+          commit: Release Payment Template App
           publish: pnpm github:release
           createGithubReleases: true
         env:
@@ -50,7 +50,7 @@ jobs:
         with:
           destination_branch: "main"
           pr_title: "[Automated] Release ${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
-          pr_body: "Changelog: https://github.com/saleor/saleor-app-payment-adyen/releases/tag/v${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
+          pr_body: "Changelog: https://github.com/saleor/saleor-app-payment-template/releases/tag/v${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
 
       - name: Approve PR to main
         if: steps.changesets.outputs.hasChangesets == 'false' && steps.changesets.outputs.published == 'true'
