@@ -63,7 +63,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.44.2",
     "url-join": "5.0.0",
-    "urql": "3.0.4",
+    "urql": "4.0.2",
     "uuidv7": "0.4.3",
     "vite": "4.3.9",
     "vitest": "0.31.1",
