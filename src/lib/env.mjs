@@ -1,12 +1,16 @@
+// @ts-check
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
+  isServer: typeof window === "undefined" || process.env.NODE_ENV === "test",
   /*
    * Serverside Environment variables, not available on the client.
    * Will throw if you access these variables on the client.
    */
   server: {
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    ENV: z.enum(["development", "test", "production"]).default("development"),
     SECRET_KEY: z.string().min(8, { message: "Cannot be too short" }),
     SENTRY_DSN: z.string().min(1).optional(),
     APL: z.enum(["saleor-cloud", "upstash", "file"]).optional().default("file"),
@@ -29,7 +33,6 @@ export const env = createEnv({
    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
    */
   client: {
-    NODE_ENV: z.enum(["development", "test", "production"]),
     NEXT_PUBLIC_SENTRY_DSN: z.optional(z.string().min(1)),
   },
 
@@ -41,6 +44,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    ENV: process.env.ENV,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
     SECRET_KEY: process.env.SECRET_KEY,
