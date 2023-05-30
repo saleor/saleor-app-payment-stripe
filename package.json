@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "saleor-app-payment-template",
-  "description": "Saleor App Payment Template",
+  "name": "saleor-app-payment-stripe",
+  "description": "Saleor App Payment Stripe",
   "version": "0.0.0",
   "private": true,
-  "repository": "github:saleor/saleor-app-payment-template",
-  "homepage": "https://github.com/saleor/saleor-app-payment-template",
+  "repository": "github:saleor/saleor-app-payment-stripe",
+  "homepage": "https://github.com/saleor/saleor-app-payment-stripe",
   "bugs": {
-    "url": "https://github.com/saleor/saleor-app-payment-template/issues",
+    "url": "https://github.com/saleor/saleor-app-payment-stripe/issues",
     "email": "hello@saleor.io"
   },
   "scripts": {

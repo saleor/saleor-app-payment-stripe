@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <h1>Saleor App Payment Template</h1>
+  <h1>Saleor App Payment Stripe</h1>
 </div>
 
 <div align="center">
