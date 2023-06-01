@@ -1,12 +1,13 @@
 // We have to use process.env, otherwise pino doesn't work
 /* eslint-disable node/no-process-env */
 import pino from "pino";
+import { isDevelopment, isTest } from "./isEnv";
 
 /* c8 ignore start */
 export const logger = pino({
   level: process.env.APP_DEBUG ?? "info",
   transport:
-    process.env.NODE_ENV === "development" || process.env.CI || process.env.NODE_ENV === "test"
+    process.env.CI || isDevelopment() || isTest()
       ? {
           target: "pino-pretty",
           options: {
