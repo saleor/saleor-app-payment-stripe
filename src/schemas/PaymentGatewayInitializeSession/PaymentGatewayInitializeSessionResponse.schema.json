@@ -3,10 +3,19 @@
   "type": "object",
   "properties": {
     "data": {
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {},
-      "tsType": "JSONObject"
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "paymentMethodsResponse": { "$ref": "definitions.json#/definitions/JSON" },
+            "publishableKey": { "type": "string" },
+            "environment": { "type": "string", "enum": ["LIVE", "TEST"] },
+            "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
+          },
+          "required": ["paymentMethodsResponse", "publishableKey", "environment"]
+        }
+      ]
     }
   },
   "additionalProperties": false,

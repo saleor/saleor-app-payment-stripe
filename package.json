@@ -132,5 +132,8 @@
     "overrides": {
       "@urql/exchange-auth>@urql/core": "3.2.2"
     }
+  },
+  "volta": {
+    "node": "18.16.0"
   }
 }
