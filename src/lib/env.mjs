@@ -9,7 +9,6 @@ export const env = createEnv({
    * Will throw if you access these variables on the client.
    */
   server: {
-    NODE_ENV: z.enum(["development", "test", "staging", "production"]).default("development"),
     ENV: z.enum(["development", "test", "staging", "production"]).default("development"),
     SECRET_KEY: z.string().min(8, { message: "Cannot be too short" }),
     SENTRY_DSN: z.string().min(1).optional(),
@@ -43,7 +42,6 @@ export const env = createEnv({
    * 💡 You'll get type errors if not all variables from `server` & `client` are included here.
    */
   runtimeEnv: {
-    NODE_ENV: process.env.NODE_ENV,
     ENV: process.env.ENV,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
 

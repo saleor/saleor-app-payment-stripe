@@ -16,6 +16,9 @@ dependencies:
   '@hookform/resolvers':
     specifier: 3.1.0
     version: registry.npmjs.org/@hookform/resolvers@3.1.0(react-hook-form@7.44.2)
+  '@radix-ui/react-alert-dialog':
+    specifier: 1.0.4
+    version: registry.npmjs.org/@radix-ui/react-alert-dialog@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
   '@saleor/app-sdk':
     specifier: 0.39.1
     version: registry.npmjs.org/@saleor/app-sdk@0.39.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
@@ -296,7 +299,7 @@ packages:
       glob: 7.2.3
       graphql: 16.6.0
       immutable: 3.7.6
-      invariant: 2.2.4
+      invariant: registry.npmjs.org/invariant@2.2.4
       nullthrows: 1.1.1
       relay-runtime: 12.0.0
       signedsource: 1.0.0
@@ -770,7 +773,7 @@ packages:
     resolution: {integrity: sha512-gt3PKXs0DBoL9xCvOIIZ2NEqAGZqHjAnmVbfQtB620V0uReIQutpel14KcneZuer7UioY8ALKZ7iocavvzTNFA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.11
+      regenerator-runtime: registry.npmjs.org/regenerator-runtime@0.13.11
     dev: true
 
   /@babel/template@7.20.7:
@@ -827,7 +830,7 @@ packages:
       graphql: 16.6.0
       import-from: 4.0.0
       lodash: 4.17.21
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.4.1
     dev: true
 
   /@graphql-codegen/typescript-urql@3.7.3(graphql-tag@2.12.6)(graphql@16.6.0):
@@ -873,7 +876,7 @@ packages:
       graphql: 16.6.0
       graphql-tag: 2.12.6(graphql@16.6.0)
       parse-filepath: 1.0.2
-      tslib: 2.4.1
+      tslib: registry.npmjs.org/tslib@2.4.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -1476,7 +1479,7 @@ packages:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
     engines: {node: '>= 0.10'}
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       vary: 1.1.2
     dev: true
 
@@ -2081,12 +2084,6 @@ packages:
       side-channel: 1.0.4
     dev: true
 
-  /invariant@2.2.4:
-    resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
-    dependencies:
-      loose-envify: registry.npmjs.org/loose-envify@1.4.0
-    dev: true
-
   /ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
     engines: {node: '>= 0.10'}
@@ -2281,9 +2278,6 @@ packages:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
     dev: true
 
-  /js-tokens@4.0.0:
-    resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
-
   /jsesc@2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
@@ -2325,7 +2319,7 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
     dependencies:
-      js-tokens: 4.0.0
+      js-tokens: registry.npmjs.org/js-tokens@4.0.0
 
   /lower-case-first@2.0.2:
     resolution: {integrity: sha512-EVm/rR94FJTZi3zefZ82fLWab+GX14LJN4HrWBcuo6Evmsl9hEfnqxgcHCKb9q+mNf6EVdsjx/qucYFIIB84pg==}
@@ -2486,11 +2480,6 @@ packages:
 
   /nullthrows@1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
-    dev: true
-
-  /object-assign@4.1.1:
-    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
-    engines: {node: '>=0.10.0'}
     dev: true
 
   /object-inspect@1.12.3:
@@ -2686,7 +2675,7 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
     dependencies:
-      '@babel/runtime': 7.20.13
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       react: 18.2.0
     dev: true
 
@@ -2704,10 +2693,6 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /regenerator-runtime@0.13.11:
-    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
-    dev: true
-
   /regexp.prototype.flags@1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
     engines: {node: '>= 0.4'}
@@ -2722,7 +2707,7 @@ packages:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       fbjs: 3.0.4
-      invariant: 2.2.4
+      invariant: registry.npmjs.org/invariant@2.2.4
     transitivePeerDependencies:
       - encoding
     dev: true
@@ -2786,7 +2771,7 @@ packages:
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
-      loose-envify: 1.4.0
+      loose-envify: registry.npmjs.org/loose-envify@1.4.0
 
   /semver@6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
@@ -3968,6 +3953,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmjs.org/regenerator-runtime@0.13.11
+    dev: true
 
   registry.npmjs.org/@babel/runtime@7.22.3:
     resolution: {integrity: sha512-XsDuspWKLUsxwCp6r7EhsExHtYfbe5oAGQ19kqngTdCPUoPQzOPdUbD/pB9PJiwb2ptYKQDjSJT3R6dC+EPqfQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.3.tgz}
@@ -5847,6 +5833,14 @@ packages:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
     dev: false
 
+  registry.npmjs.org/@radix-ui/primitive@1.0.1:
+    resolution: {integrity: sha512-yQ8oGX2GVsEYMWGxcovu1uGWPCxV5BFfeeYxqPmuAzUyLT9qmaMXSAhXpb0WrspIeqYzdJpkh2vHModJPgRIaw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/primitive/-/primitive-1.0.1.tgz}
+    name: '@radix-ui/primitive'
+    version: 1.0.1
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-accordion@1.1.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-TQtyyRubYe8DD6DYCovNLTjd2D+TFrNCpr99T5M3cYUbR7BsRxWsxfInjbQ1nHsdy2uPTcnJS5npyXPVfP0piw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-accordion/-/react-accordion-1.1.1.tgz}
     id: registry.npmjs.org/@radix-ui/react-accordion/1.1.1
@@ -5866,6 +5860,35 @@ packages:
       '@radix-ui/react-id': registry.npmjs.org/@radix-ui/react-id@1.0.0(react@18.2.0)
       '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.2(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-use-controllable-state': registry.npmjs.org/@radix-ui/react-use-controllable-state@1.0.0(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-alert-dialog@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-jbfBCRlKYlhbitueOAv7z74PXYeIQmWpKwm3jllsdkw7fGWNkxqP3v0nY9WmOzcPqpQuoorNtvViBgL46n5gVg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-alert-dialog/-/react-alert-dialog-1.0.4.tgz}
+    id: registry.npmjs.org/@radix-ui/react-alert-dialog/1.0.4
+    name: '@radix-ui/react-alert-dialog'
+    version: 1.0.4
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/primitive': registry.npmjs.org/@radix-ui/primitive@1.0.1
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-context': registry.npmjs.org/@radix-ui/react-context@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-dialog': registry.npmjs.org/@radix-ui/react-dialog@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-slot': registry.npmjs.org/@radix-ui/react-slot@1.0.2(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -5959,6 +5982,23 @@ packages:
       react: 18.2.0
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-fDSBgd44FKHa1FRMU59qBMPFcl2PZE+2nmqunj+BWFyYYjnhIDWL2ItDs3rrbJDQOtzt5nIebLCQc4QRfz6LJw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-compose-refs/1.0.1
+    name: '@radix-ui/react-compose-refs'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      react: 18.2.0
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-context@1.0.0(react@18.2.0):
     resolution: {integrity: sha512-1pVM9RfOQ+n/N5PJK33kRSKsr1glNxomxONs5c49MliinBY6Yw2Q995qfBUUo0/Mbg05B/sGA0gkgPI7kmSHBg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-context/1.0.0
@@ -5968,6 +6008,23 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      react: 18.2.0
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-context@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-ebbrdFoYTcuZ0v4wG5tedGnp9tzcV8awzsxYph7gXUyvnNLuTIcCk1q17JEbnVhXAKG9oX3KtchwiMIAYp9NLg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-context/-/react-context-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-context/1.0.1
+    name: '@radix-ui/react-context'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
       react: 18.2.0
     dev: false
 
@@ -6001,6 +6058,43 @@ packages:
       - '@types/react'
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-dialog@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-hJtRy/jPULGQZceSAP2Re6/4NpKo8im6V8P2hUqZsdFiSL8l35kYsw3qbRI6Ay5mQd2+wlLqje770eq+RJ3yZg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-dialog/-/react-dialog-1.0.4.tgz}
+    id: registry.npmjs.org/@radix-ui/react-dialog/1.0.4
+    name: '@radix-ui/react-dialog'
+    version: 1.0.4
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/primitive': registry.npmjs.org/@radix-ui/primitive@1.0.1
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-context': registry.npmjs.org/@radix-ui/react-context@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-dismissable-layer': registry.npmjs.org/@radix-ui/react-dismissable-layer@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-focus-guards': registry.npmjs.org/@radix-ui/react-focus-guards@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-focus-scope': registry.npmjs.org/@radix-ui/react-focus-scope@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-id': registry.npmjs.org/@radix-ui/react-id@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-portal': registry.npmjs.org/@radix-ui/react-portal@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-presence': registry.npmjs.org/@radix-ui/react-presence@1.0.1(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-slot': registry.npmjs.org/@radix-ui/react-slot@1.0.2(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-use-controllable-state': registry.npmjs.org/@radix-ui/react-use-controllable-state@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
+      aria-hidden: registry.npmjs.org/aria-hidden@1.2.2(@types/react@18.2.7)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-remove-scroll: registry.npmjs.org/react-remove-scroll@2.5.5(@types/react@18.2.7)(react@18.2.0)
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-direction@1.0.0(react@18.2.0):
     resolution: {integrity: sha512-2HV05lGUgYcA6xgLQ4BKPDmtL+QbIZYH5fCOTAOOcJ5O0QbWS3i9lKaurLzliYUDhORI2Qr3pyjhJh44lKA3rQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-direction/-/react-direction-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-direction/1.0.0
@@ -6028,6 +6122,34 @@ packages:
       '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.2(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.0(react@18.2.0)
       '@radix-ui/react-use-escape-keydown': registry.npmjs.org/@radix-ui/react-use-escape-keydown@1.0.2(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-dismissable-layer@1.0.4(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-7UpBa/RKMoHJYjie1gkF1DlK8l1fdU/VKDpoS3rCCo8YBJR294GwcEHyxHw72yvphJ7ld0AXEcSLAzY2F/WyCg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-dismissable-layer/-/react-dismissable-layer-1.0.4.tgz}
+    id: registry.npmjs.org/@radix-ui/react-dismissable-layer/1.0.4
+    name: '@radix-ui/react-dismissable-layer'
+    version: 1.0.4
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/primitive': registry.npmjs.org/@radix-ui/primitive@1.0.1
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-use-escape-keydown': registry.npmjs.org/@radix-ui/react-use-escape-keydown@1.0.3(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -6067,6 +6189,23 @@ packages:
       react: 18.2.0
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-focus-guards@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-Rect2dWbQ8waGzhMavsIbmSVCgYxkXLxxR3ZvCX79JOglzdEy4JXMb98lq4hPxUbLr77nP0UOGf4rcMU+s1pUA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-focus-guards/-/react-focus-guards-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-focus-guards/1.0.1
+    name: '@radix-ui/react-focus-guards'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      react: 18.2.0
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-focus-scope@1.0.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-spwXlNTfeIprt+kaEWE/qYuYT3ZAqJiAGjN/JgdvgVDTu8yc+HuX+WOWXrKliKnLnwck0F6JDkqIERncnih+4A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-focus-scope/-/react-focus-scope-1.0.2.tgz}
     id: registry.npmjs.org/@radix-ui/react-focus-scope/1.0.2
@@ -6084,6 +6223,32 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-focus-scope@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-upXdPfqI4islj2CslyfUBNlaJCPybbqRHAi1KER7Isel9Q2AtSJ0zRBZv8mWQiFXD2nyAJ4BhC3yXgZ6kMBSrQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-focus-scope/-/react-focus-scope-1.0.3.tgz}
+    id: registry.npmjs.org/@radix-ui/react-focus-scope/1.0.3
+    name: '@radix-ui/react-focus-scope'
+    version: 1.0.3
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-id@1.0.0(react@18.2.0):
     resolution: {integrity: sha512-Q6iAB/U7Tq3NTolBBQbHTgclPmGWE3OlktGGqrClPozSw4vkQ1DfQAOtzgRPecKsMdJINE05iaoDUG8tRzCBjw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-id/1.0.0
@@ -6094,6 +6259,24 @@ packages:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       '@radix-ui/react-use-layout-effect': registry.npmjs.org/@radix-ui/react-use-layout-effect@1.0.0(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-id@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-tI7sT/kqYp8p96yGWY1OAnLHrqDgzHefRBKQ2YAkBS5ja7QLcZ9Z/uY7bEjPUatf8RomoXM8/1sMj1IJaE5UzQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-id/1.0.1
+    name: '@radix-ui/react-id'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-use-layout-effect': registry.npmjs.org/@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
       react: 18.2.0
     dev: false
 
@@ -6203,6 +6386,30 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-portal@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-xLYZeHrWoPmA5mEKEfZZevoVRK/Q43GfzRXkWV6qawIWWK8t6ifIiLQdd7rmQ4Vk1bmI21XhqF9BN3jWf+phpA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-portal/-/react-portal-1.0.3.tgz}
+    id: registry.npmjs.org/@radix-ui/react-portal/1.0.3
+    name: '@radix-ui/react-portal'
+    version: 1.0.3
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-primitive': registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-presence@1.0.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-A+6XEvN01NfVWiKu38ybawfHsBjWum42MRPnEuqPsBZ4eV7e/7K321B5VgYMPv3Xx5An6o1/l9ZuDBgmcmWK3w==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-presence/1.0.0
@@ -6219,6 +6426,31 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-presence@1.0.1(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-UXLW4UAbIY5ZjcvzjfRFo5gxva8QirC9hF7wRE4U5gz+TP0DbRk+//qyuAQ1McDxBt1xNMBTaciFGvEmJvAZCg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-presence/-/react-presence-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-presence/1.0.1
+    name: '@radix-ui/react-presence'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@radix-ui/react-use-layout-effect': registry.npmjs.org/@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-primitive@1.0.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-zY6G5Qq4R8diFPNwtyoLRZBxzu1Z+SXMlfYpChN7Dv8gvmx9X3qhDqiLWvKseKVJMuedFeU/Sa0Sy/Ia+t06Dw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-1.0.2.tgz}
     id: registry.npmjs.org/@radix-ui/react-primitive/1.0.2
@@ -6230,6 +6462,30 @@ packages:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       '@radix-ui/react-slot': registry.npmjs.org/@radix-ui/react-slot@1.0.1(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-primitive@1.0.3(@types/react-dom@18.2.4)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-yi58uVyoAcK/Nq1inRY56ZSjKypBNKTa/1mcL8qdl6oJeEaDbOldlzrGn7P6Q3Id5d+SYNGc5AJgc4vGhjs5+g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-1.0.3.tgz}
+    id: registry.npmjs.org/@radix-ui/react-primitive/1.0.3
+    name: '@radix-ui/react-primitive'
+    version: 1.0.3
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-slot': registry.npmjs.org/@radix-ui/react-slot@1.0.2(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      '@types/react-dom': registry.npmjs.org/@types/react-dom@18.2.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -6331,6 +6587,24 @@ packages:
       react: 18.2.0
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-slot@1.0.2(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-YeTpuq4deV+6DusvVUW4ivBgnkHwECUu0BiN43L5UCDFgdhsRUWAghhTF5MbvNTPzmiFOx90asDSUjWuCNapwg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.0.2.tgz}
+    id: registry.npmjs.org/@radix-ui/react-slot/1.0.2
+    name: '@radix-ui/react-slot'
+    version: 1.0.2
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-compose-refs': registry.npmjs.org/@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      react: 18.2.0
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-toggle@1.0.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-1MhVrHjgdmYDBgBpmOB0sjK096gFrVqUocsHNapkOTkZIxOwjpGxnW9e24CjQQX9D/c57dI6E8zAAdeAeIdY8g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-toggle/-/react-toggle-1.0.2.tgz}
     id: registry.npmjs.org/@radix-ui/react-toggle/1.0.2
@@ -6388,6 +6662,23 @@ packages:
       react: 18.2.0
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-D94LjX4Sp0xJFVaoQOd3OO9k7tpBYNOXdVhkltUbGv2Qb9OXdrg/CpsjlZv7ia14Sylv398LswWBVVu5nqKzAQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-use-callback-ref/1.0.1
+    name: '@radix-ui/react-use-callback-ref'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      react: 18.2.0
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-use-controllable-state@1.0.0(react@18.2.0):
     resolution: {integrity: sha512-FohDoZvk3mEXh9AWAVyRTYR4Sq7/gavuofglmiXB2g1aKyboUD4YtgWxKj8O5n+Uak52gXQ4wKz5IFST4vtJHg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-use-controllable-state/1.0.0
@@ -6398,6 +6689,24 @@ packages:
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.0(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-use-controllable-state@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-Svl5GY5FQeN758fWKrjM6Qb7asvXeiZltlT4U2gVfl8Gx5UAv2sMR0LWo8yhsIZh2oQ0eFdZ59aoOOMV7b47VA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-controllable-state/-/react-use-controllable-state-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-use-controllable-state/1.0.1
+    name: '@radix-ui/react-use-controllable-state'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
       react: 18.2.0
     dev: false
 
@@ -6414,6 +6723,24 @@ packages:
       react: 18.2.0
     dev: false
 
+  registry.npmjs.org/@radix-ui/react-use-escape-keydown@1.0.3(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-vyL82j40hcFicA+M4Ex7hVkB9vHgSse1ZWomAqV2Je3RleKGO5iM8KMOEtfoSB0PnIelMd2lATjTGMYqN5ylTg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-escape-keydown/-/react-use-escape-keydown-1.0.3.tgz}
+    id: registry.npmjs.org/@radix-ui/react-use-escape-keydown/1.0.3
+    name: '@radix-ui/react-use-escape-keydown'
+    version: 1.0.3
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@radix-ui/react-use-callback-ref': registry.npmjs.org/@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.2.7)(react@18.2.0)
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
+      react: 18.2.0
+    dev: false
+
   registry.npmjs.org/@radix-ui/react-use-layout-effect@1.0.0(react@18.2.0):
     resolution: {integrity: sha512-6Tpkq+R6LOlmQb1R5NNETLG0B4YP0wc+klfXafpUCj6JGyaUc8il7/kUZ7m59rGbXGczE9Bs+iz2qloqsZBduQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.0.0.tgz}
     id: registry.npmjs.org/@radix-ui/react-use-layout-effect/1.0.0
@@ -6423,6 +6750,23 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      react: 18.2.0
+    dev: false
+
+  registry.npmjs.org/@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.2.7)(react@18.2.0):
+    resolution: {integrity: sha512-v/5RegiJWYdoCvMnITBkNNx6bCj20fiaJnWtRkU18yITptraXjffz5Qbn05uOiQnOvi+dbkznkoaMltz1GnszQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@radix-ui/react-use-layout-effect/-/react-use-layout-effect-1.0.1.tgz}
+    id: registry.npmjs.org/@radix-ui/react-use-layout-effect/1.0.1
+    name: '@radix-ui/react-use-layout-effect'
+    version: 1.0.1
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
+      '@types/react': registry.npmjs.org/@types/react@18.2.7
       react: 18.2.0
     dev: false
 
@@ -6823,7 +7167,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.18.6
-      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.20.13
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
       '@types/aria-query': registry.npmjs.org/@types/aria-query@5.0.1
       aria-query: registry.npmjs.org/aria-query@5.1.3
       chalk: registry.npmjs.org/chalk@4.1.2
@@ -7042,7 +7386,6 @@ packages:
     version: 18.2.4
     dependencies:
       '@types/react': registry.npmjs.org/@types/react@18.2.7
-    dev: true
 
   registry.npmjs.org/@types/react@18.2.7:
     resolution: {integrity: sha512-ojrXpSH2XFCmHm7Jy3q44nXDyN54+EYKP2lBhJ2bqfyPj6cIUW/FZW/Csdia34NQgq7KYcAlHi5184m4X88+yw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@types/react/-/react-18.2.7.tgz}
@@ -12222,7 +12565,7 @@ packages:
     name: media-query-parser
     version: 2.0.2
     dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.20.13
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.22.3
 
   registry.npmjs.org/memoizee@0.4.15:
     resolution: {integrity: sha512-UBWmJpLZd5STPm7PMUlOw/TSy972M+z8gcyQ5veOnSDRREz/0bmpyTfKt3/51DhEBqCZQn1udM/5flcSPYhkdQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/memoizee/-/memoizee-0.4.15.tgz}
@@ -14871,6 +15214,12 @@ packages:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz}
     name: tslib
     version: 1.14.1
+
+  registry.npmjs.org/tslib@2.4.1:
+    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz}
+    name: tslib
+    version: 2.4.1
+    dev: true
 
   registry.npmjs.org/tslib@2.5.2:
     resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-2.5.2.tgz}

@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "3.1.0",
+    "@radix-ui/react-alert-dialog": "1.0.4",
     "@saleor/app-sdk": "0.39.1",
     "@saleor/macaw-ui": "0.8.0-pre.91",
     "@sentry/nextjs": "7.53.1",
