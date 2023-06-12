@@ -10,10 +10,9 @@
           "properties": {
             "paymentMethodsResponse": { "$ref": "definitions.json#/definitions/JSON" },
             "publishableKey": { "type": "string" },
-            "environment": { "type": "string", "enum": ["LIVE", "TEST"] },
             "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
           },
-          "required": ["paymentMethodsResponse", "publishableKey", "environment"]
+          "required": ["paymentMethodsResponse", "publishableKey"]
         }
       ]
     }
