@@ -1,9 +1,6 @@
 import { type MetadataEntry } from "@saleor/app-sdk/settings-manager";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
-  filterConfigValues,
-  obfuscateValue,
-  OBFUSCATION_DOTS,
   PrivateMetadataAppConfigurator,
   PublicMetadataAppConfiguration,
   serializeSettingsToMetadata,
@@ -12,6 +9,7 @@ import {
   createWebhookPrivateSettingsManager,
   createWebhookPublicSettingsManager,
 } from "./metadata-manager";
+import { obfuscateValue, filterConfigValues, OBFUSCATION_DOTS } from "./utils";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
 describe("obfuscateValue", () => {
