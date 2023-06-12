@@ -11,10 +11,9 @@ import {
   paymentAppCombinedFormSchema,
   paymentAppConfigEntrySchema,
 } from "../modules/payment-app-configuration/config-entry";
-import { AppContainer } from "../modules/ui/AppContainer/AppContainer";
-import { Input } from "../modules/ui/Input/Input";
-import { Form } from "../modules/ui/Form/Form";
 import { FetchError, useFetch, usePost } from "../lib/use-fetch";
+import { AppLayout } from "@/modules/ui/templates/AppLayout";
+import { FormInput } from "@/modules/ui/atoms/macaw-ui/FormInput";
 
 const actionId = "payment-form";
 
@@ -95,30 +94,25 @@ const ConfigPage: NextPage = () => {
 
   if (!hasPermissions) {
     return (
-      <AppContainer>
+      <AppLayout title="">
         <Text variant="hero">{"You don't have permissions to configure this app"}</Text>
-      </AppContainer>
+      </AppLayout>
     );
   }
 
   return (
-    <AppContainer>
+    <AppLayout title="">
       <Box display="flex" flexDirection="column" gap={8}>
         <FormProvider {...formMethods}>
-          <Form
+          <form
+            method="POST"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit((data) => postForm(data))}
           >
             <Text variant="heading">Payment Provider settings</Text>
 
             <Box display="flex" gap={6} alignItems="flex-end">
-              <Input
-                control={control}
-                autoClearEncrypted
-                label="API_KEY"
-                name="apiKey"
-                disabled={isLoading}
-              />
+              <FormInput control={control} label="API_KEY" name="apiKey" disabled={isLoading} />
               <Button
                 variant="secondary"
                 size="small"
@@ -134,10 +128,10 @@ const ConfigPage: NextPage = () => {
                 {isLoading ? "Loading" : isSubmitting ? "Saving..." : "Save"}
               </Button>
             </div>
-          </Form>
+          </form>
         </FormProvider>
       </Box>
-    </AppContainer>
+    </AppLayout>
   );
 };
 
