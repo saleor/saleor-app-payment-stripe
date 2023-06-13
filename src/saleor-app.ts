@@ -2,6 +2,7 @@ import { SaleorApp } from "@saleor/app-sdk/saleor-app";
 import { FileAPL, UpstashAPL, SaleorCloudAPL } from "@saleor/app-sdk/APL";
 import { invariant } from "./lib/invariant";
 import { env } from "./lib/env.mjs";
+import { isTest } from "./lib/isEnv";
 
 /**
  * By default auth data are stored in the `.auth-data.json` (FileAPL).
@@ -11,7 +12,7 @@ import { env } from "./lib/env.mjs";
  * [APL documentation](https://github.com/saleor/saleor-app-sdk/blob/main/docs/apl.md)
  */
 const getApl = async () => {
-  if (env.NODE_ENV === "test") {
+  if (isTest()) {
     const { TestAPL } = await import("./__tests__/testAPL");
     return new TestAPL();
   }

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { type AppBridgeState } from "@saleor/app-sdk/app-bridge";
 import { render, waitFor } from "@testing-library/react";
-import { type DefaultTheme } from "@saleor/macaw-ui/next";
+import { type ThemeTokensValues, type DefaultTheme } from "@saleor/macaw-ui/next";
 import { ThemeSynchronizer } from "./theme-synchronizer";
 
 const appBridgeState: AppBridgeState = {
@@ -33,7 +33,8 @@ vi.mock("@saleor/macaw-ui/next", () => {
       return {
         setTheme: mockThemeChange,
         theme: "defaultLight",
-      };
+        themeValues: {} as ThemeTokensValues,
+      } satisfies ReturnType<typeof import("@saleor/macaw-ui/next").useTheme>;
     },
   } satisfies Pick<typeof import("@saleor/macaw-ui/next"), "useTheme">;
 });
