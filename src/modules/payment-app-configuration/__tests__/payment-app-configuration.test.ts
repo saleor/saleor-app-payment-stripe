@@ -6,7 +6,7 @@ import { configEntryRequired, configEntryAll } from "./mocks";
 import { testEnv } from "@/__tests__/test-env.mjs";
 import { type BrandedEncryptedMetadataManager } from "@/modules/app-configuration/metadata-manager";
 import { type PrivateMetadataAppConfigurator } from "@/modules/app-configuration/app-configuration";
-import { OBFUSCATION_DOTS } from "@/modules/stripe-configuration/utils";
+import { OBFUSCATION_DOTS } from "@/modules/app-configuration/utils";
 
 describe("PaymentAppConfigurator", () => {
   const metadataManagerMock = {} as BrandedEncryptedMetadataManager;
@@ -52,7 +52,7 @@ describe("PaymentAppConfigurator", () => {
         configurations: [
           {
             configurationId: "mock-id",
-            apiKey: `${OBFUSCATION_DOTS}-key`, // from super-secret-key
+            secretKey: `${OBFUSCATION_DOTS}-key`, // from super-secret-key
             configurationName: "test",
           },
         ],

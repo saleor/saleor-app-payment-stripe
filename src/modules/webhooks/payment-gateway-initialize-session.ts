@@ -1,6 +1,4 @@
-import { getWebhookAppConfigurator } from "../stripe-configuration/app-configuration-factory";
-import { getConfigurationForChannel } from "../stripe-configuration/app-configuration";
-import { stripeFullyConfiguredEntrySchema } from "../stripe-configuration/stripe-entries-config";
+import { getPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
 import { type PaymentGatewayInitializeSessionResponse } from "@/schemas/PaymentGatewayInitializeSession/PaymentGatewayInitializeSessionResponse.mjs";
 import { type PaymentGatewayInitializeSessionEventFragment } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
@@ -19,7 +17,7 @@ export const PaymentGatewayInitializeSessionWebhookHandler = async (
   invariant(app, `Missing event.recipient!`);
 
   const { privateMetadata } = app;
-  const configurator = getWebhookAppConfigurator({ privateMetadata }, saleorApiUrl);
+  const configurator = getPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
   const appConfig = await configurator.getConfig();
 
   const stripeConfig = stripeFullyConfiguredEntrySchema.parse(

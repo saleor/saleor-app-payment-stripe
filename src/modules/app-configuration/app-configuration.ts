@@ -5,10 +5,10 @@ import {
 } from "@saleor/app-sdk/settings-manager";
 import merge from "lodash-es/merge";
 import { toStringOrEmpty } from "../../lib/utils";
-import { filterConfigValues, obfuscateValue } from "../stripe-configuration/utils";
+import { filterConfigValues, obfuscateValue } from "./utils";
 import { logger as pinoLogger } from "@/lib/logger";
 
-export interface GenericAppConfigurator<TConfig extends Record<string, unknown>> {
+export interface AppConfigurator<TConfig extends Record<string, unknown>> {
   setConfig(config: TConfig): Promise<void>;
   getConfig(): Promise<TConfig | undefined>;
 }

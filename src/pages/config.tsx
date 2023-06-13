@@ -28,7 +28,7 @@ const ConfigPage: NextPage = () => {
   const formMethods = useForm<PaymentAppFormConfigEntry>({
     resolver: zodResolver(paymentAppCombinedFormSchema),
     defaultValues: {
-      apiKey: "",
+      secretKey: "",
       configurationName: "",
     },
   });
@@ -112,12 +112,12 @@ const ConfigPage: NextPage = () => {
             <Text variant="heading">Payment Provider settings</Text>
 
             <Box display="flex" gap={6} alignItems="flex-end">
-              <FormInput control={control} label="API_KEY" name="apiKey" disabled={isLoading} />
+              <FormInput control={control} label="API_KEY" name="secretKey" disabled={isLoading} />
               <Button
                 variant="secondary"
                 size="small"
                 type="button"
-                onClick={() => resetField("apiKey")}
+                onClick={() => resetField("secretKey")}
               >
                 Reset
               </Button>

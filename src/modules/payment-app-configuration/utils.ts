@@ -1,4 +1,4 @@
-import { obfuscateConfig } from "../stripe-configuration/utils";
+import { obfuscateConfig } from "../app-configuration/utils";
 import {
   type PaymentAppConfigEntry,
   type PaymentAppEncryptedConfig,
@@ -9,15 +9,14 @@ import {
 export const obfuscateConfigEntry = (
   entry: PaymentAppConfigEntry,
 ): PaymentAppUserVisibleConfigEntry => {
-  const { apiKey, apiKeyId, clientKey, configurationName, configurationId } = entry;
+  const { secretKey, publishableKey, configurationName, configurationId } = entry;
 
   const configValuesToObfuscate = {
-    apiKey,
+    secretKey,
   } satisfies PaymentAppEncryptedConfig;
 
   return paymentAppUserVisibleConfigEntrySchema.parse({
-    apiKeyId,
-    clientKey,
+    publishableKey,
     configurationId,
     configurationName,
     ...obfuscateConfig(configValuesToObfuscate),

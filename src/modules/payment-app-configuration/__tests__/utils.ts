@@ -8,11 +8,9 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 export const filledFakeMatadataConfig = {
   configurations: [
     {
-      apiKey: "super-secret-key",
-      apiKeyId: "test-1234",
-      clientKey: "not-so-secret-key",
+      secretKey: "sk_secret-key",
+      publishableKey: "pk_so-secret-key",
       configurationId: "mock-id",
-      webhookPassword: "password",
       configurationName: "test",
     },
   ],

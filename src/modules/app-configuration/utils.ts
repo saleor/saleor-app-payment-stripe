@@ -36,6 +36,3 @@ export const obfuscateConfig = <T extends {}>(config: T): T => {
 
   return Object.fromEntries(entries) as T;
 };
-
-// @todo
-export const obfuscateConfigEntry = <T extends {}>(config: T): T => config;

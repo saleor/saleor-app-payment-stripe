@@ -1,33 +1,27 @@
 import { z } from "zod";
-import { deobfuscateValues } from "../stripe-configuration/utils";
-
-export const DANGEROUS_paymentAppConfigEntryHiddenSchema = z.object({
-  webhookPassword: z.string().min(1).nullish(),
-});
+import { deobfuscateValues } from "../app-configuration/utils";
 
 export const paymentAppConfigEntryInternalSchema = z.object({
   configurationId: z.string().min(1),
-  apiKeyId: z.string().nullish(),
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
-  apiKey: z.string({ required_error: "Private API key is required" }).min(1).nullable(),
+  secretKey: z.string({ required_error: "Private key is required" }).min(1).nullable(),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({
-  clientKey: z.string().min(1).nullish(),
+  publishableKey: z.string().min(1).nullish(),
   configurationName: z.string().min(1),
 });
 
-export const paymentAppConfigEntrySchema = paymentAppConfigEntryInternalSchema
-  .merge(paymentAppConfigEntryEncryptedSchema)
+export const paymentAppConfigEntrySchema = paymentAppConfigEntryEncryptedSchema
   .merge(paymentAppConfigEntryPublicSchema)
-  .merge(DANGEROUS_paymentAppConfigEntryHiddenSchema);
+  .merge(paymentAppConfigEntryInternalSchema);
 
 // Entire config available to user
 export const paymentAppUserVisibleConfigEntrySchema = paymentAppConfigEntryPublicSchema
-  .merge(paymentAppConfigEntryInternalSchema)
   .merge(paymentAppConfigEntryEncryptedSchema)
+  .merge(paymentAppConfigEntryInternalSchema)
   .strict();
 
 // Fully configured app - all fields are required
@@ -36,12 +30,8 @@ export const paymentAppFullyConfiguredEntrySchema = z
   .object({
     configurationName: paymentAppConfigEntryPublicSchema.shape.configurationName,
     configurationId: paymentAppConfigEntryInternalSchema.shape.configurationId,
-    apiKey: paymentAppConfigEntryEncryptedSchema.shape.apiKey.unwrap(),
-    apiKeyId: paymentAppConfigEntryInternalSchema.shape.apiKeyId.unwrap().unwrap(),
-    clientKey: paymentAppConfigEntryPublicSchema.shape.clientKey.unwrap().unwrap(),
-    webhookPassword: DANGEROUS_paymentAppConfigEntryHiddenSchema.shape.webhookPassword
-      .unwrap()
-      .unwrap(),
+    secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey.unwrap(),
+    publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey.unwrap().unwrap(),
   })
   .required();
 
@@ -50,8 +40,8 @@ export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSch
   .merge(paymentAppConfigEntryPublicSchema)
   .strict()
   .default({
-    apiKey: null,
-    clientKey: null,
+    secretKey: null,
+    publishableKey: null,
     configurationName: "",
   })
   .brand("PaymentAppFormConfig");
@@ -68,7 +58,6 @@ export const paymentAppCombinedFormSchema = z.intersection(
   paymentAppConfigEntryPublicSchema,
 );
 
-export type PaymentAppHiddenConfig = z.infer<typeof DANGEROUS_paymentAppConfigEntryHiddenSchema>;
 export type PaymentAppInternalConfig = z.infer<typeof paymentAppConfigEntryInternalSchema>;
 export type PaymentAppEncryptedConfig = z.infer<typeof paymentAppConfigEntryEncryptedSchema>;
 export type PaymentAppPublicConfig = z.infer<typeof paymentAppConfigEntryPublicSchema>;
