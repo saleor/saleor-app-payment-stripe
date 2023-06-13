@@ -7,9 +7,8 @@ const testEnvSchema = z.object({
   TEST_SALEOR_APP_ID: z.string(),
   TEST_SALEOR_JWKS: z.string(),
   // Payment App
-  TEST_PAYMENT_APP_API_KEY: z.string(),
-  TEST_PAYMENT_APP_API_KEY_ID: z.string(),
-  TEST_PAYMENT_APP_CLIENT_KEY: z.string(),
+  TEST_PAYMENT_APP_SECRET_KEY: z.string(),
+  TEST_PAYMENT_APP_PUBLISHABLE_KEY: z.string(),
   // Polly.js
   POLLY_MODE: z.enum(["record", "record_missing", "replay"]).optional().default("replay"),
 });
@@ -21,9 +20,8 @@ const processEnv = {
   TEST_SALEOR_APP_ID: process.env.TEST_SALEOR_APP_ID,
   TEST_SALEOR_JWKS: process.env.TEST_SALEOR_JWKS,
   // Payment App
-  TEST_PAYMENT_APP_API_KEY: process.env.TEST_PAYMENT_APP_API_KEY,
-  TEST_PAYMENT_APP_API_KEY_ID: process.env.TEST_PAYMENT_APP_API_KEY_ID,
-  TEST_PAYMENT_APP_CLIENT_KEY: process.env.TEST_PAYMENT_APP_CLIENT_KEY,
+  TEST_PAYMENT_APP_SECRET_KEY: process.env.TEST_PAYMENT_APP_SECRET_KEY,
+  TEST_PAYMENT_APP_PUBLISHABLE_KEY: process.env.TEST_PAYMENT_APP_PUBLISHABLE_KEY,
   // Polly.js
   POLLY_MODE: process.env.POLLY_MODE,
 };

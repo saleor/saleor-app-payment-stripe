@@ -49,11 +49,10 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          TEST_SALEOR_APP_TOKEN: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_SALEOR_APP_TOKEN
-          TEST_SALEOR_APP_ID: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_SALEOR_APP_ID
-          TEST_PAYMENT_APP_API_KEY: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_API_KEY
-          TEST_PAYMENT_APP_API_KEY_ID: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_API_KEY_ID
-          TEST_PAYMENT_APP_CLIENT_KEY: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_CLIENT_KEY
+          TEST_SALEOR_APP_TOKEN: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_SALEOR_APP_TOKEN
+          TEST_SALEOR_APP_ID: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_SALEOR_APP_ID
+          TEST_PAYMENT_APP_SECRET_KEY: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_PAYMENT_APP_SECRET_KEY
+          TEST_PAYMENT_APP_PUBLISHABLE_KEY: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_PAYMENT_APP_PUBLISHABLE_KEY
 
       - name: Test
         run: pnpm test:ci
