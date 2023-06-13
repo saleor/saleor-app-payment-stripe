@@ -1,18 +1,18 @@
 import { z } from "zod";
-import { adyenUpdateEntryInputSchema } from "./stripe-entries-config";
+import { stripeFullyConfiguredEntrySchema } from "./stripe-entries-config";
 
 export const mappingUpdate = z.object({
   channelId: z.string().min(1),
   configurationId: z.string().min(1),
 });
 
-export const adyenConfigEntryUpdate = z.object({
+export const stripeConfigEntryUpdate = z.object({
   configurationId: z.string().min(1),
-  entry: adyenUpdateEntryInputSchema,
+  entry: stripeFullyConfiguredEntrySchema,
 });
 
-export const adyenConfigEntryDelete = z.object({ configurationId: z.string().min(1) });
+export const stripeConfigEntryDelete = z.object({ configurationId: z.string().min(1) });
 
 export type MappingUpdate = z.infer<typeof mappingUpdate>;
-export type AdyenConfigEntryUpdate = z.infer<typeof adyenConfigEntryUpdate>;
-export type AdyenConfigEntryDelete = z.infer<typeof adyenConfigEntryDelete>;
+export type StripeConfigEntryUpdate = z.infer<typeof stripeConfigEntryUpdate>;
+export type StripeConfigEntryDelete = z.infer<typeof stripeConfigEntryDelete>;

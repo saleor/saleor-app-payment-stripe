@@ -4,21 +4,16 @@ import {
   PrivateMetadataAppConfigurator,
 } from "../app-configuration/app-configuration";
 import { type BrandedEncryptedMetadataManager } from "../app-configuration/metadata-manager";
-import {
-  adyenAppConfigSchema,
-  type AdyenAppConfig,
-  type AdyenUserVisibleAppConfig,
-  type ChannelMapping,
-} from "./app-config";
 import { obfuscateConfigEntry } from "./utils";
-import { type AdyenEntryConfigUpdate, type AdyenEntryConfig } from "./stripe-entries-config";
+import { type StripeEntryFullyConfigured } from "./stripe-entries-config";
+import { type StripeAppConfig, stripeAppConfigSchema, type ChannelMapping } from "./app-config";
 import { env } from "@/lib/env.mjs";
 import { createLogger } from "@/lib/logger";
 
-export const appMetadataKey = "adyen-app-config-v2";
+export const appMetadataKey = "stripe-app-config-v2";
 
-export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
-  private configurator: PrivateMetadataAppConfigurator<AdyenAppConfig>;
+export class AppConfigurator implements GenericAppConfigurator<StripeAppConfig> {
+  private configurator: PrivateMetadataAppConfigurator<StripeAppConfig>;
   public saleorApiUrl: string;
 
   constructor(metadataManager: BrandedEncryptedMetadataManager, saleorApiUrl: string) {
@@ -30,12 +25,14 @@ export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
     this.saleorApiUrl = saleorApiUrl;
   }
 
-  async getConfig(): Promise<AdyenAppConfig> {
+  async getConfig(): Promise<StripeAppConfig> {
     const config = await this.configurator.getConfig();
-    return adyenAppConfigSchema.parse(config);
+    return stripeAppConfigSchema.parse(config);
   }
 
-  async getConfigEntry(configurationId: string): Promise<AdyenEntryConfig | null | undefined> {
+  async getConfigEntry(
+    configurationId: string,
+  ): Promise<StripeEntryFullyConfigured | null | undefined> {
     const config = await this.configurator.getConfig();
     return config?.configurations.find((entry) => entry.configurationId === configurationId);
   }
@@ -49,7 +46,7 @@ export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
     };
   }
 
-  async getConfigObfuscated(): Promise<AdyenUserVisibleAppConfig> {
+  async getConfigObfuscated(): Promise<StripeAppConfig> {
     const { configurations, channelToConfigurationId } = await this.getConfig();
 
     return {
@@ -59,7 +56,7 @@ export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
   }
 
   /** Adds new config entry or updates existing one */
-  async setConfigEntry(newConfiguration: AdyenEntryConfigUpdate) {
+  async setConfigEntry(newConfiguration: StripeEntryFullyConfigured) {
     const { configurations } = await this.getConfig();
 
     const existingEntryIndex = configurations.findIndex(
@@ -79,7 +76,7 @@ export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
     }
 
     return this.setConfig({
-      configurations: [...configurations, newConfiguration as AdyenEntryConfig],
+      configurations: [...configurations, newConfiguration],
     });
   }
 
@@ -116,18 +113,18 @@ export class AppConfigurator implements GenericAppConfigurator<AdyenAppConfig> {
 
   /** Method that directly updates the config in MetadataConfigurator.
    *  You should probably use setConfigEntry or setMapping instead */
-  async setConfig(newConfig: Partial<AdyenAppConfig>, replace = false) {
+  async setConfig(newConfig: Partial<StripeAppConfig>, replace = false) {
     return this.configurator.setConfig(newConfig, replace);
   }
 
   async clearConfig() {
-    const defaultConfig = adyenAppConfigSchema.parse(undefined);
+    const defaultConfig = stripeAppConfigSchema.parse(undefined);
     return this.setConfig(defaultConfig, true);
   }
 }
 
 export const getConfigurationForChannel = (
-  appConfig: AdyenAppConfig,
+  appConfig: StripeAppConfig,
   channelId?: string | undefined | null,
 ) => {
   const logger = createLogger({ channelId }, { msgPrefix: `[getConfigurationForChannel] ` });
@@ -142,12 +139,12 @@ export const getConfigurationForChannel = (
     return null;
   }
 
-  const adyenConfig = appConfig.configurations.find(
+  const stripeConfig = appConfig.configurations.find(
     (config) => config.configurationId === configurationId,
   );
-  if (!adyenConfig) {
+  if (!stripeConfig) {
     logger.warn({ configurationId }, "Missing configuration for configurationId");
     return null;
   }
-  return adyenConfig;
+  return stripeConfig;
 };

@@ -8,11 +8,10 @@
           "type": "object",
           "additionalProperties": true,
           "properties": {
-            "paymentMethodsResponse": { "$ref": "definitions.json#/definitions/JSON" },
             "publishableKey": { "type": "string" },
             "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
           },
-          "required": ["paymentMethodsResponse", "publishableKey"]
+          "required": ["publishableKey"]
         }
       ]
     }

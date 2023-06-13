@@ -1,21 +1,19 @@
-import { type TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
-import { type TransactionInitializeSessionEventFragment } from "generated/graphql";
-import { invariant } from "@/lib/invariant";
-import { createLogger } from "@/lib/logger";
 import { getConfigurationForChannel } from "../stripe-configuration/app-configuration";
 import { getWebhookAppConfigurator } from "../stripe-configuration/app-configuration-factory";
-import {
-  StripeEntryFullyConfigured,
-  stripeFullyConfiguredEntrySchema,
-} from "../stripe-configuration/stripe-entries-config";
+import { stripeFullyConfiguredEntrySchema } from "../stripe-configuration/stripe-entries-config";
 import {
   getEnvironmentFromKey,
   getStripeExternalUrlForIntentId,
   initializeStripePaymentIntent,
+  stripePaymentIntentToTransactionResult,
   transactionInitializeSessionEventToStripe,
 } from "../stripe/stripe-api";
-import { JSONObject } from "@/types";
 import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
+import { obfuscateConfig, obfuscateValue } from "../stripe-configuration/utils";
+import { type TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import { type TransactionInitializeSessionEventFragment } from "generated/graphql";
+import { invariant } from "@/lib/invariant";
+import { createLogger } from "@/lib/logger";
 
 export const TransactionInitializeSessionWebhookHandler = async (
   event: TransactionInitializeSessionEventFragment,
@@ -50,11 +48,11 @@ export const TransactionInitializeSessionWebhookHandler = async (
     getConfigurationForChannel(appConfig, event.sourceObject.channel.id),
   );
 
-  logger.info({}, `Processing Payment Gateway Initialize request`);
+  logger.info({}, `Processing Transaction Initialize request`);
 
-  const paymentIntentCreateParams = await transactionInitializeSessionEventToStripe(event);
+  const paymentIntentCreateParams = transactionInitializeSessionEventToStripe(event);
   logger.debug({
-    stripePaymentIntent: obfuscateConfig(paymentIntentCreateParams),
+    paymentIntentCreateParams: obfuscateConfig(paymentIntentCreateParams),
     environment: getEnvironmentFromKey(stripeConfig.publishableKey),
   });
 
@@ -67,6 +65,24 @@ export const TransactionInitializeSessionWebhookHandler = async (
     paymentIntent: { client_secret: stripePaymentIntent.client_secret },
     publishableKey: stripeConfig.publishableKey,
   };
+  logger.debug(
+    {
+      paymentIntent: {
+        client_secret: data.paymentIntent.client_secret
+          ? obfuscateValue(data.paymentIntent.client_secret)
+          : "",
+        publishableKey: obfuscateValue(data.publishableKey),
+      },
+    },
+    `Transaction Initialize response`,
+  );
+
+  const result = stripePaymentIntentToTransactionResult(
+    event.action.actionType,
+    stripePaymentIntent,
+  );
+  logger.debug(result, "Stripe -> Transaction result");
+
   const transactionInitializeSessionResponse: TransactionInitializeSessionResponse = {
     data,
     pspReference: stripePaymentIntent.id,

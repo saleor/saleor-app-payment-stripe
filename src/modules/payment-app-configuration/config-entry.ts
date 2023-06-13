@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { deobfuscateValues } from "../app-configuration/utils";
+import { deobfuscateValues } from "../stripe-configuration/utils";
 
 export const DANGEROUS_paymentAppConfigEntryHiddenSchema = z.object({
   webhookPassword: z.string().min(1).nullish(),

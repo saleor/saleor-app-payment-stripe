@@ -1,17 +1,16 @@
 import { z } from "zod";
-import { adyenConfigEntry, adyenUserVisibleEntryConfig } from "./stripe-entries-config";
+import { stripeFullyConfiguredEntrySchema } from "./stripe-entries-config";
 
-export const adyenConfigEntriesSchema = adyenConfigEntry.array();
-export const adyenUserVisibleConfigEntriesSchema = adyenUserVisibleEntryConfig.array();
+export const stripeConfigEntriesSchema = stripeFullyConfiguredEntrySchema.array();
 
-// Record<ChannelID, AdyenConfigEntryId>
+// Record<ChannelID, StripeConfigEntryId>
 export const channelMappingSchema = z
   .record(z.string().min(1), z.string().min(1).nullable())
   .default({});
 
-export const adyenAppConfigSchema = z
+export const stripeAppConfigSchema = z
   .object({
-    configurations: adyenConfigEntriesSchema,
+    configurations: stripeConfigEntriesSchema,
     channelToConfigurationId: channelMappingSchema,
   })
   .default({
@@ -19,17 +18,6 @@ export const adyenAppConfigSchema = z
     channelToConfigurationId: {},
   });
 
-export const adyenAppUserVisibleConfigSchema = z
-  .object({
-    configurations: adyenUserVisibleConfigEntriesSchema,
-    channelToConfigurationId: channelMappingSchema,
-  })
-  .default({
-    configurations: [],
-    channelToConfigurationId: {},
-  });
-
-export type AdyenConfigEntries = z.infer<typeof adyenConfigEntriesSchema>;
+export type StripeConfigEntries = z.infer<typeof stripeConfigEntriesSchema>;
 export type ChannelMapping = z.infer<typeof channelMappingSchema>;
-export type AdyenAppConfig = z.infer<typeof adyenAppConfigSchema>;
-export type AdyenUserVisibleAppConfig = z.infer<typeof adyenAppUserVisibleConfigSchema>;
+export type StripeAppConfig = z.infer<typeof stripeAppConfigSchema>;

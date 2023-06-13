@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { describe, it, expect, vi } from "vitest";
-import { OBFUSCATION_DOTS } from "../app-configuration/utils";
+import { OBFUSCATION_DOTS, obfuscateConfigEntry } from "./utils";
 import {
   addConfigEntry,
   updateConfigEntry,
@@ -13,7 +13,6 @@ import { type AppConfigurator } from "./app-configuration";
 import { configEntryAll } from "./__tests__/mocks";
 import { type AdyenConfigEntryUpdate } from "./input-schemas";
 import { type AdyenInitEntryInput } from "./stripe-entries-config";
-import { obfuscateConfigEntry } from "./utils";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
 vi.mock("@/modules/adyen-configuration-v2/adyen-key-utils", () => {

@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { OBFUSCATION_DOTS } from "../app-configuration/utils";
-import { obfuscateConfigEntry } from "./utils";
+import { OBFUSCATION_DOTS, obfuscateConfigEntry } from "./utils";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
 describe("obfuscateConfigEntry", () => {

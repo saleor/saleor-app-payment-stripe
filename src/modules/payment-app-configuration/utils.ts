@@ -1,4 +1,4 @@
-import { obfuscateConfig } from "../app-configuration/utils";
+import { obfuscateConfig } from "../stripe-configuration/utils";
 import {
   type PaymentAppConfigEntry,
   type PaymentAppEncryptedConfig,

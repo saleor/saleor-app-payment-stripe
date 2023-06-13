@@ -1,45 +1,41 @@
-import { obfuscateConfig } from "../app-configuration/utils";
-import {
-  type AdyenEntryConfig,
-  type AdyenEntryEncryptedConfig,
-  type AdyenUserVisibleEntryConfig,
-  adyenUserVisibleEntryConfig,
-} from "./stripe-entries-config";
+import { isNotNullish, toStringOrEmpty } from "../../lib/utils";
 
-export const obfuscateConfigEntry = (entry: AdyenEntryConfig): AdyenUserVisibleEntryConfig => {
-  const {
-    apiKey,
-    apiKeyId,
-    apiKeyUsername,
-    webhookHmacHash,
-    webhookId,
-    configurationName,
-    configurationId,
-    environment,
-    apiKeyScope,
-    merchantAccount,
-    companyId,
-    clientKey,
-    applePayCertificate,
-  } = entry;
+export const OBFUSCATION_DOTS = "••••";
 
-  const configValuesToObfuscate = {
-    applePayCertificate,
-    apiKey,
-  } satisfies AdyenEntryEncryptedConfig;
+export const obfuscateValue = (value: string) => {
+  const unbofuscatedLength = Math.min(4, value.length - 4);
 
-  return adyenUserVisibleEntryConfig.parse({
-    ...obfuscateConfig(configValuesToObfuscate),
-    apiKeyId,
-    apiKeyUsername,
-    webhookHmacHash,
-    webhookId,
-    configurationName,
-    configurationId,
-    environment,
-    apiKeyScope,
-    merchantAccount,
-    companyId,
-    clientKey,
-  } satisfies AdyenUserVisibleEntryConfig);
+  if (unbofuscatedLength <= 0) {
+    return OBFUSCATION_DOTS;
+  }
+
+  const visibleValue = value.slice(-unbofuscatedLength);
+  return `${OBFUSCATION_DOTS}${visibleValue}`;
 };
+
+export const deobfuscateValues = (values: Record<string, unknown>) => {
+  const entries = Object.entries(values).map(
+    ([key, value]) =>
+      [key, toStringOrEmpty(value).includes(OBFUSCATION_DOTS) ? null : value] as [string, unknown],
+  );
+  return Object.fromEntries(entries);
+};
+
+export const filterConfigValues = <T extends Record<string, unknown>>(values: T) => {
+  const entries = Object.entries(values).filter(
+    ([_, value]) => value !== null && value !== undefined,
+  );
+  return Object.fromEntries(entries);
+};
+
+export const obfuscateConfig = <T extends {}>(config: T): T => {
+  const entries = Object.entries(config).map(([key, value]) => [
+    key,
+    isNotNullish(value) ? obfuscateValue(toStringOrEmpty(value)) : value,
+  ]);
+
+  return Object.fromEntries(entries) as T;
+};
+
+// @todo
+export const obfuscateConfigEntry = <T extends {}>(config: T): T => config;
