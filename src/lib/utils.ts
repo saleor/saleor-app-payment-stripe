@@ -48,3 +48,6 @@ export const unpackThrowable = <T>(throwable: () => T): ThrowableToTupleResult<T
 };
 export const isNotNullish = <T>(val: T | null | undefined): val is T =>
   val !== undefined && val !== null;
+
+export const isObject = (val: unknown): val is Record<string, unknown> =>
+  typeof val === "object" && val !== null && !Array.isArray(val);

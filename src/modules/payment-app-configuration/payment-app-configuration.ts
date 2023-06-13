@@ -9,6 +9,7 @@ import { type PaymentAppConfigEntry } from "./config-entry";
 import { obfuscateConfigEntry } from "./utils";
 import { env } from "@/lib/env.mjs";
 import { BaseError } from "@/errors";
+import { createLogger } from "@/lib/logger";
 
 export const privateMetadataKey = "payment-app-config-private";
 export const hiddenMetadataKey = "payment-app-config-hidden";
@@ -121,3 +122,29 @@ export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig>
     return this.setConfig(defaultConfig, true);
   }
 }
+
+export const getConfigurationForChannel = (
+  appConfig: PaymentAppConfig,
+  channelId?: string | undefined | null,
+) => {
+  const logger = createLogger({ channelId }, { msgPrefix: `[getConfigurationForChannel] ` });
+  if (!channelId) {
+    logger.warn("Missing channelId");
+    return null;
+  }
+
+  const configurationId = appConfig.channelToConfigurationId[channelId];
+  if (!configurationId) {
+    logger.warn("Missing mapping for channelId");
+    return null;
+  }
+
+  const adyenConfig = appConfig.configurations.find(
+    (config) => config.configurationId === configurationId,
+  );
+  if (!adyenConfig) {
+    logger.warn({ configurationId }, "Missing configuration for configurationId");
+    return null;
+  }
+  return adyenConfig;
+};

@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import type { ValidateFunction } from "ajv";
 import { type NextWebhookApiHandler } from "@saleor/app-sdk/handlers/next";
-import { createLogger } from "../lib/logger";
+import { createLogger, redactError } from "../lib/logger";
 import {
   JsonSchemaError,
   UnknownError,
@@ -50,14 +50,14 @@ export function getSyncWebhookHandler<TPayload, TResult, TSchema extends Validat
       logger.debug({ result }, `Sending successful response`);
       return res.json(await validateData(result, ResponseSchema));
     } catch (err) {
-      logger.error({ err }, `${webhookHandler.name} error`);
+      logger.error({ err: redactError(err) }, `${webhookHandler.name} error`);
 
       const response = errorToResponse(err);
 
       if (!response) {
         Sentry.captureException(err);
         const result = BaseError.serialize(err);
-        logger.debug({ result }, `Sending error response`);
+        logger.debug("Sending error response");
         return res.status(500).json(result);
       }
 

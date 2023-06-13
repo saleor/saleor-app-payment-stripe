@@ -6,9 +6,10 @@ import {
   transactionInitializeSessionEventToStripe,
 } from "../stripe/stripe-api";
 import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
-import { getPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
-import { paymentAppConfigEntrySchema } from "../payment-app-configuration/config-entry";
+import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
+import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configuration/config-entry";
 import { obfuscateConfig, obfuscateValue } from "../app-configuration/utils";
+import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
 import { type TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
 import { type TransactionInitializeSessionEventFragment } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
@@ -40,10 +41,10 @@ export const TransactionInitializeSessionWebhookHandler = async (
   invariant(app, `Missing event.recipient!`);
 
   const { privateMetadata } = app;
-  const configurator = getPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
+  const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
   const appConfig = await configurator.getConfig();
 
-  const stripeConfig = paymentAppConfigEntrySchema.parse(
+  const stripeConfig = paymentAppFullyConfiguredEntrySchema.parse(
     getConfigurationForChannel(appConfig, event.sourceObject.channel.id),
   );
 

@@ -74,7 +74,7 @@ export abstract class MetadataConfigurator<TConfig extends Record<string, unknow
     });
     const filteredNewConfig = filterConfigValues(newConfig);
     if (Object.keys(filteredNewConfig).length === 0 && !replace) {
-      logger.debug({ newConfig, filteredNewConfig }, "No config to safe in metadata");
+      logger.debug("No config to safe in metadata");
       return;
     }
 

@@ -28,7 +28,7 @@ export interface TrpcErrorOptions {
   trpcCode?: TRPC_ERROR_CODE_KEY;
 }
 export const BaseTrpcError = BaseError.subclass("BaseTrpcError", {
-  props: { code: "UNKNOWN" } as TrpcErrorOptions,
+  props: { trpcCode: "INTERNAL_SERVER_ERROR" } as TrpcErrorOptions,
 });
 export const JwtTokenExpiredError = BaseTrpcError.subclass("JwtTokenExpiredError", {
   props: { trpcCode: "UNAUTHORIZED" } as TrpcErrorOptions,
@@ -57,3 +57,4 @@ export interface FieldErrorOptions extends TrpcErrorOptions {
 export const FieldError = BaseTrpcError.subclass("FieldError", {
   props: {} as FieldErrorOptions,
 });
+export const FileReaderError = BaseError.subclass("FileReaderError");

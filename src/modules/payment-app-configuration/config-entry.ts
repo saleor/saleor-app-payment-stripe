@@ -43,8 +43,7 @@ export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSch
     secretKey: null,
     publishableKey: null,
     configurationName: "",
-  })
-  .brand("PaymentAppFormConfig");
+  });
 
 /** Schema used in front-end forms
  * Replaces obfuscated values with null */
