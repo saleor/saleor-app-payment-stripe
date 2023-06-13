@@ -1,5 +1,4 @@
-import { type PaymentAppConfig } from "../app-config";
-import { defaultPaymentAppConfig } from "../payment-app-config";
+import { defaultPaymentAppConfig, type PaymentAppConfig } from "../app-config";
 import {
   getFakePaymentAppConfigurator,
   type MetadataManagerOverride,

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { deobfuscateValues } from "../app-configuration/app-configuration";
+import { deobfuscateValues } from "../app-configuration/utils";
 
 export const paymentAppInternalConfigSchema = z.object({
   apiKeyId: z.string().nullish(),
