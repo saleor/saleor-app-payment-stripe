@@ -8,8 +8,8 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 export const filledFakeMatadataConfig = {
   configurations: [
     {
-      secretKey: "sk_secret-key",
-      publishableKey: "pk_so-secret-key",
+      secretKey: testEnv.TEST_PAYMENT_APP_SECRET_KEY,
+      publishableKey: testEnv.TEST_PAYMENT_APP_PUBLISHABLE_KEY,
       configurationId: "mock-id",
       configurationName: "test",
     },

@@ -31,6 +31,7 @@ const HEADERS_BLACKLIST = new Set([
   "saleor-signature",
   "set-cookie",
   "x-api-key",
+  "x-stripe-client-user-agent",
 ]);
 
 const VARIABLES_BLACKLIST = new Set([
@@ -168,6 +169,11 @@ export const setupRecording = (config?: PollyConfig) => {
     ...getRecordingSettings(),
     adapters: [FetchAdapter, NodeHttpAdapter],
     persister: FSPersister,
+    adapterOptions: {
+      fetch: {
+        context: globalThis,
+      },
+    },
     persisterOptions: {
       fs: {},
       keepUnusedRequests: false,

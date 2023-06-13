@@ -5,9 +5,14 @@ import {
 } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 import type { TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import { getStripeAmountFromSaleorMoney } from "./currencies";
 
 const getStripeApiClient = (secretKey: string) => {
-  const stripe = new Stripe(secretKey, { apiVersion: "2022-11-15" });
+  const stripe = new Stripe(secretKey, {
+    apiVersion: "2022-11-15",
+    typescript: true,
+    httpClient: Stripe.createFetchHttpClient(fetch),
+  });
   return stripe;
 };
 
@@ -25,7 +30,10 @@ export const transactionInitializeSessionEventToStripe = (
 
   return {
     ...data,
-    amount: event.sourceObject.total.gross.amount,
+    amount: getStripeAmountFromSaleorMoney({
+      amount: event.sourceObject.total.gross.amount,
+      currency: event.sourceObject.total.gross.currency,
+    }),
     currency: event.sourceObject.total.gross.currency,
     automatic_payment_methods: {
       enabled: true,
