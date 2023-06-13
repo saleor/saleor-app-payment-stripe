@@ -42,19 +42,21 @@ jobs:
       - name: Generate
         run: pnpm generate
 
+      - name: Load secret
+        uses: 1password/load-secrets-action@v1
+        with:
+          # Export loaded secrets as environment variables
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          TEST_SALEOR_APP_TOKEN: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_SALEOR_APP_TOKEN
+          TEST_SALEOR_APP_ID: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_SALEOR_APP_ID
+          TEST_PAYMENT_APP_API_KEY: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_API_KEY
+          TEST_PAYMENT_APP_API_KEY_ID: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_API_KEY_ID
+          TEST_PAYMENT_APP_CLIENT_KEY: op://Checkout/saleor-app-payment-stripe TEST ENVS/TEST_PAYMENT_APP_CLIENT_KEY
+
       - name: Test
         run: pnpm test:ci
-        env:
-          # Secrets
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          TEST_SALEOR_APP_TOKEN: ${{ secrets.TEST_SALEOR_APP_TOKEN }}
-          TEST_PAYMENT_APP_API_KEY: ${{ secrets.TEST_PAYMENT_APP_API_KEY }}
-          TEST_PAYMENT_APP_API_KEY_ID: ${{ secrets.TEST_PAYMENT_APP_API_KEY_ID }}
-          # Variables
-          TEST_SALEOR_API_URL: ${{ vars.TEST_SALEOR_API_URL }}
-          TEST_SALEOR_APP_ID: ${{ vars.TEST_SALEOR_APP_ID }}
-          TEST_SALEOR_JWKS: ${{ vars.TEST_SALEOR_JWKS }}
-          TEST_PAYMENT_APP_CLIENT_KEY: ${{ vars.TEST_PAYMENT_APP_CLIENT_KEY }}
 
       - name: Dependency cruiser
         if: ${{ github.event_name != 'push' }}
