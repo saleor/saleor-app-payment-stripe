@@ -10,9 +10,7 @@ import { obfuscateConfigEntry } from "./utils";
 import { env } from "@/lib/env.mjs";
 import { BaseError } from "@/errors";
 
-export const privateMetadataKey = "payment-app-config-private";
-export const hiddenMetadataKey = "payment-app-config-hidden";
-export const publicMetadataKey = "payment-app-config-public";
+export const appMetadataKey = "stripe-app-config";
 
 export const AppNotConfiguredError = BaseError.subclass(`AppNotConfiguredError`);
 
@@ -24,7 +22,7 @@ export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig>
     this.configurator = new PrivateMetadataAppConfigurator(
       privateMetadataManager,
       saleorApiUrl,
-      privateMetadataKey,
+      appMetadataKey,
     );
     this.saleorApiUrl = saleorApiUrl;
   }

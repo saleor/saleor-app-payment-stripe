@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import type * as settingsManagerModule from "@saleor/app-sdk/settings-manager";
 import { MetadataManager } from "@saleor/app-sdk/settings-manager";
-import { PaymentAppConfigurator } from "./payment-app-configuration";
+import { PaymentAppConfigurator, appMetadataKey } from "./payment-app-configuration";
 import { testEnv } from "@/__tests__/test-env.mjs";
 import { createClient } from "@/lib/create-graphq-client";
 import { setupRecording } from "@/__tests__/polly";
@@ -60,22 +60,21 @@ describe("PaymentApp configuration factory", () => {
       );
       const configurator = getWebhookPaymentAppConfigurator(
         {
-          metadata: [
-            {
-              key: `payment-app-config-public__${testEnv.TEST_SALEOR_API_URL}`,
-              value: JSON.stringify({
-                environment: "TEST" as const,
-              }),
-            },
-          ],
           privateMetadata: [
             {
-              key: `payment-app-config-hidden__${testEnv.TEST_SALEOR_API_URL}`,
-              value: JSON.stringify({ apiKey: testEnv.TEST_PAYMENT_APP_API_KEY }),
-            },
-            {
-              key: `payment-app-config-private__${testEnv.TEST_SALEOR_API_URL}`,
-              value: JSON.stringify({}),
+              key: `${appMetadataKey}__${testEnv.TEST_SALEOR_API_URL}`,
+              value: JSON.stringify({
+                configurations: [
+                  {
+                    apiKey: "test-key",
+                    configurationId: "test",
+                    configurationName: "Test name",
+                  },
+                ],
+                channelToConfigurationId: {
+                  "channel-usd": "test",
+                },
+              }),
             },
           ],
         },
@@ -83,8 +82,16 @@ describe("PaymentApp configuration factory", () => {
       );
 
       await expect(configurator.getConfig()).resolves.toStrictEqual({
-        environment: "TEST",
-        apiKey: testEnv.TEST_PAYMENT_APP_API_KEY,
+        configurations: [
+          {
+            apiKey: "test-key",
+            configurationId: "test",
+            configurationName: "Test name",
+          },
+        ],
+        channelToConfigurationId: {
+          "channel-usd": "test",
+        },
       });
     });
   });
