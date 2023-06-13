@@ -46,3 +46,5 @@ export const unpackThrowable = <T>(throwable: () => T): ThrowableToTupleResult<T
     return [UnknownError.normalize(maybeError), null];
   }
 };
+export const isNotNullish = <T>(val: T | null | undefined): val is T =>
+  val !== undefined && val !== null;
