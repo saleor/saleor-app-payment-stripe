@@ -20,12 +20,11 @@ vi.mock("@/modules/adyen-configuration-v2/adyen-key-utils", () => {
   return {
     checkAdyenApiKey: () => {
       return {
-        apiKeyId: "1",
         companyId: "2",
-        apiKeyUsername: "3",
-        apiKeyScope: "4",
+        secretKeyUsername: "3",
+        secretKeyScope: "4",
         merchantAccount: "merchant",
-        clientKey: "5",
+        publishableKey: "5",
       };
     },
   };
@@ -63,17 +62,16 @@ describe("addConfigEntry", () => {
   it("generates random id for new config entry, saves config entry in configurator, returns new config entry which has obfuscated fields", async () => {
     const input: PaymentAppFormConfigEntry = {
       configurationName: "new-config",
-      apiKey: "new-key",
-      clientKey: "client-key",
+      secretKey: "new-key",
+      publishableKey: "client-key",
     };
     const result = await addConfigEntry(input, mockConfigurator);
 
     expect(result).toStrictEqual({
       configurationName: input.configurationName,
-      apiKey: `${OBFUSCATION_DOTS}key`,
-      apiKeyId: "1234", // CHANGEME
+      secretKey: `${OBFUSCATION_DOTS}key`,
       configurationId: expect.any(String),
-      clientKey: expect.any(String),
+      publishableKey: expect.any(String),
     });
     expect(mockConfigurator.setConfigEntry).toHaveBeenCalledTimes(1);
   });
@@ -85,8 +83,8 @@ describe("updateConfigEntry", () => {
       configurationId: configEntryAll.configurationId,
       entry: {
         configurationName: "new-name",
-        apiKey: "updated-key",
-        clientKey: configEntryAll.clientKey,
+        secretKey: "updated-key",
+        publishableKey: configEntryAll.publishableKey,
       },
     } satisfies ConfigEntryUpdate;
 
@@ -109,7 +107,7 @@ describe("updateConfigEntry", () => {
       configurationId: "non-existing-id",
       entry: {
         configurationName: configEntryAll.configurationName,
-        apiKey: "updated-key",
+        secretKey: "updated-key",
       },
     } satisfies ConfigEntryUpdate;
 

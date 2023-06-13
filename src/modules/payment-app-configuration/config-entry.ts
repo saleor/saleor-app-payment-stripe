@@ -6,7 +6,7 @@ export const paymentAppConfigEntryInternalSchema = z.object({
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
-  secretKey: z.string({ required_error: "Private key is required" }).min(1).nullable(),
+  secretKey: z.string({ required_error: "Secret key is required" }).min(1).nullable(),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({

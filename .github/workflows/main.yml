@@ -48,13 +48,12 @@ jobs:
           # Secrets
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           TEST_SALEOR_APP_TOKEN: ${{ secrets.TEST_SALEOR_APP_TOKEN }}
-          TEST_PAYMENT_APP_API_KEY: ${{ secrets.TEST_PAYMENT_APP_API_KEY }}
-          TEST_PAYMENT_APP_API_KEY_ID: ${{ secrets.TEST_PAYMENT_APP_API_KEY_ID }}
+          TEST_PAYMENT_APP_SECRET_KEY: ${{ secrets.TEST_PAYMENT_APP_SECRET_KEY }}
           # Variables
           TEST_SALEOR_API_URL: ${{ vars.TEST_SALEOR_API_URL }}
           TEST_SALEOR_APP_ID: ${{ vars.TEST_SALEOR_APP_ID }}
           TEST_SALEOR_JWKS: ${{ vars.TEST_SALEOR_JWKS }}
-          TEST_PAYMENT_APP_CLIENT_KEY: ${{ vars.TEST_PAYMENT_APP_CLIENT_KEY }}
+          TEST_PAYMENT_APP_PUBLISHABLE_KEY: ${{ vars.TEST_PAYMENT_APP_PUBLISHABLE_KEY }}
 
       - name: Dependency cruiser
         if: ${{ github.event_name != 'push' }}

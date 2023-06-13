@@ -282,11 +282,11 @@ describe("api-route-utils", () => {
         } as unknown as NextApiRequest),
       ).resolves.toMatchInlineSnapshot(`
         {
-          "appId": "a",
+          "appId": "QXBwOjQyMw==",
           "domain": "saleor.localhost",
           "jwks": "",
           "saleorApiUrl": "https://saleor.localhost:8080/graphql/",
-          "token": "a",
+          "token": "UztpGrbmghOWwc3HVCnAGVByqLyESP",
         }
       `);
     });
