@@ -3,6 +3,10 @@ fragment OrderOrCheckoutSourceObject on OrderOrCheckout {
   ... on Checkout {
     id
     languageCode
+    channel {
+      id
+      slug
+    }
     userEmail: email
     billingAddress {
       ...TransactionInitializeSessionAddress
@@ -21,6 +25,10 @@ fragment OrderOrCheckoutSourceObject on OrderOrCheckout {
     id
     languageCodeEnum
     userEmail
+    channel {
+      id
+      slug
+    }
     billingAddress {
       ...TransactionInitializeSessionAddress
     }

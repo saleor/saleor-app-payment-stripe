@@ -3,21 +3,10 @@ import {
   type BrandedEncryptedMetadataManager,
   type BrandedMetadataManager,
   createWebhookPrivateSettingsManager,
-  createWebhookPublicSettingsManager,
 } from "../../app-configuration/metadata-manager";
 import { serializeSettingsToMetadata } from "../../app-configuration/app-configuration";
-import {
-  type PaymentAppConfig,
-  type PaymentAppEncryptedConfig,
-  type PaymentAppInternalConfig,
-  type PaymentAppPublicConfig,
-} from "../payment-app-config";
-import {
-  PaymentAppConfigurator,
-  hiddenMetadataKey,
-  privateMetadataKey,
-  publicMetadataKey,
-} from "../payment-app-configuration";
+import { PaymentAppConfigurator, privateMetadataKey } from "../payment-app-configuration";
+import { type PaymentAppConfig } from "../app-config";
 import { env } from "@/lib/env.mjs";
 
 export type MetadataManagerOverride = {
@@ -30,50 +19,13 @@ export const getFakePaymentAppConfigurator = (
   saleorApiUrl: string,
   metadataManager?: MetadataManagerOverride,
 ) => {
-  const { apiKey, apiKeyId, clientKey, ...remainingConfig } = config;
-
-  const exhaustiveCheck: Record<string, never> = remainingConfig;
-  exhaustiveCheck;
-
-  const hiddenConfig: Partial<PaymentAppInternalConfig> = {
-    apiKeyId,
-  };
-
-  const publicConfig: Partial<PaymentAppPublicConfig> = {
-    clientKey,
-  };
-
-  const privateConfig: Partial<PaymentAppEncryptedConfig> = {
-    apiKey,
-  };
-
   const privateConfigEntries: MetadataEntry[] = [
     serializeSettingsToMetadata({
       key: privateMetadataKey,
-      value: encrypt(JSON.stringify(privateConfig), env.SECRET_KEY),
-      domain: saleorApiUrl,
-    }),
-    serializeSettingsToMetadata({
-      key: hiddenMetadataKey,
-      value: encrypt(JSON.stringify(hiddenConfig), env.SECRET_KEY),
+      value: encrypt(JSON.stringify(config), env.SECRET_KEY),
       domain: saleorApiUrl,
     }),
   ];
-
-  const publicConfigEntries: MetadataEntry[] = [
-    serializeSettingsToMetadata({
-      key: publicMetadataKey,
-      value: JSON.stringify(publicConfig),
-      domain: saleorApiUrl,
-    }),
-  ];
-
-  const getPublicSettingsManager = () => {
-    if (metadataManager?.public) {
-      return metadataManager.public(publicConfigEntries);
-    }
-    return createWebhookPublicSettingsManager(publicConfigEntries);
-  };
 
   const getPrivateSettingsManager = () => {
     if (metadataManager?.private) {
@@ -82,9 +34,5 @@ export const getFakePaymentAppConfigurator = (
     return createWebhookPrivateSettingsManager(privateConfigEntries);
   };
 
-  return new PaymentAppConfigurator(
-    getPrivateSettingsManager(),
-    getPublicSettingsManager(),
-    saleorApiUrl,
-  );
+  return new PaymentAppConfigurator(getPrivateSettingsManager(), saleorApiUrl);
 };

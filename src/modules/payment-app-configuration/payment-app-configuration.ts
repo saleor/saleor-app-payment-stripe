@@ -2,23 +2,14 @@ import { encrypt, type MetadataEntry } from "@saleor/app-sdk/settings-manager";
 import {
   type AppConfigurator,
   PrivateMetadataAppConfigurator,
-  PublicMetadataAppConfiguration,
 } from "../app-configuration/app-configuration";
-import {
-  type BrandedEncryptedMetadataManager,
-  type BrandedMetadataManager,
-} from "../app-configuration/metadata-manager";
-import {
-  type PaymentAppConfigFullyConfigured,
-  paymentAppFullyConfiguredSchema,
-  type PaymentAppConfig,
-  type PaymentAppEncryptedConfig,
-  type PaymentAppFormConfig,
-  type PaymentAppInternalConfig,
-  type PaymentAppPublicConfig,
-} from "./payment-app-config";
+import { type BrandedEncryptedMetadataManager } from "../app-configuration/metadata-manager";
+import { type PaymentAppConfig, paymentAppConfigSchema, type ChannelMapping } from "./app-config";
+import { type PaymentAppConfigEntry } from "./config-entry";
+import { obfuscateConfigEntry } from "./utils";
 import { env } from "@/lib/env.mjs";
 import { BaseError } from "@/errors";
+import { createLogger } from "@/lib/logger";
 
 export const privateMetadataKey = "payment-app-config-private";
 export const hiddenMetadataKey = "payment-app-config-hidden";
@@ -27,141 +18,133 @@ export const publicMetadataKey = "payment-app-config-public";
 export const AppNotConfiguredError = BaseError.subclass(`AppNotConfiguredError`);
 
 export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig> {
-  private privateConfigurator: PrivateMetadataAppConfigurator<PaymentAppEncryptedConfig>;
-  private publicConfigurator: PublicMetadataAppConfiguration<PaymentAppPublicConfig>;
-  private hiddenConfigurator: PrivateMetadataAppConfigurator<PaymentAppInternalConfig>;
+  private configurator: PrivateMetadataAppConfigurator<PaymentAppConfig>;
   public saleorApiUrl: string;
 
-  constructor(
-    privateMetadataManager: BrandedEncryptedMetadataManager,
-    publicMetadataManager: BrandedMetadataManager,
-    saleorApiUrl: string,
-  ) {
-    this.privateConfigurator = new PrivateMetadataAppConfigurator(
+  constructor(privateMetadataManager: BrandedEncryptedMetadataManager, saleorApiUrl: string) {
+    this.configurator = new PrivateMetadataAppConfigurator(
       privateMetadataManager,
       saleorApiUrl,
       privateMetadataKey,
     );
-    this.hiddenConfigurator = new PrivateMetadataAppConfigurator(
-      privateMetadataManager,
-      saleorApiUrl,
-      hiddenMetadataKey,
-    );
-    this.publicConfigurator = new PublicMetadataAppConfiguration(
-      publicMetadataManager,
-      saleorApiUrl,
-      publicMetadataKey,
-    );
     this.saleorApiUrl = saleorApiUrl;
   }
 
-  async getConfig(): Promise<PaymentAppConfig | undefined> {
-    const [hiddenConfig, privateConfig, publicConfig] = await Promise.all([
-      this.hiddenConfigurator.getConfig(),
-      this.privateConfigurator.getConfig(),
-      this.publicConfigurator.getConfig(),
-    ]);
-
-    if (privateConfig && publicConfig) {
-      return {
-        ...hiddenConfig,
-        ...privateConfig,
-        ...publicConfig,
-      };
-    }
-
-    return undefined;
-  }
-
-  async getConfigSafe(): Promise<PaymentAppConfigFullyConfigured> {
-    const config = await this.getConfig();
-    const result = paymentAppFullyConfiguredSchema.safeParse(config);
-
-    if (result.success) {
-      return result.data;
-    }
-
-    throw new AppNotConfiguredError("App is missing configuration fields", { cause: result.error });
-  }
-
-  async getRawConfig(): Promise<{ metadata: MetadataEntry[]; privateMetadata: MetadataEntry[] }> {
-    const encryptFn = (data: string) => encrypt(data, env.SECRET_KEY);
-
-    const [hiddenConfig, privateConfig, publicConfig] = await Promise.all([
-      this.hiddenConfigurator.getRawConfig(encryptFn),
-      this.privateConfigurator.getRawConfig(encryptFn),
-      this.publicConfigurator.getRawConfig(),
-    ]);
-
-    return {
-      metadata: publicConfig,
-      privateMetadata: [...hiddenConfig, ...privateConfig],
-    };
+  async getConfig(): Promise<PaymentAppConfig> {
+    const config = await this.configurator.getConfig();
+    return paymentAppConfigSchema.parse(config);
   }
 
   async getConfigObfuscated() {
-    const [privateConfigObfuscated, publicConfig] = await Promise.all([
-      this.privateConfigurator.getConfigObfuscated(),
-      this.publicConfigurator.getConfig(),
-    ]);
+    const { configurations, channelToConfigurationId } = await this.getConfig();
 
-    if (privateConfigObfuscated && publicConfig) {
-      return {
-        ...privateConfigObfuscated,
-        ...publicConfig,
+    return {
+      configurations: configurations.map((entry) => obfuscateConfigEntry(entry)),
+      channelToConfigurationId,
+    };
+  }
+
+  async getRawConfig(): Promise<MetadataEntry[]> {
+    const encryptFn = (data: string) => encrypt(data, env.SECRET_KEY);
+
+    return this.configurator.getRawConfig(encryptFn);
+  }
+
+  async getConfigEntry(configurationId: string): Promise<PaymentAppConfigEntry | null | undefined> {
+    const config = await this.configurator.getConfig();
+    return config?.configurations.find((entry) => entry.configurationId === configurationId);
+  }
+
+  /** Adds new config entry or updates existing one */
+  async setConfigEntry(newConfiguration: PaymentAppConfigEntry) {
+    const { configurations } = await this.getConfig();
+
+    const existingEntryIndex = configurations.findIndex(
+      (entry) => entry.configurationId === newConfiguration.configurationId,
+    );
+
+    if (existingEntryIndex !== -1) {
+      const existingEntry = configurations[existingEntryIndex];
+      const mergedEntry = {
+        ...existingEntry,
+        ...newConfiguration,
       };
+
+      const newConfigurations = configurations.slice(0);
+      newConfigurations[existingEntryIndex] = mergedEntry;
+      return this.setConfig({ configurations: newConfigurations });
     }
+
+    return this.setConfig({
+      configurations: [...configurations, newConfiguration],
+    });
   }
 
-  /** Saves config that is available to user */
-  async setConfigPublic(newConfig: PaymentAppFormConfig, replace = false) {
-    const { apiKey, clientKey: clientKey } = newConfig;
-
-    const publicConfig: Partial<PaymentAppPublicConfig> = {
-      clientKey: clientKey,
-    };
-
-    const privateConfig: Partial<PaymentAppEncryptedConfig> = {
-      apiKey,
-    };
-
-    await Promise.all([
-      this.privateConfigurator.setConfig(privateConfig, replace),
-      this.publicConfigurator.setConfig(publicConfig, replace),
-    ]);
+  async deleteConfigEntry(configurationId: string) {
+    const oldConfig = await this.getConfig();
+    const newConfigurations = oldConfig.configurations.filter(
+      (entry) => entry.configurationId !== configurationId,
+    );
+    const newMappings = Object.fromEntries(
+      Object.entries(oldConfig.channelToConfigurationId).filter(
+        ([, configId]) => configId !== configurationId,
+      ),
+    );
+    await this.setConfig(
+      { ...oldConfig, configurations: newConfigurations, channelToConfigurationId: newMappings },
+      true,
+    );
   }
 
-  /** Saves config including hidden fields */
+  /** Adds new mappings or updates exsting ones */
+  async setMapping(newMapping: ChannelMapping) {
+    const { channelToConfigurationId } = await this.getConfig();
+    return this.setConfig({
+      channelToConfigurationId: { ...channelToConfigurationId, ...newMapping },
+    });
+  }
+
+  async deleteMapping(channelId: string) {
+    const { channelToConfigurationId } = await this.getConfig();
+    const newMapping = { ...channelToConfigurationId };
+    delete newMapping[channelId];
+    return this.setConfig({ channelToConfigurationId: newMapping });
+  }
+
+  /** Method that directly updates the config in MetadataConfigurator.
+   *  You should probably use setConfigEntry or setMapping instead */
   async setConfig(newConfig: Partial<PaymentAppConfig>, replace = false) {
-    const { apiKey, apiKeyId: apiKeyId, clientKey, ...remainingConfig } = newConfig;
-
-    const exhaustiveCheck: Record<string, never> = remainingConfig;
-    exhaustiveCheck;
-
-    const hiddenConfig: Partial<PaymentAppInternalConfig> = {
-      apiKeyId: apiKeyId,
-    };
-
-    const publicConfig: Partial<PaymentAppPublicConfig> = {
-      clientKey: clientKey,
-    };
-
-    const privateConfig: Partial<PaymentAppEncryptedConfig> = {
-      apiKey,
-    };
-
-    await Promise.all([
-      this.hiddenConfigurator.setConfig(hiddenConfig, replace),
-      this.privateConfigurator.setConfig(privateConfig, replace),
-      this.publicConfigurator.setConfig(publicConfig, replace),
-    ]);
+    return this.configurator.setConfig(newConfig, replace);
   }
 
   async clearConfig() {
-    await Promise.all([
-      this.hiddenConfigurator.clearConfig(),
-      this.privateConfigurator.clearConfig(),
-      this.publicConfigurator.clearConfig(),
-    ]);
+    const defaultConfig = paymentAppConfigSchema.parse(undefined);
+    return this.setConfig(defaultConfig, true);
   }
 }
+
+export const getConfigurationForChannel = (
+  appConfig: PaymentAppConfig,
+  channelId?: string | undefined | null,
+) => {
+  const logger = createLogger({ channelId }, { msgPrefix: `[getConfigurationForChannel] ` });
+  if (!channelId) {
+    logger.warn("Missing channelId");
+    return null;
+  }
+
+  const configurationId = appConfig.channelToConfigurationId[channelId];
+  if (!configurationId) {
+    logger.warn("Missing mapping for channelId");
+    return null;
+  }
+
+  const adyenConfig = appConfig.configurations.find(
+    (config) => config.configurationId === configurationId,
+  );
+  if (!adyenConfig) {
+    logger.warn({ configurationId }, "Missing configuration for configurationId");
+    return null;
+  }
+  return adyenConfig;
+};

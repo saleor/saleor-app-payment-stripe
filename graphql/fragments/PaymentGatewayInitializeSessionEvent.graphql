@@ -9,6 +9,10 @@ fragment PaymentGatewayInitializeSessionEvent on PaymentGatewayInitializeSession
     __typename
     ... on Checkout {
       id
+      channel {
+        id
+        slug
+      }
       languageCode
       billingAddress {
         ...PaymentGatewayInitializeSessionAddress
@@ -21,6 +25,10 @@ fragment PaymentGatewayInitializeSessionEvent on PaymentGatewayInitializeSession
     }
     ... on Order {
       id
+      channel {
+        id
+        slug
+      }
       languageCodeEnum
       userEmail
       billingAddress {

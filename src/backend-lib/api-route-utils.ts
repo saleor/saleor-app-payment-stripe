@@ -3,48 +3,16 @@ import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import type { ValidateFunction } from "ajv";
 import { type NextWebhookApiHandler } from "@saleor/app-sdk/handlers/next";
-import { type z } from "zod";
-import { createLogger } from "../lib/logger";
+import { createLogger, redactError } from "../lib/logger";
 import {
   JsonSchemaError,
   UnknownError,
   BaseError,
   MissingAuthDataError,
   MissingSaleorApiUrlError,
-  JsonParseError,
 } from "@/errors";
 import { toStringOrEmpty } from "@/lib/utils";
 import { saleorApp } from "@/saleor-app";
-
-export const parseJsonRequest = async <S extends ValidateFunction>(req: Request, validate: S) => {
-  type Result = S extends ValidateFunction<infer T> ? T : never;
-  try {
-    const json: unknown = await req.json();
-    const isValid = validate(json);
-    if (isValid) {
-      return [null, json as Result] as const;
-    } else {
-      return [JsonSchemaError.normalize(validate.errors), null] as const;
-    }
-  } catch (err) {
-    return [JsonParseError.normalize(err), null] as const;
-  }
-};
-
-export const parseRawBodyToJson = async <T>(req: NextApiRequest, schema: z.ZodType<T>) => {
-  try {
-    if (typeof req.body !== "string") {
-      throw new JsonParseError("Invalid body type");
-    }
-    if (req.body === "") {
-      throw new JsonParseError("No request body");
-    }
-    const json = JSON.parse(req.body);
-    return [null, schema.parse(json)] as const;
-  } catch (err) {
-    return [JsonParseError.normalize(err), null] as const;
-  }
-};
 
 export const validateData = async <S extends ValidateFunction>(data: unknown, validate: S) => {
   type Result = S extends ValidateFunction<infer T> ? T : never;
@@ -82,14 +50,14 @@ export function getSyncWebhookHandler<TPayload, TResult, TSchema extends Validat
       logger.debug({ result }, `Sending successful response`);
       return res.json(await validateData(result, ResponseSchema));
     } catch (err) {
-      logger.error({ err }, `${webhookHandler.name} error`);
+      logger.error({ err: redactError(err) }, `${webhookHandler.name} error`);
 
       const response = errorToResponse(err);
 
       if (!response) {
         Sentry.captureException(err);
         const result = BaseError.serialize(err);
-        logger.debug({ result }, `Sending error response`);
+        logger.debug("Sending error response");
         return res.status(500).json(result);
       }
 

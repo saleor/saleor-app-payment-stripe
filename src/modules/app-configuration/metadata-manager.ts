@@ -11,7 +11,7 @@ import {
   UpdateAppMetadataDocument,
   UpdatePublicMetadataDocument,
 } from "../../../generated/graphql";
-import { env } from "../../lib/env.mjs";
+import { env } from "@/lib/env.mjs";
 
 export async function fetchAllMetadata(client: Client): Promise<MetadataEntry[]> {
   const { error, data } = await client

@@ -1,0 +1,37 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work no action required' > should work no action required 1`] = `
+{
+  "paymentIntent": {
+    "client_secret": "pi_3NIs7aEosEcNBN5m1qys2Hp3_secret_tgNpZAiBVzkU1Pfq3dt7Foka4",
+  },
+  "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
+}
+`;
+
+exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work no action required' > should work no action required 2`] = `
+{
+  "paymentIntent": {
+    "client_secret": "pi_3NIs7aEosEcNBN5m1qys2Hp3_secret_tgNpZAiBVzkU1Pfq3dt7Foka4",
+  },
+  "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
+}
+`;
+
+exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work no action required' > should work no action required 1`] = `
+{
+  "paymentIntent": {
+    "client_secret": "pi_3NIs7aEosEcNBN5m1CsbLROi_secret_qmblwAclIVorRBPBiLdv5KiiO",
+  },
+  "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
+}
+`;
+
+exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work no action required' > should work no action required 2`] = `
+{
+  "paymentIntent": {
+    "client_secret": "pi_3NIs7aEosEcNBN5m1CsbLROi_secret_qmblwAclIVorRBPBiLdv5KiiO",
+  },
+  "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
+}
+`;

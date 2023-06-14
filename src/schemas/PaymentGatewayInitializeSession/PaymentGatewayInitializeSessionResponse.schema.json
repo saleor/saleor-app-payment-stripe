@@ -3,10 +3,17 @@
   "type": "object",
   "properties": {
     "data": {
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {},
-      "tsType": "JSONObject"
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "publishableKey": { "type": "string" },
+            "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
+          },
+          "required": ["publishableKey"]
+        }
+      ]
     }
   },
   "additionalProperties": false,
