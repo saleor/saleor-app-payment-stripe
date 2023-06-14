@@ -61,7 +61,7 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
       expect(initializeResult.data).toEqual(expect.any(Object));
       expect(initializeResult.result).toEqual(result);
       expect(initializeResult.amount).toEqual(amount);
-      // expect(initializeResult.data).toMatchSnapshot(title);
+      expect(initializeResult.data).toMatchSnapshot(title);
     });
   });
 });
