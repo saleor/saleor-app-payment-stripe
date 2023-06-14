@@ -3,7 +3,7 @@
 exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work no action required' > should work no action required 1`] = `
 {
   "paymentIntent": {
-    "client_secret": "pi_3NIbK3EosEcNBN5m0SvShCk2_secret_Ij7QYfNbrO8VBxiy2aRpU9mQo",
+    "client_secret": "pi_3NIs7aEosEcNBN5m1qys2Hp3_secret_tgNpZAiBVzkU1Pfq3dt7Foka4",
   },
   "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
 }
@@ -12,7 +12,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work 
 exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work no action required' > should work no action required 2`] = `
 {
   "paymentIntent": {
-    "client_secret": "pi_3NIbK3EosEcNBN5m0SvShCk2_secret_Ij7QYfNbrO8VBxiy2aRpU9mQo",
+    "client_secret": "pi_3NIs7aEosEcNBN5m1qys2Hp3_secret_tgNpZAiBVzkU1Pfq3dt7Foka4",
   },
   "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
 }
@@ -21,7 +21,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work 
 exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work no action required' > should work no action required 1`] = `
 {
   "paymentIntent": {
-    "client_secret": "pi_3NIbK3EosEcNBN5m1H6NDeCS_secret_0e4lvBMfCRK5b2eZY0PijKS5V",
+    "client_secret": "pi_3NIs7aEosEcNBN5m1CsbLROi_secret_qmblwAclIVorRBPBiLdv5KiiO",
   },
   "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
 }
@@ -30,7 +30,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work no 
 exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work no action required' > should work no action required 2`] = `
 {
   "paymentIntent": {
-    "client_secret": "pi_3NIbK3EosEcNBN5m1H6NDeCS_secret_0e4lvBMfCRK5b2eZY0PijKS5V",
+    "client_secret": "pi_3NIs7aEosEcNBN5m1CsbLROi_secret_qmblwAclIVorRBPBiLdv5KiiO",
   },
   "publishableKey": "pk_test_51LVZwxEosEcNBN5mTKD5afBfOzEF1S1T9tMGyfG4sw6vC6adm8VaKph9EGee1Dk1rlSWz9LgOj4nNNLb2CxJS3HT00x3Dx44oB",
 }

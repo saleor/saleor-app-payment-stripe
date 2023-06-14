@@ -15,7 +15,14 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
   setupRecording({
     matchRequestsBy: {
       headers: {
-        exclude: ["date", "idempotency-key", "original-request", "request-id", "content-length"],
+        exclude: [
+          "date",
+          "idempotency-key",
+          "original-request",
+          "request-id",
+          "content-length",
+          "x-stripe-client-user-agent",
+        ],
       },
       method: false,
       body: false,
