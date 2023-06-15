@@ -4,6 +4,8 @@ import { AppLayout, AppLayoutRow } from "@/modules/ui/templates/AppLayout";
 import { trpcClient } from "@/modules/trpc/trpc-client";
 import { getErrorHandler } from "@/modules/trpc/utils";
 import { useFetchChannelsQuery } from "generated/graphql";
+import { StripeConfigurationsList } from "@/modules/ui/organisms/StripeConfigurationList/StripeConfigurationList";
+import { ChannelToConfigurationList } from "@/modules/ui/organisms/ChannelToConfigurationList/ChannelToConfigurationList";
 
 function ListConfigurationPage() {
   const { appBridge } = useAppBridge();
@@ -45,7 +47,7 @@ function ListConfigurationPage() {
         title="Stripe Configurations"
         description="Create Stripe configurations that can be later assigned to Saleor channels."
       >
-        TODO
+        <StripeConfigurationsList configurations={allConfigurations} />
       </AppLayoutRow>
       <AppLayoutRow
         disabled={!hasAnyConfigs}
@@ -68,7 +70,12 @@ function ListConfigurationPage() {
           </Box>
         }
       >
-        TODO
+        <ChannelToConfigurationList
+          disabled={!hasAnyConfigs || channelMappings.isLoading}
+          configurations={allConfigurations.data || []}
+          channelMappings={channelMappings.data || {}}
+          channels={channels.data?.channels || []}
+        />
       </AppLayoutRow>
     </AppLayout>
   );
