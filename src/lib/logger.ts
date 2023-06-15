@@ -1,36 +1,32 @@
 // We have to use process.env, otherwise pino doesn't work
 /* eslint-disable node/no-process-env */
 import pino from "pino";
-import pretty from "pino-pretty";
-import { isDevelopment, isTest } from "./isEnv";
+// import { isDevelopment, isTest } from "./isEnv";
 import { isObject } from "./utils";
 import { obfuscateValue } from "@/modules/app-configuration/utils";
 import { BaseError, BaseTrpcError } from "@/errors";
 
 /* c8 ignore start */
-const stream =
-  process.env.CI || isDevelopment() || isTest()
-    ? pretty({
-        levelFirst: true,
-        colorize: true,
-        ignore: "time,hostname,pid",
-      })
-    : process.stdout;
-
-export const logger = pino(
-  {
-    level: process.env.APP_DEBUG ?? "info",
-    redact: {
-      paths: [
-        "apiKey",
-        "*[*].apiKey",
-        // CHANGEME: Add other fields to obfuscate
-      ],
-      censor: (value) => redactLogValue(value),
-    },
+export const logger = pino({
+  level: process.env.APP_DEBUG ?? "info",
+  redact: {
+    paths: [
+      "apiKey",
+      "*[*].apiKey",
+      // CHANGEME: Add other fields to obfuscate
+    ],
+    censor: (value) => redactLogValue(value),
   },
-  stream,
-);
+  // transport:
+  //   process.env.CI || isDevelopment() || isTest()
+  //     ? {
+  //         target: "pino-pretty",
+  //         options: {
+  //           colorize: true,
+  //         },
+  //       }
+  //     : undefined,
+});
 /* c8 ignore stop */
 
 export const createLogger = logger.child.bind(logger);
