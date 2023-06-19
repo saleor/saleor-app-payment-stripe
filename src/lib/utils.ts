@@ -1,5 +1,5 @@
 import type { JSONValue } from "../types";
-import { UnknownError } from "@/errors";
+import { BaseError, UnknownError } from "@/errors";
 
 export const tryJsonParse = (text: string | undefined) => {
   if (!text) {
@@ -33,7 +33,10 @@ export const unpackPromise = async <T extends Promise<unknown>>(
     const result = await promise;
     return [null, result];
   } catch (maybeError) {
-    return [UnknownError.normalize(maybeError), null];
+    if (maybeError instanceof BaseError) {
+      return [maybeError, null];
+    }
+    return [BaseError.normalize(maybeError, UnknownError), null];
   }
 };
 
@@ -43,9 +46,13 @@ export const unpackThrowable = <T>(throwable: () => T): ThrowableToTupleResult<T
     const result = throwable();
     return [null, result];
   } catch (maybeError) {
-    return [UnknownError.normalize(maybeError), null];
+    if (maybeError instanceof BaseError) {
+      return [maybeError, null];
+    }
+    return [BaseError.normalize(maybeError, UnknownError), null];
   }
 };
+
 export const isNotNullish = <T>(val: T | null | undefined): val is T =>
   val !== undefined && val !== null;
 
