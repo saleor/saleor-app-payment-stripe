@@ -112,11 +112,11 @@ const IndexPage: NextPage = () => {
   return (
     <Box display="flex" flexDirection="column" gap={2} __maxWidth="45rem">
       <Text as="h1" size="large" variant="hero">
-        Welcome to Payment App Adyen 💰
+        Welcome to Payment App Stripe 💰
       </Text>
       <Text as="p" size="large" variant="title">
-        Simplify your payment process and offer a seamless online shopping experience with
-        Adyen&apos;s payment integration for Saleor.
+        Simplify your payment process and offer a seamless online shopping experience with Stripe
+        payment integration for Saleor.
       </Text>
 
       {!appBridgeState?.ready && (

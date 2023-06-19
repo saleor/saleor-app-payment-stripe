@@ -47,7 +47,7 @@ export const paymentAppConfigurationRouter = router({
       .output(paymentAppConfigEntrySchema)
       .query(async ({ input, ctx }) => {
         const { configurationId } = input;
-        ctx.logger.info({ configurationId }, "appConfigurationRouter.adyenConfig.getAll called");
+        ctx.logger.info({ configurationId }, "appConfigurationRouter.paymentConfig.getAll called");
 
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
         return getConfigEntryObfuscated(input.configurationId, configurator);
@@ -55,7 +55,7 @@ export const paymentAppConfigurationRouter = router({
     getAll: protectedClientProcedure
       .output(paymentAppConfigEntriesSchema)
       .query(async ({ ctx }) => {
-        ctx.logger.info("appConfigurationRouter.adyenConfig.getAll called");
+        ctx.logger.info("appConfigurationRouter.paymentConfig.getAll called");
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
         return getAllConfigEntriesObfuscated(configurator);
       }),
@@ -63,10 +63,10 @@ export const paymentAppConfigurationRouter = router({
       .input(paymentAppFormConfigEntrySchema)
       .mutation(async ({ input, ctx }) => {
         const { configurationName, secretKey } = input;
-        ctx.logger.info("appConfigurationRouter.adyenConfig.add called");
+        ctx.logger.info("appConfigurationRouter.paymentConfig.add called");
         ctx.logger.debug(
           { configurationName, secretKey: redactLogValue(secretKey) },
-          "appConfigurationRouter.adyenConfig.add input",
+          "appConfigurationRouter.paymentConfig.add input",
         );
 
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
@@ -78,7 +78,7 @@ export const paymentAppConfigurationRouter = router({
       .mutation(async ({ input, ctx }) => {
         const { configurationId, entry } = input;
         const { configurationName, publishableKey } = entry;
-        ctx.logger.info("appConfigurationRouter.adyenConfig.update called");
+        ctx.logger.info("appConfigurationRouter.paymentConfig.update called");
         ctx.logger.debug(
           {
             configurationId,
@@ -87,7 +87,7 @@ export const paymentAppConfigurationRouter = router({
               configurationName,
             },
           },
-          "appConfigurationRouter.adyenConfig.update input",
+          "appConfigurationRouter.paymentConfig.update input",
         );
         invariant(ctx.appUrl, "Missing app URL");
 
@@ -98,7 +98,7 @@ export const paymentAppConfigurationRouter = router({
       .input(paymentConfigEntryDelete)
       .mutation(async ({ input, ctx }) => {
         const { configurationId } = input;
-        ctx.logger.info({ configurationId }, "appConfigurationRouter.adyenConfig.delete called");
+        ctx.logger.info({ configurationId }, "appConfigurationRouter.paymentConfig.delete called");
 
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
         return deleteConfigEntry(configurationId, configurator);

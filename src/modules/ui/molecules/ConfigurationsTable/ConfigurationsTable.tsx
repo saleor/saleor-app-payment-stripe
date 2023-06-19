@@ -1,12 +1,11 @@
 import { Text, EditIcon } from "@saleor/macaw-ui/next";
 import Link from "next/link";
-import { Tr, Td, Table, Thead, Th, Tbody } from "../../atoms/Table/Table";
 import { ConfigurationSummary } from "../ConfigurationSummary/ConfigurationSummary";
 import * as tableStyles from "./configurationsTable.css";
-import { type AdyenEntryConfig } from "@/modules/adyen-configuration-v2/adyen-entries-config";
-import { type AdyenConfigEntries } from "@/modules/adyen-configuration-v2/app-config";
+import { Tr, Td, Table, Tbody, Th, Thead } from "@/modules/ui/atoms/Table/Table";
+import { type PaymentAppConfigEntry } from "@/modules/payment-app-configuration/config-entry";
 
-const ConfigurationsTableRow = ({ item }: { item: AdyenEntryConfig }) => {
+const ConfigurationsTableRow = ({ item }: { item: PaymentAppConfigEntry }) => {
   return (
     <Tr>
       <Td>
@@ -36,7 +35,11 @@ const ConfigurationsTableRow = ({ item }: { item: AdyenEntryConfig }) => {
   );
 };
 
-export const ConfigurationsTable = ({ configurations }: { configurations: AdyenConfigEntries }) => {
+export const ConfigurationsTable = ({
+  configurations,
+}: {
+  configurations: PaymentAppConfigEntry[];
+}) => {
   return (
     <Table>
       <Thead>

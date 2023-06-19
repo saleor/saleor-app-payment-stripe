@@ -12,6 +12,7 @@ import {
   type PaymentAppConfigEntries,
 } from "@/modules/payment-app-configuration/app-config";
 import { type PaymentAppConfigEntry } from "@/modules/payment-app-configuration/config-entry";
+import { getEnvironmentFromKey } from "@/modules/stripe/stripe-api";
 
 const ChannelToConfigurationTableRow = ({
   channel,
@@ -97,7 +98,7 @@ const ChannelToConfigurationTableRow = ({
       <Td className={classNames(tableStyles.td, tableStyles.statusColumnTd)}>
         {!selectedConfiguration ? (
           <ChipNeutral>Disabled</ChipNeutral>
-        ) : selectedConfiguration.environment === "LIVE" ? (
+        ) : getEnvironmentFromKey(selectedConfiguration.publishableKey || "") === "live" ? (
           <ChipSuccess>LIVE</ChipSuccess>
         ) : (
           <ChipDanger>TESTING</ChipDanger>

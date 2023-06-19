@@ -47,7 +47,7 @@ function ListConfigurationPage() {
         title="Stripe Configurations"
         description="Create Stripe configurations that can be later assigned to Saleor channels."
       >
-        <StripeConfigurationsList configurations={allConfigurations} />
+        <StripeConfigurationsList configurations={allConfigurations.data || []} />
       </AppLayoutRow>
       <AppLayoutRow
         disabled={!hasAnyConfigs}

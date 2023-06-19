@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { uuidv7 } from "uuidv7";
 import { type ConfigEntryUpdate } from "./input-schemas";
 import { obfuscateConfigEntry } from "./utils";
@@ -81,21 +80,12 @@ export const addConfigEntry = async (
 
   const uuid = uuidv7();
 
-  // CHANGEME: Check if API key is valid in your provider SDK
-  const key = {
-    id: "1234",
-    clientKey: "1234",
-  };
-
-  // CHANGEME: Generate your webhook password up to your spec
-  const password = crypto.randomBytes(20).toString("hex");
+  // @TODO: Check if API key is valid in your provider SDK
+  const _key = {};
 
   const config = {
     ...newConfigEntry,
     configurationId: uuid,
-    apiKeyId: key.id,
-    clientKey: key.clientKey,
-    webhookPassword: password,
   } satisfies PaymentAppConfigEntry;
 
   logger.debug({ config: redactLogObject(config) }, "Adding new config entry");
