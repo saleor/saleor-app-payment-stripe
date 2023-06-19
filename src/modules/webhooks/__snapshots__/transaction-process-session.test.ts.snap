@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work authorization' > should work authorization 1`] = `
+exports[`TransactionProcessSessionWebhookHandler > 'Checkout' > 'should work authorization' > should work authorization 1`] = `
 {
   "paymentIntent": {
     "client_secret": Any<String>,
@@ -9,7 +9,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work 
 }
 `;
 
-exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work charge' > should work charge 1`] = `
+exports[`TransactionProcessSessionWebhookHandler > 'Checkout' > 'should work charge' > should work charge 1`] = `
 {
   "paymentIntent": {
     "client_secret": Any<String>,
@@ -18,7 +18,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Checkout' > 'should work 
 }
 `;
 
-exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work authorization' > should work authorization 1`] = `
+exports[`TransactionProcessSessionWebhookHandler > 'Order' > 'should work authorization' > should work authorization 1`] = `
 {
   "paymentIntent": {
     "client_secret": Any<String>,
@@ -27,7 +27,7 @@ exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work aut
 }
 `;
 
-exports[`TransactionInitializeSessionWebhookHandler > 'Order' > 'should work charge' > should work charge 1`] = `
+exports[`TransactionProcessSessionWebhookHandler > 'Order' > 'should work charge' > should work charge 1`] = `
 {
   "paymentIntent": {
     "client_secret": Any<String>,

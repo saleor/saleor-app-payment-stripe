@@ -8,9 +8,10 @@
       "additionalProperties": true,
       "properties": {
         "paymentIntent": { "$ref": "definitions.json#/definitions/JSON" },
+        "publishableKey": { "type": "string" },
         "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
       },
-      "required": ["paymentIntent"]
+      "required": ["paymentIntent", "publishableKey"]
     },
     "result": { "$ref": "definitions.json#/definitions/TransactionSessionResult" },
     "amount": { "$ref": "definitions.json#/definitions/PositiveDecimal" },

@@ -3,14 +3,14 @@ import { type PageConfig } from "next";
 import { uuidv7 } from "uuidv7";
 import { saleorApp } from "@/saleor-app";
 import {
-  UntypedTransactionInitializeSessionDocument,
-  type TransactionInitializeSessionEventFragment,
+  UntypedTransactionProcessSessionDocument,
+  type TransactionProcessSessionEventFragment,
   TransactionFlowStrategyEnum,
   TransactionEventTypeEnum,
 } from "generated/graphql";
-import { TransactionInitializeSessionWebhookHandler } from "@/modules/webhooks/transaction-initialize-session";
+import { TransactionProcessSessionWebhookHandler } from "@/modules/webhooks/transaction-process-session";
 import { getSyncWebhookHandler } from "@/backend-lib/api-route-utils";
-import ValidateTransactionInitializeSessionResponse from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import ValidateTransactionProcessSessionResponse from "@/schemas/TransactionProcessSession/TransactionProcessSessionResponse.mjs";
 
 export const config: PageConfig = {
   api: {
@@ -18,20 +18,20 @@ export const config: PageConfig = {
   },
 };
 
-export const transactionInitializeSessionSyncWebhook =
-  new SaleorSyncWebhook<TransactionInitializeSessionEventFragment>({
-    name: "TransactionInitializeSession",
+export const transactionProcessSessionSyncWebhook =
+  new SaleorSyncWebhook<TransactionProcessSessionEventFragment>({
+    name: "TransactionProcessSession",
     apl: saleorApp.apl,
-    event: "TRANSACTION_INITIALIZE_SESSION",
-    query: UntypedTransactionInitializeSessionDocument,
-    webhookPath: "/api/webhooks/saleor/transaction-initialize-session",
+    event: "TRANSACTION_PROCESS_SESSION",
+    query: UntypedTransactionProcessSessionDocument,
+    webhookPath: "/api/webhooks/saleor/transaction-process-session",
   });
 
-export default transactionInitializeSessionSyncWebhook.createHandler(
+export default transactionProcessSessionSyncWebhook.createHandler(
   getSyncWebhookHandler(
-    "transactionInitializeSessionSyncWebhook",
-    TransactionInitializeSessionWebhookHandler,
-    ValidateTransactionInitializeSessionResponse,
+    "transactionProcessSessionSyncWebhook",
+    TransactionProcessSessionWebhookHandler,
+    ValidateTransactionProcessSessionResponse,
     (payload, errorResponse) => {
       return {
         amount: 0,

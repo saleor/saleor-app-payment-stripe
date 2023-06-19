@@ -1,28 +1,25 @@
+import { obfuscateConfig, obfuscateValue } from "../app-configuration/utils";
+import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configuration/config-entry";
+import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
+import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
 import {
-  getEnvironmentFromKey,
-  getStripeExternalUrlForIntentId,
-  initializeStripePaymentIntent,
-  stripePaymentIntentToTransactionResult,
   transactionSessionEventToStripe,
+  getEnvironmentFromKey,
+  stripePaymentIntentToTransactionResult,
+  getStripeExternalUrlForIntentId,
+  updateStripePaymentIntent,
 } from "../stripe/stripe-api";
 import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
-import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
-import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configuration/config-entry";
-import { obfuscateConfig, obfuscateValue } from "../app-configuration/utils";
-import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
-import { type TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
-import { type TransactionInitializeSessionEventFragment } from "generated/graphql";
-import { invariant } from "@/lib/invariant";
+import { type TransactionProcessSessionEventFragment } from "generated/graphql";
+import { type TransactionProcessSessionResponse } from "@/schemas/TransactionProcessSession/TransactionProcessSessionResponse.mjs";
 import { createLogger } from "@/lib/logger";
+import { invariant } from "@/lib/invariant";
 
-export const TransactionInitializeSessionWebhookHandler = async (
-  event: TransactionInitializeSessionEventFragment,
+export const TransactionProcessSessionWebhookHandler = async (
+  event: TransactionProcessSessionEventFragment,
   saleorApiUrl: string,
-): Promise<TransactionInitializeSessionResponse> => {
-  const logger = createLogger(
-    { saleorApiUrl },
-    { msgPrefix: `[TransactionInitializeSessionWebhookHandler] ` },
-  );
+): Promise<TransactionProcessSessionResponse> => {
+  const logger = createLogger({}, { msgPrefix: `[TransactionProcessSessionWebhookHandler] ` });
   logger.debug(
     {
       transaction: event.transaction,
@@ -50,14 +47,15 @@ export const TransactionInitializeSessionWebhookHandler = async (
 
   logger.info({}, `Processing Transaction Initialize request`);
 
-  const paymentIntentCreateParams = transactionSessionEventToStripe(event);
+  const paymentIntentUpdateParams = transactionSessionEventToStripe(event);
   logger.debug({
-    paymentIntentCreateParams: obfuscateConfig(paymentIntentCreateParams),
+    paymentIntentUpdateParams: obfuscateConfig(paymentIntentUpdateParams),
     environment: getEnvironmentFromKey(stripeConfig.publishableKey),
   });
 
-  const stripePaymentIntent = await initializeStripePaymentIntent({
-    paymentIntentCreateParams,
+  const stripePaymentIntent = await updateStripePaymentIntent({
+    intentId: event.transaction.pspReference,
+    paymentIntentUpdateParams,
     secretKey: stripeConfig.secretKey,
   });
 
@@ -74,7 +72,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
       },
       publishableKey: obfuscateValue(data.publishableKey),
     },
-    `Transaction Initialize response`,
+    `Transaction Process response`,
   );
 
   const result = stripePaymentIntentToTransactionResult(
@@ -83,7 +81,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
   );
   logger.debug(result, "Stripe -> Transaction result");
 
-  const transactionInitializeSessionResponse: TransactionInitializeSessionResponse = {
+  const transactionProcessSessionResponse: TransactionProcessSessionResponse = {
     data,
     pspReference: stripePaymentIntent.id,
     result,
@@ -93,14 +91,10 @@ export const TransactionInitializeSessionWebhookHandler = async (
           currency: stripePaymentIntent.currency,
         })
       : 0,
-    time: stripePaymentIntent.created
-      ? new Date(stripePaymentIntent.created * 1000).toISOString()
-      : undefined,
     message: stripePaymentIntent.cancellation_reason || stripePaymentIntent.description || "",
     externalUrl: stripePaymentIntent.id
       ? getStripeExternalUrlForIntentId(stripePaymentIntent.id)
       : undefined,
   };
-
-  return transactionInitializeSessionResponse;
+  return transactionProcessSessionResponse;
 };
