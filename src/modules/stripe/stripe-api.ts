@@ -1,11 +1,12 @@
 import { Stripe } from "stripe";
+import { getStripeAmountFromSaleorMoney } from "./currencies";
 import {
   TransactionFlowStrategyEnum,
+  type TransactionProcessSessionEventFragment,
   type TransactionInitializeSessionEventFragment,
 } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 import type { TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
-import { getStripeAmountFromSaleorMoney } from "./currencies";
 
 const getStripeApiClient = (secretKey: string) => {
   const stripe = new Stripe(secretKey, {
@@ -23,8 +24,8 @@ export const getEnvironmentFromKey = (secretKeyOrPublishableKey: string) => {
     : "test";
 };
 
-export const transactionInitializeSessionEventToStripe = (
-  event: TransactionInitializeSessionEventFragment,
+export const transactionSessionEventToStripe = (
+  event: TransactionInitializeSessionEventFragment | TransactionProcessSessionEventFragment,
 ): Stripe.PaymentIntentCreateParams => {
   const data = event.data as Partial<Stripe.PaymentIntentCreateParams>;
 
@@ -88,6 +89,19 @@ export const initializeStripePaymentIntent = ({
 }) => {
   const stripe = getStripeApiClient(secretKey);
   return stripe.paymentIntents.create(paymentIntentCreateParams);
+};
+
+export const updateStripePaymentIntent = ({
+  intentId,
+  paymentIntentUpdateParams,
+  secretKey,
+}: {
+  intentId: string;
+  paymentIntentUpdateParams: Stripe.PaymentIntentUpdateParams;
+  secretKey: string;
+}) => {
+  const stripe = getStripeApiClient(secretKey);
+  return stripe.paymentIntents.update(intentId, paymentIntentUpdateParams);
 };
 
 export const getStripeExternalUrlForIntentId = (intentId: string) => {

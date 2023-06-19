@@ -1,17 +1,19 @@
 import { describe, it, expect } from "vitest";
 
-import { TransactionInitializeSessionWebhookHandler } from "./transaction-initialize-session";
+import { TransactionProcessSessionWebhookHandler } from "./transaction-process-session";
 import {
-  createMockTransactionInitializeSessionEvent,
+  createMockTransactionProcessSessionEvent,
   createMockTransactionInitializeSessionSourceObjectCheckout,
   createMockTransactionInitializeSessionSourceObjectOrder,
+  createMockTransactionInitializeSessionEvent,
 } from "./__tests__/utils";
+import { TransactionInitializeSessionWebhookHandler } from "./transaction-initialize-session";
 import { setupRecording } from "@/__tests__/polly";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
 import { TransactionFlowStrategyEnum } from "generated/graphql";
 
-describe(`TransactionInitializeSessionWebhookHandler`, () => {
+describe(`TransactionProcessSessionWebhookHandler`, () => {
   setupRecording({
     matchRequestsBy: {
       headers: {
@@ -54,7 +56,8 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
         actionType: TransactionFlowStrategyEnum.Charge,
       },
     ])(`$title`, async ({ title, data, result, amount, actionType }) => {
-      const event = await createMockTransactionInitializeSessionEvent({
+      // Create payment
+      const initializeEvent = await createMockTransactionInitializeSessionEvent({
         data,
         sourceObject: getSourceObject(),
         action: {
@@ -62,13 +65,30 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
         },
       });
       const initializeResult = await TransactionInitializeSessionWebhookHandler(
-        event,
+        initializeEvent,
         testEnv.TEST_SALEOR_API_URL,
       );
-      expect(initializeResult.data).toEqual(expect.any(Object));
-      expect(initializeResult.result).toEqual(result);
-      expect(initializeResult.amount).toEqual(amount);
-      expect(initializeResult.data).toMatchSnapshot(
+
+      // Update payment
+      const processEvent = await createMockTransactionProcessSessionEvent({
+        data,
+        sourceObject: getSourceObject(),
+        action: {
+          amount: amount + 100,
+          actionType,
+        },
+        transaction: {
+          pspReference: initializeResult.pspReference,
+        },
+      });
+      const processResult = await TransactionProcessSessionWebhookHandler(
+        processEvent,
+        testEnv.TEST_SALEOR_API_URL,
+      );
+      expect(processResult.data).toEqual(expect.any(Object));
+      expect(processResult.result).toEqual(result);
+      expect(processResult.amount).toEqual(amount);
+      expect(processResult.data).toMatchSnapshot(
         {
           paymentIntent: {
             client_secret: expect.any(String),

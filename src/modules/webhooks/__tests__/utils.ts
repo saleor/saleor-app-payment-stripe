@@ -18,7 +18,6 @@ import {
   type TransactionProcessSessionEventFragment,
 } from "generated/graphql";
 import { type JSONValue } from "@/types";
-import { testEnv } from "@/__tests__/test-env.mjs";
 import { getFilledMetadata } from "@/modules/payment-app-configuration/__tests__/utils";
 
 type DeepPartial<T> = T extends object
@@ -439,6 +438,7 @@ export const createMockTransactionInitializeSessionEvent: CreateMockAsyncFn<
       transaction: {
         __typename: "TransactionItem",
         id: "555555",
+        pspReference: "",
       },
       data: {} as JSONValue,
     } as const,
@@ -464,6 +464,7 @@ export const createMockTransactionProcessSessionEvent: CreateMockAsyncFn<
       transaction: {
         __typename: "TransactionItem",
         id: "555555",
+        pspReference: "AAAAAAAAAAAAAAAA",
       },
       data: {} as JSONValue,
     } as const,

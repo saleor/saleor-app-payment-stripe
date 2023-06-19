@@ -12,6 +12,7 @@ fragment TransactionProcessSessionEvent on TransactionProcessSession {
   }
   transaction {
     id
+    pspReference
   }
   sourceObject {
     __typename

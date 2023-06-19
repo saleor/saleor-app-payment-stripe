@@ -7,10 +7,11 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "paymentDetailsResponse": { "$ref": "definitions.json#/definitions/JSON" },
+        "paymentIntent": { "$ref": "definitions.json#/definitions/JSON" },
+        "publishableKey": { "type": "string" },
         "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
       },
-      "required": ["paymentDetailsResponse"]
+      "required": ["paymentIntent", "publishableKey"]
     },
     "result": { "$ref": "definitions.json#/definitions/TransactionSessionResult" },
     "amount": { "$ref": "definitions.json#/definitions/PositiveDecimal" },
