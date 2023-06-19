@@ -16,6 +16,12 @@ import { type PaymentAppConfigurator } from "./payment-app-configuration";
 import { type PaymentAppFormConfigEntry } from "./config-entry";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
+vi.mock("@/modules/stripe/stripe-api", () => {
+  return {
+    validateStripeKeys: () => {},
+  };
+});
+
 const mockConfigurator = {
   getConfig: vi.fn(async () => ({ configurations: [configEntryAll] })),
   getConfigObfuscated: vi.fn(async () => ({
@@ -94,6 +100,7 @@ describe("updateConfigEntry", () => {
       entry: {
         configurationName: configEntryAll.configurationName,
         secretKey: "updated-key",
+        publishableKey: configEntryAll.publishableKey,
       },
     } satisfies ConfigEntryUpdate;
 
