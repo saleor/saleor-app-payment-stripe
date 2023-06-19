@@ -6,11 +6,11 @@ export const paymentAppConfigEntryInternalSchema = z.object({
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
-  secretKey: z.string({ required_error: "Secret key is required" }).min(1).nullable(),
+  secretKey: z.string({ required_error: "Secret key is required" }).min(1),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({
-  publishableKey: z.string().min(1).nullish(),
+  publishableKey: z.string({ required_error: "Publishable key is required" }).min(1),
   configurationName: z.string().min(1),
 });
 
@@ -30,8 +30,8 @@ export const paymentAppFullyConfiguredEntrySchema = z
   .object({
     configurationName: paymentAppConfigEntryPublicSchema.shape.configurationName,
     configurationId: paymentAppConfigEntryInternalSchema.shape.configurationId,
-    secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey.unwrap(),
-    publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey.unwrap().unwrap(),
+    secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey,
+    publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey,
   })
   .required();
 
@@ -40,8 +40,8 @@ export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSch
   .merge(paymentAppConfigEntryPublicSchema)
   .strict()
   .default({
-    secretKey: null,
-    publishableKey: null,
+    secretKey: "",
+    publishableKey: "",
     configurationName: "",
   });
 

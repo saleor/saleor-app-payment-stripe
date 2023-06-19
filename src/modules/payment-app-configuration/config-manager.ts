@@ -1,4 +1,5 @@
 import { uuidv7 } from "uuidv7";
+import { validateStripeKeys } from "../stripe/stripe-api";
 import { type ConfigEntryUpdate } from "./input-schemas";
 import { obfuscateConfigEntry } from "./utils";
 import { type PaymentAppConfigurator } from "./payment-app-configuration";
@@ -78,11 +79,9 @@ export const addConfigEntry = async (
     { msgPrefix: "[addConfigEntry] " },
   );
 
+  await validateStripeKeys(newConfigEntry.secretKey, newConfigEntry.publishableKey);
+
   const uuid = uuidv7();
-
-  // @TODO: Check if API key is valid in your provider SDK
-  const _key = {};
-
   const config = {
     ...newConfigEntry,
     configurationId: uuid,

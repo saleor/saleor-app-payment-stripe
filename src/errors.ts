@@ -57,4 +57,22 @@ export interface FieldErrorOptions extends TrpcErrorOptions {
 export const FieldError = BaseTrpcError.subclass("FieldError", {
   props: {} as FieldErrorOptions,
 });
+export const RestrictedKeyNotSupportedError = FieldError.subclass(
+  "RestrictedKeyNotSupportedError",
+  {
+    props: { fieldName: "secretKey" } as TrpcErrorOptions,
+  },
+);
+export const InvalidSecretKeyError = FieldError.subclass("InvalidSecretKeyError", {
+  props: { fieldName: "secretKey" } as TrpcErrorOptions,
+});
+export const UnexpectedSecretKeyError = FieldError.subclass("UnexpectedSecretKeyError", {
+  props: { fieldName: "secretKey" } as TrpcErrorOptions,
+});
+export const InvalidPublishableKeyError = FieldError.subclass("InvalidPublishableKeyError", {
+  props: { fieldName: "publishableKey" } as TrpcErrorOptions,
+});
+export const UnexpectedPublishableKeyError = FieldError.subclass("UnexpectedPublishableKeyError", {
+  props: { fieldName: "publishableKey" } as TrpcErrorOptions,
+});
 export const FileReaderError = BaseError.subclass("FileReaderError");

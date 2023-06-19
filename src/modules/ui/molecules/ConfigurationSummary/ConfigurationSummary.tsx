@@ -18,7 +18,7 @@ export const ConfigurationSummary = ({ config }: { config: PaymentAppConfigEntry
         Environment
       </Box>
       <Box as="dd" margin={0} textAlign="right">
-        {getEnvironmentFromKey(config.publishableKey || "") === "live" ? (
+        {getEnvironmentFromKey(config.publishableKey) === "live" ? (
           <ChipSuccess>LIVE</ChipSuccess>
         ) : (
           <ChipDanger>TESTING</ChipDanger>
