@@ -79,7 +79,7 @@ export const AddStripeCredentialsForm = ({
     formFields: getFormFields(defaultValues),
   });
 
-  const { mutateAsync: updateConfig } =
+  const { mutate: updateConfig } =
     trpcClient.paymentAppConfigurationRouter.paymentConfig.update.useMutation({
       onSuccess: (data) => {
         invariant(data.configurationId);
@@ -88,7 +88,7 @@ export const AddStripeCredentialsForm = ({
       },
       onError,
     });
-  const { mutateAsync: addNewConfig } =
+  const { mutate: addNewConfig } =
     trpcClient.paymentAppConfigurationRouter.paymentConfig.add.useMutation({
       onSuccess: async (data) => {
         invariant(data.configurationId);
@@ -103,13 +103,13 @@ export const AddStripeCredentialsForm = ({
       onError,
     });
 
-  const handleConfigSave: SubmitHandler<PaymentAppFormConfigEntry> = async (data) => {
-    await (configurationId
+  const handleConfigSave: SubmitHandler<PaymentAppFormConfigEntry> = (data) => {
+    configurationId
       ? updateConfig({
           configurationId,
           entry: data,
         })
-      : addNewConfig(data));
+      : addNewConfig(data);
   };
 
   return (
@@ -127,7 +127,7 @@ export const AddStripeCredentialsForm = ({
         </Box>
       }
     >
-      <Box paddingBottom={6} rowGap={4} display="flex" flexDirection="column">
+      <Box paddingBottom={6} rowGap={4} display="flex" flexDirection="column" width="100%">
         <FormInput
           control={control}
           label="Configuration name"

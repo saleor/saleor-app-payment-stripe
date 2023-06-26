@@ -6,12 +6,18 @@ export const paymentAppConfigEntryInternalSchema = z.object({
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
-  secretKey: z.string({ required_error: "Secret key is required" }).min(1),
+  secretKey: z
+    .string({ required_error: "Secret Key is required" })
+    .min(1, { message: "Secret Key is required" }),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({
-  publishableKey: z.string({ required_error: "Publishable key is required" }).min(1),
-  configurationName: z.string().min(1),
+  publishableKey: z
+    .string({ required_error: "Publishable Key is required" })
+    .min(1, { message: "Publishable Key is required" }),
+  configurationName: z
+    .string({ required_error: "Configuration name is required" })
+    .min(1, { message: "Configuration name is required" }),
 });
 
 export const paymentAppConfigEntrySchema = paymentAppConfigEntryEncryptedSchema
