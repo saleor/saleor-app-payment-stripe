@@ -60,19 +60,20 @@ export const FieldError = BaseTrpcError.subclass("FieldError", {
 export const RestrictedKeyNotSupportedError = FieldError.subclass(
   "RestrictedKeyNotSupportedError",
   {
-    props: { fieldName: "secretKey" } as TrpcErrorOptions,
+    props: { fieldName: "secretKey" } as FieldErrorOptions,
   },
 );
 export const InvalidSecretKeyError = FieldError.subclass("InvalidSecretKeyError", {
-  props: { fieldName: "secretKey" } as TrpcErrorOptions,
+  props: { fieldName: "secretKey" } as FieldErrorOptions,
 });
 export const UnexpectedSecretKeyError = FieldError.subclass("UnexpectedSecretKeyError", {
-  props: { fieldName: "secretKey" } as TrpcErrorOptions,
+  props: { fieldName: "secretKey" } as FieldErrorOptions,
 });
 export const InvalidPublishableKeyError = FieldError.subclass("InvalidPublishableKeyError", {
-  props: { fieldName: "publishableKey" } as TrpcErrorOptions,
+  props: { fieldName: "publishableKey" } as FieldErrorOptions,
 });
 export const UnexpectedPublishableKeyError = FieldError.subclass("UnexpectedPublishableKeyError", {
-  props: { fieldName: "publishableKey" } as TrpcErrorOptions,
+  props: { fieldName: "publishableKey" } as FieldErrorOptions,
 });
+
 export const FileReaderError = BaseError.subclass("FileReaderError");

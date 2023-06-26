@@ -3,14 +3,15 @@ import * as Sentry from "@sentry/nextjs";
 import { appRouter } from "../../../modules/trpc/trpc-app-router";
 import { createTrpcContext } from "../../../modules/trpc/trpc-context";
 import { logger, redactError } from "@/lib/logger";
-import { BaseTrpcError } from "@/errors";
+import { BaseTrpcError, FieldError } from "@/errors";
 import { isDevelopment } from "@/lib/isEnv";
 
 export default trpcNext.createNextApiHandler({
   router: appRouter,
   createContext: createTrpcContext,
   onError: ({ path, error, type, ctx, input }) => {
-    if (error?.cause instanceof BaseTrpcError) {
+    const cause = error?.cause;
+    if (cause instanceof BaseTrpcError || cause instanceof FieldError) {
       // don't log expected errors
       return;
     }

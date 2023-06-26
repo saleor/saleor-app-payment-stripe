@@ -1,6 +1,7 @@
 import { Text } from "@saleor/macaw-ui/next";
 import { withAuthorization } from "@saleor/app-sdk/app-bridge";
 import { AppLayout } from "@/modules/ui/templates/AppLayout";
+import { StripeConfigurationForm } from "@/modules/ui/organisms/AddStripeConfigurationForm/AddStripeConfigurationForm";
 
 const AddConfigurationPage = () => {
   return (
@@ -17,7 +18,7 @@ const AddConfigurationPage = () => {
         </>
       }
     >
-      {/* TODO: Add form */}
+      <StripeConfigurationForm configurationId={undefined} />
     </AppLayout>
   );
 };
