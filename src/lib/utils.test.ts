@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { tryIgnore, tryJsonParse, toStringOrEmpty, unpackPromise, unpackThrowable } from "./utils";
+import { BaseError } from "@/errors";
 
 describe("api-route-utils", () => {
   describe("tryIgnore", () => {
@@ -59,6 +60,13 @@ describe("api-route-utils", () => {
       expect(error).toMatchInlineSnapshot("[UnknownError: some error]");
       expect(value).toBeNull();
     });
+
+    it(`preserves error if it's BaseError or descendants`, async () => {
+      const SomeError = BaseError.subclass("SomeError");
+      const [error, value] = await unpackPromise(Promise.reject(new SomeError(`some error`)));
+      expect(error).toMatchInlineSnapshot("[SomeError: some error]");
+      expect(value).toBeNull();
+    });
   });
 
   describe("unpackThrowable", () => {
@@ -74,7 +82,16 @@ describe("api-route-utils", () => {
       const [error, value] = unpackThrowable(() => {
         throw new Error(`some error`);
       });
-      expect(error).toMatchInlineSnapshot("[UnknownError: some error]");
+      expect(error).toMatchInlineSnapshot("[Error: some error]");
+      expect(value).toBeNull();
+    });
+
+    it(`preserves error if it's BaseError or descendants`, async () => {
+      const SomeError = BaseError.subclass("SomeError");
+      const [error, value] = unpackThrowable(() => {
+        throw new SomeError(`some error`);
+      });
+      expect(error).toMatchInlineSnapshot("[SomeError: some error]");
       expect(value).toBeNull();
     });
   });

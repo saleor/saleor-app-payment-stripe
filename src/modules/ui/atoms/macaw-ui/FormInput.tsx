@@ -22,6 +22,7 @@ export function FormInput<
       error={!!fieldState.error?.message}
       {...props}
       {...field}
+      helperText={fieldState.error?.message || props.helperText}
       onChange={(e) => {
         field.onChange(e);
         props.onChange?.(e);

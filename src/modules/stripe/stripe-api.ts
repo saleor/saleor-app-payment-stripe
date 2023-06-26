@@ -7,6 +7,9 @@ import {
 } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 import type { TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import { InvalidSecretKeyError, RestrictedKeyNotSupportedError } from "@/errors";
+import { unpackPromise } from "@/lib/utils";
+import { createLogger, redactError } from "@/lib/logger";
 
 const getStripeApiClient = (secretKey: string) => {
   const stripe = new Stripe(secretKey, {
@@ -17,15 +20,56 @@ const getStripeApiClient = (secretKey: string) => {
   return stripe;
 };
 
+export const validateStripeKeys = async (secretKey: string, publishableKey: string) => {
+  const logger = createLogger({}, { msgPrefix: "[validateStripeKeys] " });
+
+  if (secretKey.startsWith("rk_")) {
+    // @todo remove this once restricted keys are supported
+    // validate that restricted keys have required permissions
+    throw new RestrictedKeyNotSupportedError("Restricted keys are not supported");
+  }
+
+  {
+    const stripe = getStripeApiClient(secretKey);
+    const [intentsError] = await unpackPromise(stripe.paymentIntents.list({ limit: 1 }));
+
+    if (intentsError) {
+      logger.error({ error: redactError(intentsError) }, "Invalid secret key");
+      if (intentsError instanceof Stripe.errors.StripeError) {
+        throw new InvalidSecretKeyError("Provided secret key is invalid");
+      }
+      throw new InvalidSecretKeyError("There was an error while checking secret key");
+    }
+  }
+
+  {
+    // https://stackoverflow.com/a/61001462/704894
+    const stripe = getStripeApiClient(publishableKey);
+    const [tokenError] = await unpackPromise(
+      stripe.tokens.create({
+        pii: { id_number: "test" },
+      }),
+    );
+    if (tokenError) {
+      logger.error({ error: redactError(tokenError) }, "Invalid publishable key");
+      if (tokenError instanceof Stripe.errors.StripeError) {
+        throw new InvalidSecretKeyError("Provided publishable key is invalid");
+      }
+      throw new InvalidSecretKeyError("There was an error while checking publishable key");
+    }
+  }
+};
+
 export const getEnvironmentFromKey = (secretKeyOrPublishableKey: string) => {
   return secretKeyOrPublishableKey.startsWith("sk_live_") ||
-    secretKeyOrPublishableKey.startsWith("pk_live_")
+    secretKeyOrPublishableKey.startsWith("pk_live_") ||
+    secretKeyOrPublishableKey.startsWith("rk_live_")
     ? "live"
     : "test";
 };
 
-export const transactionSessionEventToStripe = (
-  event: TransactionInitializeSessionEventFragment | TransactionProcessSessionEventFragment,
+export const transactionSessionInitializeEventToStripeCreate = (
+  event: TransactionInitializeSessionEventFragment,
 ): Stripe.PaymentIntentCreateParams => {
   const data = event.data as Partial<Stripe.PaymentIntentCreateParams>;
 
@@ -39,6 +83,30 @@ export const transactionSessionEventToStripe = (
     automatic_payment_methods: {
       enabled: true,
     },
+    capture_method:
+      event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
+    metadata: {
+      ...data.metadata,
+      transactionId: event.transaction.id,
+      channelId: event.sourceObject.channel.id,
+      ...(event.sourceObject.__typename === "Checkout" && { checkoutId: event.sourceObject.id }),
+      ...(event.sourceObject.__typename === "Order" && { orderId: event.sourceObject.id }),
+    },
+  };
+};
+
+export const transactionSessionProcessEventToStripeUpdate = (
+  event: TransactionInitializeSessionEventFragment | TransactionProcessSessionEventFragment,
+): Stripe.PaymentIntentUpdateParams => {
+  const data = event.data as Partial<Stripe.PaymentIntentUpdateParams>;
+
+  return {
+    ...data,
+    amount: getStripeAmountFromSaleorMoney({
+      amount: event.sourceObject.total.gross.amount,
+      currency: event.sourceObject.total.gross.currency,
+    }),
+    currency: event.sourceObject.total.gross.currency,
     capture_method:
       event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
     metadata: {

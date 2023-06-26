@@ -11,12 +11,16 @@ vi.mock("@saleor/app-sdk/app-bridge", () => {
   };
 });
 
+vi.mock("next/router", () => ({
+  useRouter: vi.fn(),
+}));
+
 describe("App", () => {
   it("renders text", () => {
     render(<IndexPage />);
 
     expect(
-      screen.getByText("Install this app in your Dashboard", { exact: false }),
+      screen.getByText("Install this app in your Saleor Dashboard", { exact: false }),
     ).toBeInTheDocument();
   });
 });

@@ -67,7 +67,7 @@ export const getFieldErrorHandler =
   <TFieldValues extends FieldValues>(input: FieldHandlerInput<TFieldValues>) =>
   <T extends TRPCClientErrorLike<AppRouter>>(error: T) => {
     getErrorHandler(input)(error);
-    const parsedError = BaseTrpcError.parse(error.data?.serialized);
+    const parsedError = FieldError.parse(error.data?.serialized);
 
     if (
       parsedError instanceof FieldError &&

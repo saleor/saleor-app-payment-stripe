@@ -1,16 +1,19 @@
 import { describe, it, expect } from "vitest";
-import { TransactionFlowStrategyEnum } from "generated/graphql";
-import Stripe from "stripe";
-import { TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import type Stripe from "stripe";
 import {
   getStripeExternalUrlForIntentId,
   stripePaymentIntentToTransactionResult,
+  validateStripeKeys,
 } from "./stripe-api";
+import { TransactionFlowStrategyEnum } from "generated/graphql";
+import { type TransactionInitializeSessionResponse } from "@/schemas/TransactionInitializeSession/TransactionInitializeSessionResponse.mjs";
+import { setupRecording } from "@/__tests__/polly";
+import { testEnv } from "@/__tests__/test-env.mjs";
 
 describe(`stripe-api`, () => {
   describe(`stripeResultCodeToTransactionResult`, () => {
     type ResultWithoutPrefix =
-      TransactionInitializeSessionResponse["result"] extends `${infer Prefix}_${infer Result}`
+      TransactionInitializeSessionResponse["result"] extends `${infer _Prefix}_${infer Result}`
         ? Result
         : never;
 
@@ -53,6 +56,37 @@ describe(`stripe-api`, () => {
       expect(getStripeExternalUrlForIntentId("pi_3MmHAnLE6YuwiJ1e0lqUR2OC")).toMatchInlineSnapshot(
         '"https://dashboard.stripe.com/payments/pi_3MmHAnLE6YuwiJ1e0lqUR2OC"',
       );
+    });
+  });
+
+  describe("validateStripeKeys", () => {
+    setupRecording();
+
+    it("should throw error if secret key is invalid", async () => {
+      return expect(
+        validateStripeKeys("blabla", testEnv.TEST_PAYMENT_APP_PUBLISHABLE_KEY),
+      ).rejects.toThrowErrorMatchingInlineSnapshot('"Provided secret key is invalid"');
+    });
+
+    it("should throw error if publishable key is invalid", async () => {
+      return expect(
+        validateStripeKeys(testEnv.TEST_PAYMENT_APP_SECRET_KEY, "blabla"),
+      ).rejects.toThrowErrorMatchingInlineSnapshot('"Provided publishable key is invalid"');
+    });
+
+    it("should throw error if both keys are invalid", async () => {
+      return expect(
+        validateStripeKeys("blabla", "blabla"),
+      ).rejects.toThrowErrorMatchingInlineSnapshot('"Provided secret key is invalid"');
+    });
+
+    it("not throw error if both keys are correct", async () => {
+      return expect(
+        validateStripeKeys(
+          testEnv.TEST_PAYMENT_APP_SECRET_KEY,
+          testEnv.TEST_PAYMENT_APP_PUBLISHABLE_KEY,
+        ),
+      ).resolves.toMatchInlineSnapshot("undefined");
     });
   });
 });

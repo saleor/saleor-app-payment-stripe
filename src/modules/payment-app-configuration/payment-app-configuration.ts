@@ -139,12 +139,12 @@ export const getConfigurationForChannel = (
     return null;
   }
 
-  const adyenConfig = appConfig.configurations.find(
+  const perChannelConfig = appConfig.configurations.find(
     (config) => config.configurationId === configurationId,
   );
-  if (!adyenConfig) {
+  if (!perChannelConfig) {
     logger.warn({ configurationId }, "Missing configuration for configurationId");
     return null;
   }
-  return adyenConfig;
+  return perChannelConfig;
 };

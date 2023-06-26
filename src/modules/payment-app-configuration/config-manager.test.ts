@@ -16,17 +16,9 @@ import { type PaymentAppConfigurator } from "./payment-app-configuration";
 import { type PaymentAppFormConfigEntry } from "./config-entry";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
-vi.mock("@/modules/adyen-configuration-v2/adyen-key-utils", () => {
+vi.mock("@/modules/stripe/stripe-api", () => {
   return {
-    checkAdyenApiKey: () => {
-      return {
-        companyId: "2",
-        secretKeyUsername: "3",
-        secretKeyScope: "4",
-        merchantAccount: "merchant",
-        publishableKey: "5",
-      };
-    },
+    validateStripeKeys: () => {},
   };
 });
 
@@ -108,6 +100,7 @@ describe("updateConfigEntry", () => {
       entry: {
         configurationName: configEntryAll.configurationName,
         secretKey: "updated-key",
+        publishableKey: configEntryAll.publishableKey,
       },
     } satisfies ConfigEntryUpdate;
 
