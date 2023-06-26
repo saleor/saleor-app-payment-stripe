@@ -1,8 +1,8 @@
 // We have to use process.env, otherwise pino doesn't work
 /* eslint-disable node/no-process-env */
 import pino from "pino";
-// import { isDevelopment, isTest } from "./isEnv";
 import { isObject } from "./utils";
+import { isDevelopment, isTest } from "./isEnv";
 import { obfuscateValue } from "@/modules/app-configuration/utils";
 import { BaseError, BaseTrpcError } from "@/errors";
 
@@ -17,15 +17,15 @@ export const logger = pino({
     ],
     censor: (value) => redactLogValue(value),
   },
-  // transport:
-  //   process.env.CI || isDevelopment() || isTest()
-  //     ? {
-  //         target: "pino-pretty",
-  //         options: {
-  //           colorize: true,
-  //         },
-  //       }
-  //     : undefined,
+  transport:
+    process.env.CI || isDevelopment() || isTest()
+      ? {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+          },
+        }
+      : undefined,
 });
 /* c8 ignore stop */
 
