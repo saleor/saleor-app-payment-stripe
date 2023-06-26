@@ -3,7 +3,7 @@ import {
   getStripeExternalUrlForIntentId,
   initializeStripePaymentIntent,
   stripePaymentIntentToTransactionResult,
-  transactionSessionEventToStripe,
+  transactionSessionInitializeEventToStripeCreate,
 } from "../stripe/stripe-api";
 import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
 import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
@@ -50,7 +50,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
 
   logger.info({}, `Processing Transaction Initialize request`);
 
-  const paymentIntentCreateParams = transactionSessionEventToStripe(event);
+  const paymentIntentCreateParams = transactionSessionInitializeEventToStripeCreate(event);
   logger.debug({
     paymentIntentCreateParams: obfuscateConfig(paymentIntentCreateParams),
     environment: getEnvironmentFromKey(stripeConfig.publishableKey),

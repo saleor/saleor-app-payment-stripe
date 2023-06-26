@@ -68,8 +68,8 @@ export const getEnvironmentFromKey = (secretKeyOrPublishableKey: string) => {
     : "test";
 };
 
-export const transactionSessionEventToStripe = (
-  event: TransactionInitializeSessionEventFragment | TransactionProcessSessionEventFragment,
+export const transactionSessionInitializeEventToStripeCreate = (
+  event: TransactionInitializeSessionEventFragment,
 ): Stripe.PaymentIntentCreateParams => {
   const data = event.data as Partial<Stripe.PaymentIntentCreateParams>;
 
@@ -83,6 +83,30 @@ export const transactionSessionEventToStripe = (
     automatic_payment_methods: {
       enabled: true,
     },
+    capture_method:
+      event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
+    metadata: {
+      ...data.metadata,
+      transactionId: event.transaction.id,
+      channelId: event.sourceObject.channel.id,
+      ...(event.sourceObject.__typename === "Checkout" && { checkoutId: event.sourceObject.id }),
+      ...(event.sourceObject.__typename === "Order" && { orderId: event.sourceObject.id }),
+    },
+  };
+};
+
+export const transactionSessionProcessEventToStripeUpdate = (
+  event: TransactionInitializeSessionEventFragment | TransactionProcessSessionEventFragment,
+): Stripe.PaymentIntentUpdateParams => {
+  const data = event.data as Partial<Stripe.PaymentIntentUpdateParams>;
+
+  return {
+    ...data,
+    amount: getStripeAmountFromSaleorMoney({
+      amount: event.sourceObject.total.gross.amount,
+      currency: event.sourceObject.total.gross.currency,
+    }),
+    currency: event.sourceObject.total.gross.currency,
     capture_method:
       event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
     metadata: {

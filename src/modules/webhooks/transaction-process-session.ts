@@ -3,7 +3,7 @@ import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configurati
 import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
 import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
 import {
-  transactionSessionEventToStripe,
+  transactionSessionProcessEventToStripeUpdate,
   getEnvironmentFromKey,
   stripePaymentIntentToTransactionResult,
   getStripeExternalUrlForIntentId,
@@ -47,7 +47,7 @@ export const TransactionProcessSessionWebhookHandler = async (
 
   logger.info({}, `Processing Transaction Initialize request`);
 
-  const paymentIntentUpdateParams = transactionSessionEventToStripe(event);
+  const paymentIntentUpdateParams = transactionSessionProcessEventToStripeUpdate(event);
   logger.debug({
     paymentIntentUpdateParams: obfuscateConfig(paymentIntentUpdateParams),
     environment: getEnvironmentFromKey(stripeConfig.publishableKey),
