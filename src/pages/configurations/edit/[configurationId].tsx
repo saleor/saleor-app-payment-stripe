@@ -2,6 +2,7 @@ import { Text } from "@saleor/macaw-ui/next";
 import { withAuthorization } from "@saleor/app-sdk/app-bridge";
 import { useRouter } from "next/router";
 import { AppLayout } from "@/modules/ui/templates/AppLayout";
+import { StripeConfigurationForm } from "@/modules/ui/organisms/AddStripeConfigurationForm/AddStripeConfigurationForm";
 
 const EditConfigurationPage = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const EditConfigurationPage = () => {
         </>
       }
     >
-      {/* TODO: Add form */}
+      <StripeConfigurationForm configurationId={router.query.configurationId} />
     </AppLayout>
   );
 };
