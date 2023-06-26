@@ -6,6 +6,7 @@ import {
 export const configEntryRequired: PaymentAppConfigEntry = {
   configurationName: "test",
   secretKey: "sk_secret-key",
+  publishableKey: "pk_that-secret-key",
   configurationId: "mock-id",
 };
 

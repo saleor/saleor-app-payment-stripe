@@ -82,7 +82,7 @@ describe("api-route-utils", () => {
       const [error, value] = unpackThrowable(() => {
         throw new Error(`some error`);
       });
-      expect(error).toMatchInlineSnapshot("[UnknownError: some error]");
+      expect(error).toMatchInlineSnapshot("[Error: some error]");
       expect(value).toBeNull();
     });
 

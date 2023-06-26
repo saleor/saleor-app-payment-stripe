@@ -53,6 +53,7 @@ describe("PaymentAppConfigurator", () => {
           {
             configurationId: "mock-id",
             secretKey: `${OBFUSCATION_DOTS}-key`, // from super-secret-key
+            publishableKey: "pk_that-secret-key",
             configurationName: "test",
           },
         ],
