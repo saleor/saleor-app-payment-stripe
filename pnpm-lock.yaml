@@ -201,6 +201,9 @@ devDependencies:
   '@saleor/eslint-plugin-saleor-app':
     specifier: 0.1.2
     version: registry.npmjs.org/@saleor/eslint-plugin-saleor-app@0.1.2(eslint@8.43.0)
+  '@saleor/json-schema-compiler':
+    specifier: 0.1.2
+    version: registry.npmjs.org/@saleor/json-schema-compiler@0.1.2
   '@testing-library/jest-dom':
     specifier: 5.16.5
     version: registry.npmjs.org/@testing-library/jest-dom@5.16.5
@@ -273,9 +276,6 @@ devDependencies:
   husky:
     specifier: 8.0.3
     version: registry.npmjs.org/husky@8.0.3
-  json-schema-to-typescript:
-    specifier: 13.0.2
-    version: registry.npmjs.org/json-schema-to-typescript@13.0.2
   lint-staged:
     specifier: 13.2.2
     version: registry.npmjs.org/lint-staged@13.2.2
@@ -1302,6 +1302,17 @@ packages:
       fs-extra: registry.npmjs.org/fs-extra@7.0.1
       human-id: registry.npmjs.org/human-id@1.0.2
       prettier: registry.npmjs.org/prettier@2.8.8
+
+  registry.npmjs.org/@commander-js/extra-typings@11.0.0(commander@11.0.0):
+    resolution: {integrity: sha512-06ol6Kn5gPjFY6v0vWOZ84nQwyqhZdaeZCHYH3vhwewjpOEjniF1KHZxh18887G3poWiJ8qyq5pb6ANuiddfPQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@commander-js/extra-typings/-/extra-typings-11.0.0.tgz}
+    id: registry.npmjs.org/@commander-js/extra-typings/11.0.0
+    name: '@commander-js/extra-typings'
+    version: 11.0.0
+    peerDependencies:
+      commander: 11.0.x
+    dependencies:
+      commander: registry.npmjs.org/commander@11.0.0
+    dev: true
 
   registry.npmjs.org/@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz}
@@ -4178,6 +4189,20 @@ packages:
       - supports-color
     dev: true
 
+  registry.npmjs.org/@saleor/json-schema-compiler@0.1.2:
+    resolution: {integrity: sha512-NcbcF+rWq15x1wwRjz2VB23UHqO2mq8vbPumhM5jLKHYvBFdc1phhmD+MEC4ABsq9Gq2ZQxlFQzrFXOs29P7ew==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@saleor/json-schema-compiler/-/json-schema-compiler-0.1.2.tgz}
+    name: '@saleor/json-schema-compiler'
+    version: 0.1.2
+    hasBin: true
+    dependencies:
+      '@commander-js/extra-typings': registry.npmjs.org/@commander-js/extra-typings@11.0.0(commander@11.0.0)
+      ajv: registry.npmjs.org/ajv@8.12.0
+      ajv-formats: registry.npmjs.org/ajv-formats@2.1.1(ajv@8.12.0)
+      commander: registry.npmjs.org/commander@11.0.0
+      figlet: registry.npmjs.org/figlet@1.6.0
+      json-schema-to-typescript: registry.npmjs.org/json-schema-to-typescript@13.0.2
+    dev: true
+
   registry.npmjs.org/@saleor/macaw-ui@0.8.0-pre.91(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Mk4AkiZjlU+UaMfccW4P84ujz1pogkn1d8TngjhlTWa6nmuQJCf4A9rHAtH+565hVOhMVT9WFe1Tt1MgCo13Cw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@saleor/macaw-ui/-/macaw-ui-0.8.0-pre.91.tgz}
     id: registry.npmjs.org/@saleor/macaw-ui/0.8.0-pre.91
@@ -5688,7 +5713,6 @@ packages:
         optional: true
     dependencies:
       ajv: registry.npmjs.org/ajv@8.12.0
-    dev: false
 
   registry.npmjs.org/ajv-keywords@3.5.2(ajv@6.12.6):
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-3.5.2.tgz}
@@ -8274,6 +8298,14 @@ packages:
       ua-parser-js: registry.npmjs.org/ua-parser-js@1.0.35
     transitivePeerDependencies:
       - encoding
+    dev: true
+
+  registry.npmjs.org/figlet@1.6.0:
+    resolution: {integrity: sha512-31EQGhCEITv6+hi2ORRPyn3bulaV9Fl4xOdR169cBzH/n1UqcxsiSB/noo6SJdD7Kfb1Ljit+IgR1USvF/XbdA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/figlet/-/figlet-1.6.0.tgz}
+    name: figlet
+    version: 1.6.0
+    engines: {node: '>= 0.4.0'}
+    hasBin: true
     dev: true
 
   registry.npmjs.org/figures@3.2.0:
