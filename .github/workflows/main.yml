@@ -37,6 +37,7 @@ jobs:
         run: pnpm --version && pnpm install --frozen-lockfile
 
       - name: Check prettier
+        if: ${{ github.actor != 'dependabot[bot]' }}
         run: pnpm prettier --check .
 
       - name: Generate
@@ -58,11 +59,11 @@ jobs:
         run: pnpm test:ci
 
       - name: Dependency cruiser
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && github.actor != 'dependabot[bot]' }}
         run: pnpm exec dependency-cruiser src
 
       - name: Download coverage report from canary
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && github.actor != 'dependabot[bot]' }}
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow_conclusion: success
@@ -72,7 +73,7 @@ jobs:
           path: coverage-main/
 
       - name: Coverage report
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && github.actor != 'dependabot[bot]' }}
         uses: ArtiomTr/jest-coverage-report-action@v2.2.4
         with:
           skip-step: all
@@ -80,7 +81,7 @@ jobs:
           base-coverage-file: coverage-main/report.json
 
       - name: Upload coverage report
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/canary' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/canary' && github.actor != 'dependabot[bot]' }}
         uses: actions/upload-artifact@v3
         with:
           name: coverage-artifacts
