@@ -11,7 +11,7 @@ import { InvalidSecretKeyError, RestrictedKeyNotSupportedError } from "@/errors"
 import { unpackPromise } from "@/lib/utils";
 import { createLogger, redactError } from "@/lib/logger";
 
-const getStripeApiClient = (secretKey: string) => {
+export const getStripeApiClient = (secretKey: string) => {
   const stripe = new Stripe(secretKey, {
     apiVersion: "2022-11-15",
     typescript: true,

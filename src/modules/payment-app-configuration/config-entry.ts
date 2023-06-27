@@ -9,6 +9,9 @@ export const paymentAppConfigEntryEncryptedSchema = z.object({
   secretKey: z
     .string({ required_error: "Secret Key is required" })
     .min(1, { message: "Secret Key is required" }),
+  webhookSecret: z
+    .string({ required_error: "Webhook Secret is required" })
+    .min(1, { message: "Webhook Secret is required" }),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({
