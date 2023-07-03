@@ -1,13 +1,13 @@
+import "stripe-event-types";
 import { type Readable } from "node:stream";
 import { type NextApiRequest } from "next";
 import type Stripe from "stripe";
-import { type AuthData } from "@saleor/app-sdk/APL";
 import { type Client } from "urql";
-import { getStripeApiClient } from "../stripe/stripe-api";
+import { getStripeApiClient, getStripeExternalUrlForIntentId } from "../stripe/stripe-api";
 import { getPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
 import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
-import { type StripeWebhookEvents } from "../stripe/stripe-events";
 import { type PaymentAppConfig } from "../payment-app-configuration/app-config";
+import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
 import {
   MissingSignatureError,
   UnexpectedTransactionEventReportError,
@@ -19,19 +19,27 @@ import {
   type TransactionEventReportMutation,
   type TransactionEventReportMutationVariables,
   UntypedTransactionEventReportDocument,
+  TransactionEventTypeEnum,
+  TransactionActionEnum,
 } from "generated/graphql";
+import { assertUnreachableButNotThrow } from "@/lib/invariant";
 
 export const stripeWebhookHandler = async (req: NextApiRequest) => {
   const logger = createLogger({}, { msgPrefix: "[stripeWebhookHandler] " });
   const authData = await getAuthDataForRequest(req);
   const client = createClient(authData.saleorApiUrl, async () => ({ token: authData.token }));
+  const configurator = getPaymentAppConfigurator(client, authData.saleorApiUrl);
+  const appConfig = await configurator.getConfig();
 
-  const stripeEvent = await requestToStripeEvent({ req, authData, client });
+  const stripeEvent = await requestToStripeEvent({ req, appConfig });
   if (!stripeEvent) {
     return;
   }
 
-  const transactionEventReport = await stripeEventToTransactionEventReport(stripeEvent);
+  const transactionEventReport = await stripeEventToTransactionEventReport({
+    appConfig,
+    stripeEvent,
+  });
   logger.debug({
     transactionEventReport: transactionEventReport && {
       transactionId: transactionEventReport.transactionId,
@@ -89,13 +97,11 @@ async function processTransactionEventReport({
 
 async function requestToStripeEvent({
   req,
-  authData,
-  client,
+  appConfig,
 }: {
   req: NextApiRequest;
-  authData: AuthData;
-  client: Client;
-}): Promise<StripeWebhookEvents | null> {
+  appConfig: PaymentAppConfig;
+}): Promise<Stripe.DiscriminatedEvent | null> {
   const logger = createLogger({}, { msgPrefix: "[requestToStripeEvent] " });
 
   const signature = req.headers["stripe-signature"];
@@ -106,11 +112,9 @@ async function requestToStripeEvent({
 
   const body = await buffer(req);
 
-  const unsafeParsedBody = JSON.parse(body.toString()) as StripeWebhookEvents;
+  const unsafeParsedBody = JSON.parse(body.toString()) as Stripe.DiscriminatedEvent;
   const channelId = getChannelIdFromEventData(unsafeParsedBody.data);
 
-  const configurator = getPaymentAppConfigurator(client, authData.saleorApiUrl);
-  const appConfig = await configurator.getConfig();
   const configEntry = getConfigurationForChannel(appConfig, channelId);
 
   if (!configEntry || !configEntry.secretKey) {
@@ -123,7 +127,7 @@ async function requestToStripeEvent({
     body,
     signature,
     configEntry.webhookSecret,
-  )) as StripeWebhookEvents;
+  )) as Stripe.DiscriminatedEvent;
   return stripeEvent;
 }
 
@@ -135,27 +139,37 @@ async function buffer(readable: Readable) {
   return Buffer.concat(chunks);
 }
 
-const getTransactionIdFromEventData = (data: {
-  object?: {
-    metadata?: Stripe.Metadata | null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [K: string]: any;
-  } | null;
-}) => {
-  if (data?.object && "metadata" in data.object) {
-    return data.object.metadata?.["transactionId"];
+const getTransactionIdFromEventData = <T>(data?: T) => {
+  if (
+    typeof data === "object" &&
+    data &&
+    "object" in data &&
+    typeof data?.object === "object" &&
+    data?.object &&
+    "metadata" in data.object &&
+    typeof data.object.metadata === "object" &&
+    data.object.metadata &&
+    "transactionId" in data.object.metadata &&
+    typeof data.object.metadata.transactionId === "string"
+  ) {
+    return data.object.metadata.transactionId;
   }
   return null;
 };
-const getChannelIdFromEventData = (data: {
-  object?: {
-    metadata?: Stripe.Metadata | null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [K: string]: any;
-  } | null;
-}) => {
-  if (data?.object && "metadata" in data.object) {
-    return data.object.metadata?.["channelId"];
+const getChannelIdFromEventData = <T>(data?: T) => {
+  if (
+    typeof data === "object" &&
+    data &&
+    "object" in data &&
+    typeof data.object === "object" &&
+    data?.object &&
+    "metadata" in data.object &&
+    typeof data.object.metadata === "object" &&
+    data.object.metadata &&
+    "channelId" in data.object.metadata &&
+    typeof data.object.metadata.channelId === "string"
+  ) {
+    return data.object.metadata.channelId;
   }
   return null;
 };
@@ -165,7 +179,7 @@ async function stripeEventToTransactionEventReport({
   stripeEvent,
 }: {
   appConfig: PaymentAppConfig;
-  stripeEvent: StripeWebhookEvents;
+  stripeEvent: Stripe.DiscriminatedEvent;
 }): Promise<TransactionEventReportMutationVariables | null> {
   const logger = createLogger({}, { msgPrefix: "[stripeEventToTransactionEventReport] " });
 
@@ -186,5 +200,204 @@ async function stripeEventToTransactionEventReport({
     return null;
   }
 
-  throw new Error("Function not implemented.");
+  return stripeEventToTransactionEventReportMutationVariables(transactionId, stripeEvent);
+}
+
+async function stripeEventToTransactionEventReportMutationVariables(
+  transactionId: string,
+  stripeEvent: Stripe.DiscriminatedEvent,
+): Promise<TransactionEventReportMutationVariables | null> {
+  const logger = createLogger(
+    {},
+    { msgPrefix: `[stripeEventToTransactionEventReportMutationVariables] ` },
+  );
+
+  const partialVariables =
+    stripeEventToPartialToTransactionEventReportMutationVariables(stripeEvent);
+  if (!partialVariables) {
+    return null;
+  }
+
+  const availableActions = getAvailableActionsForType(partialVariables.type);
+
+  const result = {
+    transactionId,
+    amount: partialVariables.amount,
+    externalUrl: partialVariables.externalUrl,
+    message: partialVariables.message,
+    pspReference: partialVariables.pspReference,
+    time: new Date(stripeEvent.created * 1000).toISOString(),
+    type: partialVariables.type,
+    availableActions,
+  };
+  logger.debug(
+    {
+      transactionId: result.transactionId,
+      message: result.message,
+      pspReference: result.pspReference,
+      time: result.time,
+      type: result.type,
+      availableActions: result.availableActions,
+    },
+    "Result",
+  );
+  return result;
+}
+
+const getAvailableActionsForType = (
+  type: TransactionEventTypeEnum,
+): readonly TransactionActionEnum[] => {
+  switch (type) {
+    case TransactionEventTypeEnum.AuthorizationAdjustment:
+      return [TransactionActionEnum.Cancel];
+    case TransactionEventTypeEnum.AuthorizationSuccess:
+      return [TransactionActionEnum.Charge, TransactionActionEnum.Cancel];
+    case TransactionEventTypeEnum.ChargeSuccess:
+      return [TransactionActionEnum.Refund];
+    case TransactionEventTypeEnum.RefundReverse:
+      return [TransactionActionEnum.Refund];
+
+    // no actions possible
+    case TransactionEventTypeEnum.AuthorizationActionRequired:
+    case TransactionEventTypeEnum.AuthorizationFailure:
+    case TransactionEventTypeEnum.AuthorizationRequest:
+    case TransactionEventTypeEnum.CancelFailure:
+    case TransactionEventTypeEnum.CancelRequest:
+    case TransactionEventTypeEnum.CancelSuccess:
+    case TransactionEventTypeEnum.ChargeActionRequired:
+    case TransactionEventTypeEnum.ChargeBack:
+    case TransactionEventTypeEnum.ChargeFailure:
+    case TransactionEventTypeEnum.ChargeRequest:
+    case TransactionEventTypeEnum.Info:
+    case TransactionEventTypeEnum.RefundFailure:
+    case TransactionEventTypeEnum.RefundRequest:
+    case TransactionEventTypeEnum.RefundSuccess:
+      return [];
+    default:
+      assertUnreachableButNotThrow(type);
+      return [];
+  }
+};
+
+function stripeEventToPartialToTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent,
+) {
+  switch (stripeEvent.type) {
+    case "payment_intent.succeeded":
+    case "payment_intent.processing":
+    case "payment_intent.payment_failed":
+    case "payment_intent.created":
+    case "payment_intent.canceled":
+    case "payment_intent.partially_funded":
+    case "payment_intent.amount_capturable_updated":
+    case "payment_intent.requires_action":
+      return stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
+        stripeEvent,
+      );
+    default:
+      return null;
+  }
+}
+
+function stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent.PaymentIntentEvent,
+) {
+  const paymentIntent = stripeEvent.data.object;
+  const message = paymentIntent.cancellation_reason || paymentIntent.description || "";
+  const manualCapture = stripeEvent.data.object.capture_method === "manual";
+  const externalUrl = getStripeExternalUrlForIntentId(paymentIntent.id);
+  const pspReference = paymentIntent.id;
+
+  switch (stripeEvent.type) {
+    // handling these is required
+    case "payment_intent.succeeded": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: manualCapture ? paymentIntent.amount_capturable : paymentIntent.amount_received,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationSuccess
+        : TransactionEventTypeEnum.ChargeSuccess;
+
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.processing": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationRequest
+        : TransactionEventTypeEnum.ChargeRequest;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.payment_failed": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationFailure
+        : TransactionEventTypeEnum.ChargeFailure;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    // additional events
+    case "payment_intent.created": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationRequest
+        : TransactionEventTypeEnum.ChargeRequest;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.canceled": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationFailure
+        : TransactionEventTypeEnum.ChargeFailure;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.partially_funded": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = TransactionEventTypeEnum.Info;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.amount_capturable_updated": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = TransactionEventTypeEnum.Info;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    case "payment_intent.requires_action": {
+      const amount = getSaleorAmountFromStripeAmount({
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationActionRequired
+        : TransactionEventTypeEnum.ChargeActionRequired;
+      return { amount, type, externalUrl, pspReference, message };
+    }
+
+    default:
+      assertUnreachableButNotThrow(stripeEvent.type);
+      return null;
+  }
 }
