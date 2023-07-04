@@ -108,7 +108,7 @@
     "@types/react-dom": "18.2.6",
     "@types/setup-polly-jest": "0.5.2",
     "@types/testing-library__jest-dom": "5.14.6",
-    "@typescript-eslint/eslint-plugin": "5.60.0",
+    "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.60.0",
     "@vanilla-extract/vite-plugin": "3.8.2",
     "@vitest/coverage-v8": "0.32.2",
