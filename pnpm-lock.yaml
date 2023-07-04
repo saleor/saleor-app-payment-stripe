@@ -20,8 +20,8 @@ dependencies:
     specifier: 1.0.4
     version: 1.0.4(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
   '@saleor/app-sdk':
-    specifier: 0.40.1
-    version: 0.40.1(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.41.0
+    version: 0.41.0(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
   '@saleor/macaw-ui':
     specifier: 0.8.0-pre.91
     version: 0.8.0-pre.91(@types/react-dom@18.2.6)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
@@ -3479,8 +3479,8 @@ packages:
     resolution: {integrity: sha512-V+MvGwaHH03hYhY+k6Ef/xKd6RYlc4q8WBx+2ANmipHJcKuktNcI/NgEsJgdSUF6Lw32njT6OnrRsKYCdgHjYw==}
     dev: true
 
-  /@saleor/app-sdk@0.40.1(next@13.4.7)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-iZuIxux8vdK08/ZcAluE5EnAH2t8ZhKaOkdRitr/dvxuEYGBxW+j8d3YiK20nQy3Eb7al6KlQRWbyHsnYQAULQ==}
+  /@saleor/app-sdk@0.41.0(next@13.4.7)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9Yc73N8QvqfHlhsPzuWqwlbl+o/gq/VJ+HB2OUro68zTF+rapEssb79OUGLp2JmnTlM4xovCiPwPlDsW8nVSqw==}
     peerDependencies:
       next: '>=12'
       react: '>=17'
