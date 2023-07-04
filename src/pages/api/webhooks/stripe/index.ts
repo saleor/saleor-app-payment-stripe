@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/nextjs";
 import { createLogger, redactError } from "@/lib/logger";
 import { BaseError, MissingSaleorApiUrlError, MissingAuthDataError } from "@/errors";
 import {
-  InvalidNotificationError,
+  MissingSignatureError,
   UnexpectedTransactionEventReportError,
 } from "@/modules/webhooks/stripe-webhook.errors";
 import { stripeWebhookHandler } from "@/modules/webhooks/stripe-webhook";
@@ -43,8 +43,8 @@ export default async function StripeWebhookHandler(
     if (err instanceof MissingAuthDataError) {
       return res.status(412).json(MissingAuthDataError.serialize(err));
     }
-    if (err instanceof InvalidNotificationError) {
-      return res.status(400).json(InvalidNotificationError.serialize(err));
+    if (err instanceof MissingSignatureError) {
+      return res.status(400).json(MissingSignatureError.serialize(err));
     }
     if (err instanceof UnexpectedTransactionEventReportError) {
       return res.status(500).json(UnexpectedTransactionEventReportError.serialize(err));

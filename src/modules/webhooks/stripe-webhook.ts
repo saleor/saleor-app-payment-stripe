@@ -1,7 +1,8 @@
 import "stripe-event-types";
 import { type Readable } from "node:stream";
+import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest } from "next";
-import type Stripe from "stripe";
+import Stripe from "stripe";
 import { type Client } from "urql";
 import { getStripeApiClient, getStripeExternalUrlForIntentId } from "../stripe/stripe-api";
 import { getPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
@@ -23,6 +24,7 @@ import {
   TransactionActionEnum,
 } from "generated/graphql";
 import { assertUnreachableButNotThrow } from "@/lib/invariant";
+import { unpackPromise } from "@/lib/utils";
 
 export const stripeWebhookHandler = async (req: NextApiRequest) => {
   const logger = createLogger({}, { msgPrefix: "[stripeWebhookHandler] " });
@@ -123,11 +125,26 @@ async function requestToStripeEvent({
   }
 
   const stripe = getStripeApiClient(configEntry.secretKey);
-  const stripeEvent = (await stripe.webhooks.constructEventAsync(
-    body,
-    signature,
-    configEntry.webhookSecret,
-  )) as Stripe.DiscriminatedEvent;
+  const [stripeEventError, stripeEvent] = await unpackPromise(
+    stripe.webhooks.constructEventAsync(
+      body,
+      signature,
+      configEntry.webhookSecret,
+    ) as Promise<Stripe.DiscriminatedEvent>,
+  );
+
+  if (stripeEventError instanceof Stripe.errors.StripeSignatureVerificationError) {
+    logger.warn(
+      { message: stripeEventError.message, name: stripeEventError.name },
+      `Invalid signature for event`,
+    );
+    return null;
+  } else if (stripeEventError) {
+    Sentry.captureException(stripeEventError);
+    logger.error({ message: stripeEventError.message, name: stripeEventError.name });
+    return null;
+  }
+
   return stripeEvent;
 }
 

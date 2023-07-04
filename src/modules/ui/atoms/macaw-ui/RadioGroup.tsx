@@ -5,6 +5,7 @@ import {
   type FieldPath,
   type FieldValues,
   useController,
+  type PathValue,
 } from "react-hook-form";
 
 type $RadioGroupProps = ComponentProps<typeof $RadioGroup>;
@@ -26,7 +27,7 @@ export function FormRadioGroup<
       {...props}
       {...field}
       onChange={(e) => {
-        field.onChange(e);
+        field.onChange(e as PathValue<TFieldValues, TName>);
         props.onChange?.(e);
       }}
       onFocus={(e) => {

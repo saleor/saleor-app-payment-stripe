@@ -41,6 +41,7 @@ export const paymentAppFullyConfiguredEntrySchema = z
     configurationId: paymentAppConfigEntryInternalSchema.shape.configurationId,
     secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey,
     publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey,
+    webhookSecret: paymentAppConfigEntryEncryptedSchema.shape.webhookSecret,
   })
   .required();
 
@@ -52,6 +53,7 @@ export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSch
     secretKey: "",
     publishableKey: "",
     configurationName: "",
+    webhookSecret: "",
   });
 
 /** Schema used in front-end forms

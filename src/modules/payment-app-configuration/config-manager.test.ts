@@ -56,6 +56,7 @@ describe("addConfigEntry", () => {
       configurationName: "new-config",
       secretKey: "new-key",
       publishableKey: "client-key",
+      webhookSecret: "whsec_test",
     };
     const result = await addConfigEntry(input, mockConfigurator);
 
@@ -77,6 +78,7 @@ describe("updateConfigEntry", () => {
         configurationName: "new-name",
         secretKey: "updated-key",
         publishableKey: configEntryAll.publishableKey,
+        webhookSecret: "whsec_test",
       },
     } satisfies ConfigEntryUpdate;
 
@@ -101,6 +103,7 @@ describe("updateConfigEntry", () => {
         configurationName: configEntryAll.configurationName,
         secretKey: "updated-key",
         publishableKey: configEntryAll.publishableKey,
+        webhookSecret: configEntryAll.webhookSecret,
       },
     } satisfies ConfigEntryUpdate;
 
