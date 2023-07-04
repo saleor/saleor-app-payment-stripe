@@ -63,6 +63,7 @@ describe("addConfigEntry", () => {
     expect(result).toStrictEqual({
       configurationName: input.configurationName,
       secretKey: `${OBFUSCATION_DOTS}key`,
+      webhookSecret: `${OBFUSCATION_DOTS}test`,
       configurationId: expect.any(String),
       publishableKey: expect.any(String),
     });

@@ -1,4 +1,4 @@
-import "stripe-event-types";
+/// <reference types="stripe-event-types" />
 import { type Readable } from "node:stream";
 import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest } from "next";
@@ -35,8 +35,23 @@ export const stripeWebhookHandler = async (req: NextApiRequest) => {
 
   const stripeEvent = await requestToStripeEvent({ req, appConfig });
   if (!stripeEvent) {
-    return;
+    logger.debug(`stripeEvent was null`);
+    return null;
   }
+
+  return processStripeEvent({ stripeEvent, appConfig, client });
+};
+
+async function processStripeEvent({
+  stripeEvent,
+  appConfig,
+  client,
+}: {
+  stripeEvent: Stripe.DiscriminatedEvent;
+  appConfig: PaymentAppConfig;
+  client: Client;
+}) {
+  const logger = createLogger({}, { msgPrefix: "[processStripeEvent] " });
 
   const transactionEventReport = await stripeEventToTransactionEventReport({
     appConfig,
@@ -77,7 +92,7 @@ export const stripeWebhookHandler = async (req: NextApiRequest) => {
     });
   }
   return transactionEventReportResult;
-};
+}
 
 async function processTransactionEventReport({
   client,
@@ -220,7 +235,7 @@ async function stripeEventToTransactionEventReport({
   return stripeEventToTransactionEventReportMutationVariables(transactionId, stripeEvent);
 }
 
-async function stripeEventToTransactionEventReportMutationVariables(
+export async function stripeEventToTransactionEventReportMutationVariables(
   transactionId: string,
   stripeEvent: Stripe.DiscriminatedEvent,
 ): Promise<TransactionEventReportMutationVariables | null> {
