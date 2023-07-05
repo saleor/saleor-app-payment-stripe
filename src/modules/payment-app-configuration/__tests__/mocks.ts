@@ -8,6 +8,7 @@ export const configEntryRequired: PaymentAppConfigEntry = {
   secretKey: "sk_secret-key",
   publishableKey: "pk_that-secret-key",
   configurationId: "mock-id",
+  webhookSecret: "whsec_test",
 };
 
 export const configEntryAll: PaymentAppConfigEntryFullyConfigured = {
@@ -15,4 +16,5 @@ export const configEntryAll: PaymentAppConfigEntryFullyConfigured = {
   secretKey: "sk_secret-key",
   publishableKey: "pk_that-secret-key",
   configurationId: "mock-id",
+  webhookSecret: "whsec_test",
 };

@@ -135,7 +135,7 @@ export const getConfigurationForChannel = (
 
   const configurationId = appConfig.channelToConfigurationId[channelId];
   if (!configurationId) {
-    logger.warn("Missing mapping for channelId");
+    logger.warn(`Missing mapping for channelId ${channelId}`);
     return null;
   }
 

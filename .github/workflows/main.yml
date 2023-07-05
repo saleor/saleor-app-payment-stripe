@@ -54,6 +54,7 @@ jobs:
           TEST_SALEOR_APP_ID: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_SALEOR_APP_ID
           TEST_PAYMENT_APP_SECRET_KEY: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_PAYMENT_APP_SECRET_KEY
           TEST_PAYMENT_APP_PUBLISHABLE_KEY: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_PAYMENT_APP_PUBLISHABLE_KEY
+          TEST_PAYMENT_APP_WEBHOOK_SECRET: op://Checkout/saleor-app-payment-stripe_TEST_ENVS/TEST_PAYMENT_APP_WEBHOOK_SECRET
 
       - name: Test
         run: pnpm test:ci
