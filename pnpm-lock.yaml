@@ -250,8 +250,8 @@ devDependencies:
     specifier: 3.8.2
     version: 3.8.2(@types/node@20.3.3)(ts-node@10.9.1)(vite@4.3.9)
   '@vitest/coverage-v8':
-    specifier: 0.32.2
-    version: 0.32.2(vitest@0.32.2)
+    specifier: 0.32.4
+    version: 0.32.4(vitest@0.32.2)
   dependency-cruiser:
     specifier: 13.0.4
     version: 13.0.4
@@ -4489,8 +4489,8 @@ packages:
       - supports-color
     dev: false
 
-  /@vitest/coverage-v8@0.32.2(vitest@0.32.2):
-    resolution: {integrity: sha512-/+V3nB3fyeuuSeKxCfi6XmWjDIxpky7AWSkGVfaMjAk7di8igBwRsThLjultwIZdTDH1RAxpjmCXEfSqsMFZOA==}
+  /@vitest/coverage-v8@0.32.4(vitest@0.32.2):
+    resolution: {integrity: sha512-itiCYY3TmWEK+5wnFBoNr0ZA+adACp7Op1r2TeX5dPOgU2See7+Gx2NlK2lVMHVxfPsu5z9jszKa3i//eR+hqg==}
     peerDependencies:
       vitest: '>=0.32.0 <1'
     dependencies:
