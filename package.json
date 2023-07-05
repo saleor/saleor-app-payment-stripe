@@ -65,7 +65,7 @@
     "next": "13.4.7",
     "omit-deep-lodash": "1.1.7",
     "pino": "8.14.1",
-    "pino-pretty": "10.0.0",
+    "pino-pretty": "10.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.45.0",

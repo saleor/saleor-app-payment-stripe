@@ -113,8 +113,8 @@ dependencies:
     specifier: 8.14.1
     version: 8.14.1
   pino-pretty:
-    specifier: 10.0.0
-    version: 10.0.0
+    specifier: 10.0.1
+    version: 10.0.1
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -8612,8 +8612,8 @@ packages:
       split2: 4.2.0
     dev: false
 
-  /pino-pretty@10.0.0:
-    resolution: {integrity: sha512-zKFjYXBzLaLTEAN1ayKpHXtL5UeRQC7R3lvhKe7fWs7hIVEjKGG/qIXwQt9HmeUp71ogUd/YcW+LmMwRp4KT6Q==}
+  /pino-pretty@10.0.1:
+    resolution: {integrity: sha512-yrn00+jNpkvZX/NrPVCPIVHAfTDy3ahF0PND9tKqZk4j9s+loK8dpzrJj4dGb7i+WLuR50ussuTAiWoMWU+qeA==}
     hasBin: true
     dependencies:
       colorette: 2.0.20
