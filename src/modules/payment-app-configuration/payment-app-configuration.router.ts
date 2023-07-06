@@ -68,9 +68,10 @@ export const paymentAppConfigurationRouter = router({
           { configurationName, secretKey: redactLogValue(secretKey) },
           "appConfigurationRouter.paymentConfig.add input",
         );
+        invariant(ctx.appUrl, "Missing app url");
 
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
-        return addConfigEntry(input, configurator);
+        return addConfigEntry(input, configurator, ctx.appUrl);
       }),
     update: protectedClientProcedure
       .input(paymentConfigEntryUpdate)

@@ -4,6 +4,7 @@ import { type ConfigEntryUpdate } from "./input-schemas";
 import { obfuscateConfigEntry } from "./utils";
 import { type PaymentAppConfigurator } from "./payment-app-configuration";
 import { type PaymentAppConfigEntry, type PaymentAppFormConfigEntry } from "./config-entry";
+import { createStripeWebhook } from "./webhook-manager";
 import { createLogger, redactLogObject } from "@/lib/logger";
 import { BaseError } from "@/errors";
 
@@ -73,6 +74,7 @@ export const getConfigEntryDecrypted = async (
 export const addConfigEntry = async (
   newConfigEntry: PaymentAppFormConfigEntry,
   configurator: PaymentAppConfigurator,
+  appUrl: string,
 ) => {
   const logger = createLogger(
     { saleorApiUrl: configurator.saleorApiUrl },
@@ -81,9 +83,17 @@ export const addConfigEntry = async (
 
   await validateStripeKeys(newConfigEntry.secretKey, newConfigEntry.publishableKey);
 
+  logger.debug("Creating new webhook for config entry");
+  const { webhookSecret } = await createStripeWebhook({
+    appUrl,
+    secretKey: newConfigEntry.secretKey,
+    saleorApiUrl: configurator.saleorApiUrl,
+  });
+
   const uuid = uuidv7();
   const config = {
     ...newConfigEntry,
+    webhookSecret,
     configurationId: uuid,
   } satisfies PaymentAppConfigEntry;
 

@@ -3,15 +3,15 @@ import { deobfuscateValues } from "../app-configuration/utils";
 
 export const paymentAppConfigEntryInternalSchema = z.object({
   configurationId: z.string().min(1),
+  webhookSecret: z
+    .string({ required_error: "Webhook Secret is required" })
+    .min(1, { message: "Webhook Secret is required" }),
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
   secretKey: z
     .string({ required_error: "Secret Key is required" })
     .min(1, { message: "Secret Key is required" }),
-  webhookSecret: z
-    .string({ required_error: "Webhook Secret is required" })
-    .min(1, { message: "Webhook Secret is required" }),
 });
 
 export const paymentAppConfigEntryPublicSchema = z.object({
@@ -41,7 +41,7 @@ export const paymentAppFullyConfiguredEntrySchema = z
     configurationId: paymentAppConfigEntryInternalSchema.shape.configurationId,
     secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey,
     publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey,
-    webhookSecret: paymentAppConfigEntryEncryptedSchema.shape.webhookSecret,
+    webhookSecret: paymentAppConfigEntryInternalSchema.shape.webhookSecret,
   })
   .required();
 
@@ -53,7 +53,6 @@ export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSch
     secretKey: "",
     publishableKey: "",
     configurationName: "",
-    webhookSecret: "",
   });
 
 /** Schema used in front-end forms
