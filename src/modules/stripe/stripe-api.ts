@@ -176,3 +176,40 @@ export const getStripeExternalUrlForIntentId = (intentId: string) => {
   const externalUrl = `https://dashboard.stripe.com/payments/${encodeURIComponent(intentId)}`;
   return externalUrl;
 };
+
+export async function processStripePaymentIntentCancelRequest({
+  paymentIntentId,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+  return stripeClient.paymentIntents.cancel(paymentIntentId);
+}
+
+export async function processStripePaymentIntentRefundRequest({
+  paymentIntentId,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+  return stripeClient.paymentIntents.cancel(paymentIntentId);
+}
+
+export async function processStripePaymentIntentCaptureRequest({
+  paymentIntentId,
+  amount,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  amount?: number | null | undefined;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+  return stripeClient.paymentIntents.capture(paymentIntentId, {
+    amount_to_capture: amount ?? undefined,
+  });
+}

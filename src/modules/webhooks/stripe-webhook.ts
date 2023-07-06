@@ -226,8 +226,8 @@ async function stripeEventToTransactionEventReport({
     return null;
   }
 
-  const adyenConfig = getConfigurationForChannel(appConfig, channelId);
-  if (!adyenConfig) {
+  const stripeConfig = getConfigurationForChannel(appConfig, channelId);
+  if (!stripeConfig) {
     logger.warn(`Missing configuration for channel: ${channelId}`);
     return null;
   }
