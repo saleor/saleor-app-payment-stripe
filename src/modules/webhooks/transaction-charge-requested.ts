@@ -5,7 +5,10 @@ import {
   getStripeExternalUrlForIntentId,
   processStripePaymentIntentCaptureRequest,
 } from "../stripe/stripe-api";
-import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
+import {
+  getSaleorAmountFromStripeAmount,
+  getStripeAmountFromSaleorMoney,
+} from "../stripe/currencies";
 import { type TransactionChargeRequestedResponse } from "@/schemas/TransactionChargeRequested/TransactionChargeRequestedResponse.mjs";
 import { type TransactionChargeRequestedEventFragment } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
@@ -34,7 +37,10 @@ export const TransactionChargeRequestedWebhookHandler = async (
 
   const stripePaymentIntentCaptureResponse = await processStripePaymentIntentCaptureRequest({
     paymentIntentId: event.transaction.pspReference,
-    amount: event.action.amount,
+    stripeAmount: getStripeAmountFromSaleorMoney({
+      amount: event.action.amount,
+      currency: event.transaction.sourceObject.total.gross.currency,
+    }),
     secretKey: stripeConfig.secretKey,
   });
 

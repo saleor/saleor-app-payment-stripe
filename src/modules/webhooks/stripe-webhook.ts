@@ -1,5 +1,6 @@
 /// <reference types="stripe-event-types" />
 import { type Readable } from "node:stream";
+
 import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest } from "next";
 import Stripe from "stripe";
@@ -24,7 +25,7 @@ import {
   TransactionActionEnum,
 } from "generated/graphql";
 import { assertUnreachableButNotThrow } from "@/lib/invariant";
-import { unpackPromise } from "@/lib/utils";
+import { __do, unpackPromise } from "@/lib/utils";
 
 export const stripeWebhookHandler = async (req: NextApiRequest) => {
   const logger = createLogger({}, { msgPrefix: "[stripeWebhookHandler] " });
@@ -326,9 +327,82 @@ function stripeEventToPartialToTransactionEventReportMutationVariables(
       return stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
         stripeEvent,
       );
+    case "charge.refunded":
+      return stripeChargeRefundedEventToPartialToTransactionEventReportMutationVariables({
+        ...stripeEvent,
+        type: stripeEvent.type,
+      });
+    case "charge.refund.updated":
+      return stripeChargeRefundUpdatedEventToPartialToTransactionEventReportMutationVariables(
+        stripeEvent,
+      );
     default:
       return null;
   }
+}
+
+const getPaymentIntentIdFromObject = ({ payment_intent }: Stripe.Refund | Stripe.Charge) =>
+  typeof payment_intent === "string" ? payment_intent : payment_intent?.id;
+
+function stripeChargeRefundUpdatedEventToPartialToTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent.ChargeRefundEvent,
+) {
+  const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
+
+  // we can use chargeID for externalURL - it automatically redirects to the right place
+  const pspReference = paymentIntentId || stripeEvent.id;
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripeEvent.data.object.amount,
+    currency: stripeEvent.data.object.currency,
+  });
+
+  const typeAndMessage = __do(() => {
+    switch (stripeEvent.data.object.status) {
+      case "canceled":
+      case "failed":
+        return {
+          type: TransactionEventTypeEnum.RefundFailure,
+          message: stripeEvent.data.object.failure_reason,
+        };
+      case `pending`:
+        return { type: TransactionEventTypeEnum.RefundRequest };
+      case `succeeded`:
+        return { type: TransactionEventTypeEnum.RefundSuccess };
+      case `requires_action`:
+        return { type: TransactionEventTypeEnum.Info };
+    }
+  });
+
+  if (!typeAndMessage) {
+    return;
+  }
+
+  return {
+    amount,
+    message: typeAndMessage.message || stripeEvent.data.object.description,
+    type: typeAndMessage.type,
+    pspReference,
+    externalUrl,
+  };
+}
+
+function stripeChargeRefundedEventToPartialToTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent.ChargeEvent & { type: "charge.refunded" },
+) {
+  const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
+
+  // we can use chargeID for externalURL - it automatically redirects to the right place
+  const pspReference = paymentIntentId || stripeEvent.id;
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripeEvent.data.object.amount_refunded,
+    currency: stripeEvent.data.object.currency,
+  });
+  const type = TransactionEventTypeEnum.RefundSuccess;
+  return { amount, type, message: stripeEvent.data.object.description, pspReference, externalUrl };
 }
 
 function stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
@@ -413,7 +487,7 @@ function stripePaymentIntentEventToPartialToTransactionEventReportMutationVariab
         amount: paymentIntent.amount,
         currency: paymentIntent.currency,
       });
-      const type = TransactionEventTypeEnum.Info;
+      const type = TransactionEventTypeEnum.AuthorizationAdjustment;
       return { amount, type, externalUrl, pspReference, message };
     }
 

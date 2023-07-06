@@ -58,3 +58,5 @@ export const isNotNullish = <T>(val: T | null | undefined): val is T =>
 
 export const isObject = (val: unknown): val is Record<string, unknown> =>
   typeof val === "object" && val !== null && !Array.isArray(val);
+
+export const __do = <T>(fn: () => T): T => fn();

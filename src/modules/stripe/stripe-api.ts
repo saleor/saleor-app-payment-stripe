@@ -134,17 +134,18 @@ export const stripePaymentIntentToTransactionResult = (
   invariant(prefix, `Unsupported transactionFlowStrategy: ${transactionFlowStrategy}`);
 
   switch (stripeResult) {
-    case "requires_payment_method":
     case "processing":
       return `${prefix}_REQUESTED`;
+    case "requires_payment_method":
     case "requires_action":
-    case "requires_capture":
     case "requires_confirmation":
       return `${prefix}_ACTION_REQUIRED`;
     case "canceled":
       return `${prefix}_FAILURE`;
     case "succeeded":
       return `${prefix}_SUCCESS`;
+    case "requires_capture":
+      return `AUTHORIZATION_SUCCESS`;
   }
 };
 
@@ -177,18 +178,23 @@ export const getStripeExternalUrlForIntentId = (intentId: string) => {
   return externalUrl;
 };
 
-export async function processStripePaymentIntentCancelRequest({
+export async function processStripePaymentIntentRefundRequest({
   paymentIntentId,
+  stripeAmount,
   secretKey,
 }: {
   paymentIntentId: string;
+  stripeAmount: number | null | undefined;
   secretKey: string;
 }) {
   const stripeClient = getStripeApiClient(secretKey);
-  return stripeClient.paymentIntents.cancel(paymentIntentId);
+  return stripeClient.refunds.create({
+    payment_intent: paymentIntentId,
+    amount: stripeAmount ?? undefined,
+  });
 }
 
-export async function processStripePaymentIntentRefundRequest({
+export async function processStripePaymentIntentCancelRequest({
   paymentIntentId,
   secretKey,
 }: {
@@ -201,15 +207,15 @@ export async function processStripePaymentIntentRefundRequest({
 
 export async function processStripePaymentIntentCaptureRequest({
   paymentIntentId,
-  amount,
+  stripeAmount,
   secretKey,
 }: {
   paymentIntentId: string;
-  amount?: number | null | undefined;
+  stripeAmount: number | null | undefined;
   secretKey: string;
 }) {
   const stripeClient = getStripeApiClient(secretKey);
   return stripeClient.paymentIntents.capture(paymentIntentId, {
-    amount_to_capture: amount ?? undefined,
+    amount_to_capture: stripeAmount ?? undefined,
   });
 }
