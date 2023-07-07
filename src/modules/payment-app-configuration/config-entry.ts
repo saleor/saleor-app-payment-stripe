@@ -1,11 +1,13 @@
 import { z } from "zod";
 import { deobfuscateValues } from "../app-configuration/utils";
 
+export const DANGEROUS_paymentAppConfigHiddenSchema = z.object({
+  webhookSecret: z.string().min(1),
+  webhookId: z.string().min(1),
+});
+
 export const paymentAppConfigEntryInternalSchema = z.object({
   configurationId: z.string().min(1),
-  webhookSecret: z
-    .string({ required_error: "Webhook Secret is required" })
-    .min(1, { message: "Webhook Secret is required" }),
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
@@ -23,7 +25,9 @@ export const paymentAppConfigEntryPublicSchema = z.object({
     .min(1, { message: "Configuration name is required" }),
 });
 
-export const paymentAppConfigEntrySchema = paymentAppConfigEntryEncryptedSchema
+export const paymentAppConfigEntrySchema = DANGEROUS_paymentAppConfigHiddenSchema.merge(
+  paymentAppConfigEntryEncryptedSchema,
+)
   .merge(paymentAppConfigEntryPublicSchema)
   .merge(paymentAppConfigEntryInternalSchema);
 
@@ -41,7 +45,8 @@ export const paymentAppFullyConfiguredEntrySchema = z
     configurationId: paymentAppConfigEntryInternalSchema.shape.configurationId,
     secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey,
     publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey,
-    webhookSecret: paymentAppConfigEntryInternalSchema.shape.webhookSecret,
+    webhookSecret: DANGEROUS_paymentAppConfigHiddenSchema.shape.webhookSecret,
+    webhookId: DANGEROUS_paymentAppConfigHiddenSchema.shape.webhookId,
   })
   .required();
 
@@ -79,3 +84,6 @@ export type PaymentAppUserVisibleConfigEntry = z.infer<
   typeof paymentAppUserVisibleConfigEntrySchema
 >;
 export type PaymentAppFormConfigEntry = z.infer<typeof paymentAppFormConfigEntrySchema>;
+export type PaymentAppConfigEntryUpdate = Partial<PaymentAppConfigEntry> & {
+  configurationId: PaymentAppConfigEntry["configurationId"];
+};

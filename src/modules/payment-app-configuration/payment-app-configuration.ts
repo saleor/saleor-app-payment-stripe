@@ -5,7 +5,11 @@ import {
 } from "../app-configuration/app-configuration";
 import { type BrandedEncryptedMetadataManager } from "../app-configuration/metadata-manager";
 import { type PaymentAppConfig, paymentAppConfigSchema, type ChannelMapping } from "./app-config";
-import { type PaymentAppConfigEntry } from "./config-entry";
+import {
+  type PaymentAppConfigEntryUpdate,
+  type PaymentAppConfigEntry,
+  paymentAppConfigEntrySchema,
+} from "./config-entry";
 import { obfuscateConfigEntry } from "./utils";
 import { env } from "@/lib/env.mjs";
 import { BaseError } from "@/errors";
@@ -56,13 +60,14 @@ export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig>
   }
 
   /** Adds new config entry or updates existing one */
-  async setConfigEntry(newConfiguration: PaymentAppConfigEntry) {
+  async setConfigEntry(newConfiguration: PaymentAppConfigEntryUpdate) {
     const { configurations } = await this.getConfig();
 
     const existingEntryIndex = configurations.findIndex(
       (entry) => entry.configurationId === newConfiguration.configurationId,
     );
 
+    // Old entry = allow missing fields (they are already saved)
     if (existingEntryIndex !== -1) {
       const existingEntry = configurations[existingEntryIndex];
       const mergedEntry = {
@@ -75,8 +80,11 @@ export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig>
       return this.setConfig({ configurations: newConfigurations });
     }
 
+    // New entry = check if valid
+    const parsedConfig = paymentAppConfigEntrySchema.parse(newConfiguration);
+
     return this.setConfig({
-      configurations: [...configurations, newConfiguration],
+      configurations: [...configurations, parsedConfig],
     });
   }
 
