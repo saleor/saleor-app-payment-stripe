@@ -58,10 +58,6 @@ export const TransactionProcessSessionWebhookHandler = async (
     paymentIntentUpdateParams,
     secretKey: stripeConfig.secretKey,
   });
-  console.log({
-    paymentIntentUpdateParams,
-    stripePaymentIntent,
-  });
 
   const data = {
     paymentIntent: { client_secret: stripePaymentIntent.client_secret },

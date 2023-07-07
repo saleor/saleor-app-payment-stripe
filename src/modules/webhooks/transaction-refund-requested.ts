@@ -77,8 +77,14 @@ export const TransactionRefundRequestedWebhookHandler = async (
       };
       return transactionRefundRequestedResponse;
     }
+    case "requires_action": {
+      const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
+        pspReference,
+        message: `requires_action`,
+      };
+      return transactionRefundRequestedResponse;
+    }
     case "pending":
-    case "requires_action":
     default: {
       const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
         pspReference,
