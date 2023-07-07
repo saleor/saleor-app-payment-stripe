@@ -80,9 +80,6 @@ export const transactionSessionInitializeEventToStripeCreate = (
       currency: event.sourceObject.total.gross.currency,
     }),
     currency: event.sourceObject.total.gross.currency,
-    automatic_payment_methods: {
-      enabled: true,
-    },
     capture_method:
       event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
     metadata: {
