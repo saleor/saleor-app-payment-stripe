@@ -24,10 +24,10 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
           "x-stripe-client-user-agent",
         ],
       },
-      method: false,
-      body: false,
-      order: false,
-      url: false,
+      method: true,
+      body: true,
+      order: true,
+      url: true,
     },
   });
 
@@ -42,18 +42,22 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
       {
         title: `should work authorization`,
         data: {
-          // automatic_payment_methods: {
-          //   enabled: true,
-          // },
+          automatic_payment_methods: {
+            enabled: true,
+          },
         },
-        result: "AUTHORIZATION_REQUESTED",
+        result: "AUTHORIZATION_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Authorization,
       },
       {
         title: `should work charge`,
-        data: {},
-        result: "CHARGE_REQUESTED",
+        data: {
+          automatic_payment_methods: {
+            enabled: true,
+          },
+        },
+        result: "CHARGE_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Charge,
       },
