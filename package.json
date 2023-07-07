@@ -68,7 +68,7 @@
     "pino-pretty": "10.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.45.0",
+    "react-hook-form": "7.45.1",
     "stripe": "12.10.0",
     "stripe-event-types": "2.3.0",
     "url-join": "5.0.0",
