@@ -44,7 +44,10 @@ export const TransactionCancelationRequestedWebhookHandler = async (
       ? // Sync flow
         {
           pspReference: stripePaymentIntentCancelResponse.id,
-          amount: getSaleorAmountFromStripeAmount({amount: stripePaymentIntentCancelResponse.amount, currency: stripePaymentIntentCancelResponse.currency}),
+          amount: getSaleorAmountFromStripeAmount({
+            amount: stripePaymentIntentCancelResponse.amount,
+            currency: stripePaymentIntentCancelResponse.currency,
+          }),
           result: TransactionEventTypeEnum.CancelSuccess,
           externalUrl: getStripeExternalUrlForIntentId(stripePaymentIntentCancelResponse.id),
         }
