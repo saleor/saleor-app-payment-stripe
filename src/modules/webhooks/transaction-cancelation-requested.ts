@@ -1,9 +1,16 @@
 import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
 import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configuration/config-entry";
 import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
-import { processStripePaymentIntentCancelRequest } from "../stripe/stripe-api";
+import {
+  getStripeExternalUrlForIntentId,
+  processStripePaymentIntentCancelRequest,
+} from "../stripe/stripe-api";
+import { getSaleorAmountFromStripeAmount } from "../stripe/currencies";
 import { type TransactionCancelationRequestedResponse } from "@/schemas/TransactionCancelationRequested/TransactionCancelationRequestedResponse.mjs";
-import { type TransactionCancelationRequestedEventFragment } from "generated/graphql";
+import {
+  TransactionEventTypeEnum,
+  type TransactionCancelationRequestedEventFragment,
+} from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 import { TransactionActionEnum } from "generated/graphql";
 
@@ -32,8 +39,19 @@ export const TransactionCancelationRequestedWebhookHandler = async (
     secretKey: stripeConfig.secretKey,
   });
 
-  const transactionCancelationRequestedResponse: TransactionCancelationRequestedResponse = {
-    pspReference: stripePaymentIntentCancelResponse.id,
-  };
+  const transactionCancelationRequestedResponse: TransactionCancelationRequestedResponse =
+    stripePaymentIntentCancelResponse.status === "canceled"
+      ? // Sync flow
+        {
+          pspReference: stripePaymentIntentCancelResponse.id,
+          amount: getSaleorAmountFromStripeAmount({amount: stripePaymentIntentCancelResponse.amount, currency: stripePaymentIntentCancelResponse.currency}),
+          result: TransactionEventTypeEnum.CancelSuccess,
+          externalUrl: getStripeExternalUrlForIntentId(stripePaymentIntentCancelResponse.id),
+        }
+      : // Async flow; waiting for confirmation
+        {
+          pspReference: stripePaymentIntentCancelResponse.id,
+        };
+
   return transactionCancelationRequestedResponse;
 };

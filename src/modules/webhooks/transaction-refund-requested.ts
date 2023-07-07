@@ -1,12 +1,19 @@
 import { paymentAppFullyConfiguredEntrySchema } from "../payment-app-configuration/config-entry";
 import { getConfigurationForChannel } from "../payment-app-configuration/payment-app-configuration";
 import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/payment-app-configuration-factory";
-import { getStripeAmountFromSaleorMoney } from "../stripe/currencies";
-import { processStripePaymentIntentRefundRequest } from "../stripe/stripe-api";
+import {
+  getSaleorAmountFromStripeAmount,
+  getStripeAmountFromSaleorMoney,
+} from "../stripe/currencies";
+import {
+  getStripeExternalUrlForIntentId,
+  processStripePaymentIntentRefundRequest,
+} from "../stripe/stripe-api";
 import { invariant } from "@/lib/invariant";
 import { type TransactionRefundRequestedResponse } from "@/schemas/TransactionRefundRequesed/TransactionRefundRequestedResponse.mjs";
 import {
   TransactionActionEnum,
+  TransactionEventTypeEnum,
   type TransactionRefundRequestedEventFragment,
 } from "generated/graphql";
 
@@ -43,8 +50,40 @@ export const TransactionRefundRequestedWebhookHandler = async (
     secretKey: stripeConfig.secretKey,
   });
 
-  const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
-    pspReference: stripePaymentIntentRefundResponse.id,
-  };
-  return transactionRefundRequestedResponse;
+  const pspReference = stripePaymentIntentRefundResponse.id;
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripePaymentIntentRefundResponse.amount,
+    currency: stripePaymentIntentRefundResponse.currency,
+  });
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  switch (stripePaymentIntentRefundResponse.status) {
+    case "succeeded": {
+      const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
+        result: TransactionEventTypeEnum.RefundSuccess,
+        pspReference,
+        amount,
+        externalUrl,
+      };
+      return transactionRefundRequestedResponse;
+    }
+    case "canceled":
+    case "failed": {
+      const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
+        result: TransactionEventTypeEnum.RefundFailure,
+        pspReference,
+        amount,
+        externalUrl,
+      };
+      return transactionRefundRequestedResponse;
+    }
+    case "pending":
+    case "requires_action":
+    default: {
+      const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
+        pspReference,
+      };
+      return transactionRefundRequestedResponse;
+    }
+  }
 };

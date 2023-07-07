@@ -41,7 +41,11 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
     it.each([
       {
         title: `should work authorization`,
-        data: {},
+        data: {
+          // automatic_payment_methods: {
+          //   enabled: true,
+          // },
+        },
         result: "AUTHORIZATION_REQUESTED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Authorization,

@@ -471,3 +471,9 @@ export const createMockTransactionProcessSessionEvent: CreateMockAsyncFn<
     overrides,
   );
 };
+
+export const createMockStripeDataActionNotRequired = () => {
+  return {
+    // return_url: testEnv.TEST_SALEOR_API_URL + "checkout",
+  };
+};
