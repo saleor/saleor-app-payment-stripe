@@ -4,13 +4,17 @@ import { getWebhookPaymentAppConfigurator } from "../payment-app-configuration/p
 import {
   getStripeExternalUrlForIntentId,
   processStripePaymentIntentCaptureRequest,
+  stripePaymentIntentToTransactionResult,
 } from "../stripe/stripe-api";
 import {
   getSaleorAmountFromStripeAmount,
   getStripeAmountFromSaleorMoney,
 } from "../stripe/currencies";
 import { type TransactionChargeRequestedResponse } from "@/schemas/TransactionChargeRequested/TransactionChargeRequestedResponse.mjs";
-import { type TransactionChargeRequestedEventFragment } from "generated/graphql";
+import {
+  type TransactionChargeRequestedEventFragment,
+  TransactionFlowStrategyEnum,
+} from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 import { TransactionActionEnum } from "generated/graphql";
 
@@ -44,14 +48,32 @@ export const TransactionChargeRequestedWebhookHandler = async (
     secretKey: stripeConfig.secretKey,
   });
 
-  const transactionChargeRequestedResponse: TransactionChargeRequestedResponse = {
-    result: "CHARGE_SUCCESS",
-    pspReference: stripePaymentIntentCaptureResponse.id,
-    amount: getSaleorAmountFromStripeAmount({
-      amount: stripePaymentIntentCaptureResponse.amount_received,
-      currency: stripePaymentIntentCaptureResponse.currency,
-    }),
-    externalUrl: getStripeExternalUrlForIntentId(stripePaymentIntentCaptureResponse.id),
-  };
-  return transactionChargeRequestedResponse;
+  const pspReference = stripePaymentIntentCaptureResponse.id;
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripePaymentIntentCaptureResponse.amount_received,
+    currency: stripePaymentIntentCaptureResponse.currency,
+  });
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  const result = stripePaymentIntentToTransactionResult(
+    TransactionFlowStrategyEnum.Charge,
+    stripePaymentIntentCaptureResponse,
+  );
+
+  if (result === "CHARGE_SUCCESS" || result === "CHARGE_FAILURE") {
+    // Sync flow
+    const transactionChargeRequestedResponse: TransactionChargeRequestedResponse = {
+      result,
+      pspReference,
+      amount,
+      externalUrl,
+    };
+    return transactionChargeRequestedResponse;
+  } else {
+    // Async flow; waiting for confirmation
+    const transactionChargeRequestedResponse: TransactionChargeRequestedResponse = {
+      pspReference,
+    };
+    return transactionChargeRequestedResponse;
+  }
 };
