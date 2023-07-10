@@ -253,8 +253,8 @@ devDependencies:
     specifier: 0.33.0
     version: 0.33.0(vitest@0.33.0)
   dependency-cruiser:
-    specifier: 13.0.4
-    version: 13.0.4
+    specifier: 13.1.0
+    version: 13.1.0
   eslint:
     specifier: 8.44.0
     version: 8.44.0
@@ -4227,7 +4227,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.3
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
@@ -4248,7 +4248,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.3
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
@@ -4269,7 +4269,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.60.0(typescript@5.1.6)
       eslint: 8.44.0
       eslint-scope: 5.1.1
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4289,7 +4289,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.61.0(typescript@5.1.6)
       eslint: 8.44.0
       eslint-scope: 5.1.1
-      semver: 7.5.3
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -4741,23 +4741,28 @@ packages:
     resolution: {integrity: sha512-uuo6iJj4D4ygkdzd6jPtcxs8vZgDX9YFIkqczGImoypX2fQ4dVImmu3UzA4ynixCIMTrEOWW+95M2HuBaCEOVA==}
     dev: true
 
-  /acorn-jsx@5.3.2(acorn@8.9.0):
+  /acorn-jsx@5.3.2(acorn@8.10.0):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
 
   /acorn-loose@8.3.0:
     resolution: {integrity: sha512-75lAs9H19ldmW+fAbyqHdjgdCrz0pWGXKmnqFoh8PyVd1L2RIb4RzYrSjmopeqv3E1G3/Pimu6GgLlrGbrkF7w==}
     engines: {node: '>=0.4.0'}
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
     dev: true
 
   /acorn-walk@8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
     engines: {node: '>=0.4.0'}
+
+  /acorn@8.10.0:
+    resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
 
   /acorn@8.9.0:
     resolution: {integrity: sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==}
@@ -5308,6 +5313,11 @@ packages:
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: true
 
+  /chalk@5.3.0:
+    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: true
+
   /change-case-all@1.0.14:
     resolution: {integrity: sha512-CWVm2uT7dmSHdO/z1CXT/n47mWonyypzBbuCy5tN7uMg22BsfkhwT6oHmFCAk+gL1LOOxhdbB9SZz3J1KTY3gA==}
     dependencies:
@@ -5804,22 +5814,22 @@ packages:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
     engines: {node: '>= 0.8'}
 
-  /dependency-cruiser@13.0.4:
-    resolution: {integrity: sha512-MRNZmtgIoQwISBpDf0QnsReYc3PQbdzEkESyfCXxfsQPuQad3ePO0lBVQojBcf07Ui7kaJhZufSnV1leuEhs2g==}
+  /dependency-cruiser@13.1.0:
+    resolution: {integrity: sha512-ps8o8+3FW0kV7JWUq+h5VjaaH/Y4ztp0oArye9PcdPIZc2+a6otFwCA4GZRND/Ho/EiftkuVNEWYAsIvxqJF2w==}
     engines: {node: ^16.14||>=18}
     hasBin: true
     dependencies:
-      acorn: 8.9.0
-      acorn-jsx: 5.3.2(acorn@8.9.0)
+      acorn: 8.10.0
+      acorn-jsx: 5.3.2(acorn@8.10.0)
       acorn-jsx-walk: 2.0.0
       acorn-loose: 8.3.0
       acorn-walk: 8.2.0
       ajv: 8.12.0
-      chalk: 5.2.0
+      chalk: 5.3.0
       commander: 11.0.0
       enhanced-resolve: 5.15.0
       figures: 5.0.0
-      glob: 10.2.7
+      glob: 10.3.3
       handlebars: 4.7.7
       ignore: 5.2.4
       indent-string: 5.0.0
@@ -5830,8 +5840,8 @@ packages:
       prompts: 2.4.2
       rechoir: 0.8.0
       safe-regex: 2.1.1
-      semver: 7.5.3
-      semver-try-require: 6.2.2
+      semver: 7.5.4
+      semver-try-require: 6.2.3
       teamcity-service-messages: 0.1.14
       tsconfig-paths-webpack-plugin: 4.0.1
       watskeburt: 0.11.5
@@ -6559,8 +6569,8 @@ packages:
     resolution: {integrity: sha512-1FH/IiruXZ84tpUlm0aCUEwMl2Ho5ilqVh0VvQXw+byAz/4SAciyHLlfmL5WYqsvD38oymdUwBss0LtK8m4s/A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.9.0
-      acorn-jsx: 5.3.2(acorn@8.9.0)
+      acorn: 8.10.0
+      acorn-jsx: 5.3.2(acorn@8.10.0)
       eslint-visitor-keys: 3.4.1
 
   /esprima@4.0.1:
@@ -7043,8 +7053,8 @@ packages:
   /glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  /glob@10.2.7:
-    resolution: {integrity: sha512-jTKehsravOJo8IJxUGfZILnkvVJM/MOfHRs8QcXolVef2zNI9Tqyy5+SeuOAZd3upViEZQLyFpQhYiHLrMUNmA==}
+  /glob@10.3.3:
+    resolution: {integrity: sha512-92vPiMb/iqpmEgsOoIDvTjc50wf9CCCvMzsi6W0JLPeUKE8TWP1a73PgqSrqy7iAZxaSD1YdzU7QZR5LF51MJw==}
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
     dependencies:
@@ -7052,7 +7062,7 @@ packages:
       jackspeak: 2.2.1
       minimatch: 9.0.2
       minipass: 6.0.2
-      path-scurry: 1.9.2
+      path-scurry: 1.10.1
     dev: true
 
   /glob@7.1.7:
@@ -8516,7 +8526,7 @@ packages:
   /mlly@1.4.0:
     resolution: {integrity: sha512-ua8PAThnTwpprIaU47EPeZ/bPUVp2QYBbWMphUQpVdBI3Lgqzm5KZQ45Agm3YJedHXaIHl6pBGabaLSUPPSptg==}
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
       pathe: 1.1.1
       pkg-types: 1.0.3
       ufo: 1.1.2
@@ -9067,8 +9077,8 @@ packages:
       path-root-regex: 0.1.2
     dev: true
 
-  /path-scurry@1.9.2:
-    resolution: {integrity: sha512-qSDLy2aGFPm8i4rsbHd4MNyTcrzHFsLQykrtbuGRknZZCBBVXSv2tSCDN2Cg6Rt/GFRw8GoW9y9Ecw5rIPG1sg==}
+  /path-scurry@1.10.1:
+    resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       lru-cache: 9.1.2
@@ -9813,11 +9823,11 @@ packages:
     resolution: {integrity: sha512-6aU+Rwsezw7VR8/nyvKTx8QpWH9FrcYiXXlqC4z5d5XQBDRqtbfsRjnwGyqbi3gddNtWHuEk9OANUotL26qKUw==}
     dev: false
 
-  /semver-try-require@6.2.2:
-    resolution: {integrity: sha512-Pyr1mG/kyBxL2+hNfU/VPRhBRdm/+EJAyWlusn7t9NDRkZEvsbwPjlocZ4ji0TD4ALPmW9ZkrzMQADjrRCDQ5w==}
+  /semver-try-require@6.2.3:
+    resolution: {integrity: sha512-6q1N/Vr/4/G0EcQ1k4svN5kwfh3MJs4Gfl+zBAVcKn+AeIjKLwTXQ143Y6YHu6xEeN5gSCbCD1/5+NwCipLY5A==}
     engines: {node: ^14||^16||>=18}
     dependencies:
-      semver: 7.5.3
+      semver: 7.5.4
     dev: true
 
   /semver@5.7.1:
@@ -9830,6 +9840,14 @@ packages:
 
   /semver@7.5.3:
     resolution: {integrity: sha512-QBlUtyVk/5EeHbi7X0fw6liDZc7BBmEaSYn01fMU1OUYbf6GPsbTtd8WmnqbI20SeycoHSeiybkE/q1Q+qlThQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: true
+
+  /semver@7.5.4:
+    resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -10248,7 +10266,7 @@ packages:
   /strip-literal@1.0.1:
     resolution: {integrity: sha512-QZTsipNpa2Ppr6v1AmJHESqJ3Uz247MUS0OjrnnZjFAvEoWqxuyFuXn2xLgMtRnijJShAa1HL0gtJyUs7u7n3Q==}
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
 
   /stripe-event-types@2.3.0(stripe@12.10.0):
     resolution: {integrity: sha512-4qh0wblfZBbdHn3IH9bbRrGZw+TJuIern6UjoG1+17grSyhIJFvrrqTn2ACE/wx3PE7ZLXNG5Qzo7BEXXkuyoA==}
@@ -10372,7 +10390,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.3
-      acorn: 8.9.0
+      acorn: 8.10.0
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: false
