@@ -21,9 +21,10 @@ const enabledEvents: Array<Stripe.WebhookEndpointCreateParams.EnabledEvent> = [
 ];
 
 const getWebhookUrl = (appUrl: string, saleorApiUrl: string): string => {
-  const saleorUrlParam = "?saleorApiUrl=" + encodeURIComponent(saleorApiUrl);
-
-  return urlJoin(appUrl, stripeWebhookEndpointRoute, saleorUrlParam);
+  const url = new URL(appUrl);
+  url.pathname = stripeWebhookEndpointRoute;
+  url.searchParams.set("saleorApiUrl", saleorApiUrl);
+	return url.toString();
 };
 
 interface StripeWebhookResult {
@@ -59,7 +60,7 @@ export const createStripeWebhook = async ({
       return existingAppWebhook;
     }
 
-    // We cannot retreive webhook secret after it was created, so we need to delete it and create a new one
+    // We cannot retrieve webhook secret after it was created, so we need to delete it and create a new one
     await deleteStripeWebhook({ webhookId: existingStripeWebhook.id, secretKey });
   }
 
