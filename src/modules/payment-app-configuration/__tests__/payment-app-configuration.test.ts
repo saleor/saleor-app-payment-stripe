@@ -1,8 +1,13 @@
 import { vi, describe, it, expect } from "vitest";
 import { PaymentAppConfigurator } from "../payment-app-configuration";
-import { type ChannelMapping, paymentAppConfigSchema, type PaymentAppConfig } from "../app-config";
+import {
+  type ChannelMapping,
+  paymentAppConfigSchema,
+  type PaymentAppConfig,
+  type PaymentAppConfigUserVisible,
+} from "../app-config";
 import { type PaymentAppConfigEntry } from "../config-entry";
-import { configEntryRequired, configEntryAll } from "./mocks";
+import { configEntryAll } from "./mocks";
 import { testEnv } from "@/__tests__/test-env.mjs";
 import { type BrandedEncryptedMetadataManager } from "@/modules/app-configuration/metadata-manager";
 import { type PrivateMetadataAppConfigurator } from "@/modules/app-configuration/app-configuration";
@@ -40,7 +45,7 @@ describe("PaymentAppConfigurator", () => {
   describe("getConfigObfuscated", () => {
     it("should obfuscate configurations and keep channelToConfigurationId as is", async () => {
       const mockConfig = {
-        configurations: [configEntryRequired],
+        configurations: [configEntryAll],
         channelToConfigurationId: { "channel-1": "mock-id" },
       } satisfies PaymentAppConfig;
       const getConfig = vi.spyOn(appConfigurator, "getConfig").mockResolvedValue(mockConfig);
@@ -55,22 +60,21 @@ describe("PaymentAppConfigurator", () => {
             secretKey: `${OBFUSCATION_DOTS}-key`, // from super-secret-key
             publishableKey: "pk_that-secret-key",
             configurationName: "test",
-            webhookSecret: `${OBFUSCATION_DOTS}test`,
           },
         ],
         channelToConfigurationId: mockConfig.channelToConfigurationId,
-      } satisfies PaymentAppConfig);
+      } satisfies PaymentAppConfigUserVisible);
     });
   });
 
   describe("setConfigEntry", () => {
     it("should update app config with new config entry added to list of config entries", async () => {
       const newConfigEntry: PaymentAppConfigEntry = {
-        ...configEntryRequired,
+        ...configEntryAll,
         configurationId: "new-mock-id",
       };
       const existingConfig: PaymentAppConfig = {
-        configurations: [configEntryRequired],
+        configurations: [configEntryAll],
         channelToConfigurationId: {},
       };
 
@@ -81,7 +85,7 @@ describe("PaymentAppConfigurator", () => {
 
       expect(getConfig).toHaveBeenCalled();
       expect(setConfig).toHaveBeenCalledWith({
-        configurations: [configEntryRequired, newConfigEntry],
+        configurations: [configEntryAll, newConfigEntry],
       });
     });
 
@@ -91,10 +95,7 @@ describe("PaymentAppConfigurator", () => {
         configurationId: "new-mock-id",
       };
       const existingConfig: PaymentAppConfig = {
-        configurations: [
-          configEntryRequired,
-          { ...configEntryRequired, configurationId: "new-mock-id" },
-        ],
+        configurations: [configEntryAll, { ...configEntryAll, configurationId: "new-mock-id" }],
         channelToConfigurationId: {},
       };
 
@@ -105,7 +106,7 @@ describe("PaymentAppConfigurator", () => {
 
       expect(getConfig).toHaveBeenCalled();
       expect(setConfig).toHaveBeenCalledWith({
-        configurations: [configEntryRequired, updateConfigEntry],
+        configurations: [configEntryAll, updateConfigEntry],
       });
     });
   });
@@ -113,14 +114,14 @@ describe("PaymentAppConfigurator", () => {
   describe("deleteConfigEntry", () => {
     it("should call setConfig without the deleted configurationId", async () => {
       const existingConfig: PaymentAppConfig = {
-        configurations: [configEntryRequired],
+        configurations: [configEntryAll],
         channelToConfigurationId: {},
       };
 
       const getConfig = vi.spyOn(appConfigurator, "getConfig").mockResolvedValue(existingConfig);
       const setConfig = vi.spyOn(appConfigurator, "setConfig");
 
-      await appConfigurator.deleteConfigEntry(configEntryRequired.configurationId);
+      await appConfigurator.deleteConfigEntry(configEntryAll.configurationId);
 
       expect(getConfig).toHaveBeenCalled();
       expect(setConfig).toHaveBeenCalledWith(

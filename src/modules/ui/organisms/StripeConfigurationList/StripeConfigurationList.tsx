@@ -5,17 +5,17 @@ import {
   RoundedBoxWithFooter,
 } from "@/modules/ui/atoms/RoundedActionBox/RoundedActionBox";
 import { ConfigurationsTable } from "@/modules/ui/molecules/ConfigurationsTable/ConfigurationsTable";
-import { type PaymentAppConfigEntries } from "@/modules/payment-app-configuration/app-config";
+import { type PaymentAppUserVisibleEntries } from "@/modules/payment-app-configuration/app-config";
 
 export const StripeConfigurationsList = ({
   configurations,
 }: {
-  configurations: PaymentAppConfigEntries;
+  configurations: PaymentAppUserVisibleEntries;
 }) => {
   return configurations.length > 0 ? <NotEmpty configurations={configurations} /> : <Empty />;
 };
 
-const NotEmpty = ({ configurations }: { configurations: PaymentAppConfigEntries }) => {
+const NotEmpty = ({ configurations }: { configurations: PaymentAppUserVisibleEntries }) => {
   return (
     <RoundedBoxWithFooter
       footer={
