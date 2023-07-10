@@ -162,10 +162,11 @@ export const deleteConfigEntry = async (
     "Checking if other config is using assosiated webhook",
   );
 
-  const isWebhookUsed = entries.some((entry) => entry.webhookId === existingEntry.webhookId);
+  const otherEntries = entries.filter((entry) => entry.configurationId !== configurationId);
+  const isWebhookUsed = otherEntries.some((entry) => entry.webhookId === existingEntry.webhookId);
 
-  logger.debug("Deleting webhook linked with config entry");
   if (!isWebhookUsed) {
+    logger.debug("Deleting webhook linked with config entry");
     try {
       await deleteStripeWebhook({
         webhookId: existingEntry.webhookId,
@@ -178,6 +179,8 @@ export const deleteConfigEntry = async (
         "Webhook couldn't be deleted with the config",
       );
     }
+  } else {
+    logger.debug("Webhook linked with deleted config entry is used by other config entries");
   }
 
   await configurator.deleteConfigEntry(configurationId);
