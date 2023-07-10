@@ -1,7 +1,7 @@
 import { type HttpMethod } from "../lib/api-response";
 import { type JSONValue } from "../types";
 
-export const host = `https://localhost:4213`;
+export const host = "https://localhost:4213";
 
 export const createRequestMock = (
   method: HttpMethod,

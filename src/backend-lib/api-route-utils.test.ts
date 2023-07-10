@@ -35,7 +35,7 @@ describe("api-route-utils", () => {
   describe("getSyncWebhookHandler", () => {
     type WebhookContext = Parameters<NextWebhookApiHandler>[2];
 
-    it(`should return a function`, () => {
+    it("should return a function", () => {
       expect(
         getSyncWebhookHandler(
           "TestWebhook",
@@ -47,7 +47,7 @@ describe("api-route-utils", () => {
       ).toEqual(expect.any(Function));
     });
 
-    it(`calls handler with payload and saleorApiUrl from context`, async () => {
+    it("calls handler with payload and saleorApiUrl from context", async () => {
       const handler = vi.fn();
       const webhookHandler = getSyncWebhookHandler(
         "TestWebhook",
@@ -75,7 +75,7 @@ describe("api-route-utils", () => {
       expect(handler).toHaveBeenCalledWith(payload, authData.saleorApiUrl);
     });
 
-    it(`returns json with result`, async () => {
+    it("returns json with result", async () => {
       const handler = vi.fn().mockReturnValue({
         some: "json",
       });
@@ -106,14 +106,14 @@ describe("api-route-utils", () => {
       });
     });
 
-    it(`catches known errors and returns 200 with details`, async () => {
+    it("catches known errors and returns 200 with details", async () => {
       const handler = vi.fn().mockImplementation(() => {
-        throw new BaseError(`This is a known error`, {
+        throw new BaseError("This is a known error", {
           props: {
             errorCode: 123,
             statusCode: 422,
           },
-          errors: [new Error(`Initial problem`)],
+          errors: [new Error("Initial problem")],
         });
       });
       const errorMapper = vi.fn();
@@ -172,9 +172,9 @@ describe("api-route-utils", () => {
       `);
     });
 
-    it(`catches known errors and responds with whatever the errorMapper returns`, async () => {
+    it("catches known errors and responds with whatever the errorMapper returns", async () => {
       const handler = vi.fn().mockImplementation(() => {
-        throw new MissingSaleorApiUrlError(`Missing`);
+        throw new MissingSaleorApiUrlError("Missing");
       });
       const errorMapper = vi.fn().mockImplementation((payload, error) => {
         return {
@@ -223,9 +223,9 @@ describe("api-route-utils", () => {
       `);
     });
 
-    it(`catches unknown errors and returns 500`, async () => {
+    it("catches unknown errors and returns 500", async () => {
       const handler = vi.fn().mockImplementation(() => {
-        throw new Error(`Some error`);
+        throw new Error("Some error");
       });
       const json = vi.fn();
       const status = vi.fn().mockReturnValue({ json });
@@ -261,7 +261,7 @@ describe("api-route-utils", () => {
   });
 
   describe("getAuthDataForRequest", () => {
-    it(`should throw if there's no saleroApiUrl in the query`, async () => {
+    it("should throw if there's no saleroApiUrl in the query", async () => {
       await expect(
         getAuthDataForRequest({ query: {} } as NextApiRequest),
       ).rejects.toMatchInlineSnapshot(
@@ -269,13 +269,13 @@ describe("api-route-utils", () => {
       );
     });
 
-    it(`should throw if data doesn't exist in APL`, async () => {
+    it("should throw if data doesn't exist in APL", async () => {
       await expect(
         getAuthDataForRequest({ query: { saleorApiUrl: "someurl" } } as unknown as NextApiRequest),
       ).rejects.toMatchInlineSnapshot("[MissingAuthDataError: APL for someurl not found]");
     });
 
-    it(`should return data from apl if it exists`, async () => {
+    it("should return data from apl if it exists", async () => {
       await expect(
         getAuthDataForRequest({
           query: { saleorApiUrl: testEnv.TEST_SALEOR_API_URL },

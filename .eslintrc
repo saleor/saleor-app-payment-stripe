@@ -16,6 +16,9 @@
     "plugin:@saleor/saleor-app/recommended"
   ],
   "rules": {
+    // use double quotes, allow temlpate
+    "quotes": ["error", "double", { "avoidEscape": true }],
+
     // sort imports
     "import/order": "error",
 

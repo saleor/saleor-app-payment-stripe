@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getStripeAmountFromSaleorMoney, getSaleorAmountFromStripeAmount } from "./currencies";
 
-describe(`currencies`, () => {
+describe("currencies", () => {
   const testCases = [
     { major: 10, currency: "PLN", minor: 1000 },
     { major: 21.37, currency: "PLN", minor: 2137 },
@@ -51,7 +51,7 @@ describe(`currencies`, () => {
     expect(getSaleorAmountFromStripeAmount({ amount: minor, currency })).toEqual(major);
   });
 
-  it.each(testCases)(`identity %p`, ({ major, minor, currency }) => {
+  it.each(testCases)("identity %p", ({ major, minor, currency }) => {
     expect(
       getStripeAmountFromSaleorMoney({
         amount: getSaleorAmountFromStripeAmount({ amount: minor, currency }),

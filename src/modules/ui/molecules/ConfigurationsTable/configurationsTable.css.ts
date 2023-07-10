@@ -10,7 +10,7 @@ export const summaryColumnTd = style(
       width: "50%",
     },
   ],
-  `summaryColumnTd`,
+  "summaryColumnTd",
 );
 export const actionsColumnTd = style(
   [
@@ -18,5 +18,5 @@ export const actionsColumnTd = style(
       textAlign: "right",
     }),
   ],
-  `actionsColumnTd`,
+  "actionsColumnTd",
 );

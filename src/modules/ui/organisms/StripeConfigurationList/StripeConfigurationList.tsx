@@ -19,7 +19,7 @@ const NotEmpty = ({ configurations }: { configurations: PaymentAppConfigEntries 
   return (
     <RoundedBoxWithFooter
       footer={
-        <Link href={`/configurations/add`} passHref legacyBehavior>
+        <Link href={"/configurations/add"} passHref legacyBehavior>
           <Button as="a" size="large" variant="primary">
             Add new configuration
           </Button>
@@ -42,7 +42,7 @@ const Empty = () => {
           This means payments are not processed by Stripe.
         </Text>
       </Box>
-      <Link href={`/configurations/add`} passHref legacyBehavior>
+      <Link href={"/configurations/add"} passHref legacyBehavior>
         <Button as="a" size="large" variant="primary">
           Add new configuration
         </Button>

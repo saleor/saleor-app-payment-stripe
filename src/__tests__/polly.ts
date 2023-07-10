@@ -200,7 +200,7 @@ export const setupRecording = (config?: PollyConfig) => {
   beforeEach(async (ctx) => {
     const { currentTestName } = expect.getState();
     if (!currentTestName) {
-      throw new Error(`This function must be run inside a test case!`);
+      throw new Error("This function must be run inside a test case!");
     }
 
     const recordingsRoot = path.dirname(expect.getState().testPath || "");

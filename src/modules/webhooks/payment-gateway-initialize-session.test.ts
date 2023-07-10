@@ -5,7 +5,7 @@ import { createMockPaymentGatewayInitializeSessionEvent } from "./__tests__/util
 import { setupRecording } from "@/__tests__/polly";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
-describe(`PaymentGatewayInitializeSessionWebhookHandler`, () => {
+describe("PaymentGatewayInitializeSessionWebhookHandler", () => {
   setupRecording({});
 
   it("should work", async () => {

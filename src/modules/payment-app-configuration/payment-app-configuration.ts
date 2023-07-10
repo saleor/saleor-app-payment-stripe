@@ -15,7 +15,7 @@ export const privateMetadataKey = "payment-app-config-private";
 export const hiddenMetadataKey = "payment-app-config-hidden";
 export const publicMetadataKey = "payment-app-config-public";
 
-export const AppNotConfiguredError = BaseError.subclass(`AppNotConfiguredError`);
+export const AppNotConfiguredError = BaseError.subclass("AppNotConfiguredError");
 
 export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig> {
   private configurator: PrivateMetadataAppConfigurator<PaymentAppConfig>;
@@ -127,7 +127,7 @@ export const getConfigurationForChannel = (
   appConfig: PaymentAppConfig,
   channelId?: string | undefined | null,
 ) => {
-  const logger = createLogger({ channelId }, { msgPrefix: `[getConfigurationForChannel] ` });
+  const logger = createLogger({ channelId }, { msgPrefix: "[getConfigurationForChannel] " });
   if (!channelId) {
     logger.warn("Missing channelId");
     return null;

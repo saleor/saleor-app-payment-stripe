@@ -11,7 +11,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 
 import { TransactionFlowStrategyEnum } from "generated/graphql";
 
-describe(`TransactionInitializeSessionWebhookHandler`, () => {
+describe("TransactionInitializeSessionWebhookHandler", () => {
   setupRecording({
     matchRequestsBy: {
       headers: {
@@ -37,23 +37,23 @@ describe(`TransactionInitializeSessionWebhookHandler`, () => {
       getSourceObject: createMockTransactionInitializeSessionSourceObjectCheckout,
     },
     { name: "Order", getSourceObject: createMockTransactionInitializeSessionSourceObjectOrder },
-  ])(`$name`, ({ getSourceObject }) => {
+  ])("$name", ({ getSourceObject }) => {
     it.each([
       {
-        title: `should work authorization`,
+        title: "should work authorization",
         data: {},
         result: "AUTHORIZATION_REQUESTED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Authorization,
       },
       {
-        title: `should work charge`,
+        title: "should work charge",
         data: {},
         result: "CHARGE_REQUESTED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Charge,
       },
-    ])(`$title`, async ({ title, data, result, amount, actionType }) => {
+    ])("$title", async ({ title, data, result, amount, actionType }) => {
       const event = await createMockTransactionInitializeSessionEvent({
         data,
         sourceObject: getSourceObject(),

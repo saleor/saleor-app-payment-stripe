@@ -12,11 +12,11 @@ export const PaymentGatewayInitializeSessionWebhookHandler = async (
 ): Promise<PaymentGatewayInitializeSessionResponse> => {
   const logger = createLogger(
     {},
-    { msgPrefix: `[PaymentGatewayInitializeSessionWebhookHandler] ` },
+    { msgPrefix: "[PaymentGatewayInitializeSessionWebhookHandler] " },
   );
 
   const app = event.recipient;
-  invariant(app, `Missing event.recipient!`);
+  invariant(app, "Missing event.recipient!");
 
   const { privateMetadata } = app;
   const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
@@ -26,7 +26,7 @@ export const PaymentGatewayInitializeSessionWebhookHandler = async (
     getConfigurationForChannel(appConfig, event.sourceObject.channel.id),
   );
 
-  logger.info({}, `Processing Payment Gateway Initialize request`);
+  logger.info({}, "Processing Payment Gateway Initialize request");
   const data = {
     publishableKey: stripeConfig.publishableKey,
   };
