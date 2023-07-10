@@ -3,9 +3,10 @@ import Link from "next/link";
 import { ConfigurationSummary } from "../ConfigurationSummary/ConfigurationSummary";
 import * as tableStyles from "./configurationsTable.css";
 import { Tr, Td, Table, Tbody, Th, Thead } from "@/modules/ui/atoms/Table/Table";
-import { type PaymentAppConfigEntry } from "@/modules/payment-app-configuration/config-entry";
+import { type PaymentAppUserVisibleConfigEntry } from "@/modules/payment-app-configuration/config-entry";
+import { type PaymentAppUserVisibleEntries } from "@/modules/payment-app-configuration/app-config";
 
-const ConfigurationsTableRow = ({ item }: { item: PaymentAppConfigEntry }) => {
+const ConfigurationsTableRow = ({ item }: { item: PaymentAppUserVisibleConfigEntry }) => {
   return (
     <Tr>
       <Td>
@@ -38,7 +39,7 @@ const ConfigurationsTableRow = ({ item }: { item: PaymentAppConfigEntry }) => {
 export const ConfigurationsTable = ({
   configurations,
 }: {
-  configurations: PaymentAppConfigEntry[];
+  configurations: PaymentAppUserVisibleEntries;
 }) => {
   return (
     <Table>

@@ -7,13 +7,12 @@ import {
 } from "./config-entry";
 
 export const obfuscateConfigEntry = (
-  entry: PaymentAppConfigEntry,
+  entry: PaymentAppConfigEntry | PaymentAppUserVisibleConfigEntry,
 ): PaymentAppUserVisibleConfigEntry => {
-  const { secretKey, webhookSecret, publishableKey, configurationName, configurationId } = entry;
+  const { secretKey, publishableKey, configurationName, configurationId } = entry;
 
   const configValuesToObfuscate = {
     secretKey,
-    webhookSecret,
   } satisfies PaymentAppEncryptedConfig;
 
   return paymentAppUserVisibleConfigEntrySchema.parse({

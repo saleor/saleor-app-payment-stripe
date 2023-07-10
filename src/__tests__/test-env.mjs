@@ -10,6 +10,7 @@ const testEnvSchema = z.object({
   TEST_PAYMENT_APP_SECRET_KEY: z.string(),
   TEST_PAYMENT_APP_PUBLISHABLE_KEY: z.string(),
   TEST_PAYMENT_APP_WEBHOOK_SECRET: z.string(),
+  TEST_PAYMENT_APP_WEBHOOK_ID: z.string(),
   // Polly.js
   POLLY_MODE: z.enum(["record", "record_missing", "replay"]).optional().default("replay"),
 });
@@ -24,6 +25,7 @@ const processEnv = {
   TEST_PAYMENT_APP_SECRET_KEY: process.env.TEST_PAYMENT_APP_SECRET_KEY,
   TEST_PAYMENT_APP_PUBLISHABLE_KEY: process.env.TEST_PAYMENT_APP_PUBLISHABLE_KEY,
   TEST_PAYMENT_APP_WEBHOOK_SECRET: process.env.TEST_PAYMENT_APP_WEBHOOK_SECRET,
+  TEST_PAYMENT_APP_WEBHOOK_ID: process.env.TEST_PAYMENT_APP_WEBHOOK_ID,
   // Polly.js
   POLLY_MODE: process.env.POLLY_MODE,
 };

@@ -1,15 +1,4 @@
-import {
-  type PaymentAppConfigEntry,
-  type PaymentAppConfigEntryFullyConfigured,
-} from "../config-entry";
-
-export const configEntryRequired: PaymentAppConfigEntry = {
-  configurationName: "test",
-  secretKey: "sk_secret-key",
-  publishableKey: "pk_that-secret-key",
-  configurationId: "mock-id",
-  webhookSecret: "whsec_test",
-};
+import { type PaymentAppConfigEntryFullyConfigured } from "../config-entry";
 
 export const configEntryAll: PaymentAppConfigEntryFullyConfigured = {
   configurationName: "test",
@@ -17,4 +6,5 @@ export const configEntryAll: PaymentAppConfigEntryFullyConfigured = {
   publishableKey: "pk_that-secret-key",
   configurationId: "mock-id",
   webhookSecret: "whsec_test",
+  webhookId: "webhook-id",
 };

@@ -41,5 +41,6 @@ export const defaultPaymentAppConfig: PaymentAppConfig = {
 };
 
 export type PaymentAppConfigEntries = z.infer<typeof paymentAppConfigEntriesSchema>;
+export type PaymentAppUserVisibleEntries = z.infer<typeof paymentAppUserVisibleConfigEntriesSchema>;
 export type PaymentAppConfig = z.infer<typeof paymentAppConfigSchema>;
-export type PaymentAppConfigUserVisible = z.infer<typeof paymentAppUserVisibleConfigEntriesSchema>;
+export type PaymentAppConfigUserVisible = z.infer<typeof paymentAppUserVisibleConfigSchema>;
