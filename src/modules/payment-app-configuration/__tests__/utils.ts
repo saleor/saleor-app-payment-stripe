@@ -12,8 +12,8 @@ export const filledFakeMatadataConfig = {
       publishableKey: testEnv.TEST_PAYMENT_APP_PUBLISHABLE_KEY,
       configurationId: "mock-id",
       configurationName: "test",
-      webhookId: "webhook-id",
-      webhookSecret: "ws_12345",
+      webhookId: testEnv.TEST_PAYMENT_APP_WEBHOOK_ID,
+      webhookSecret: testEnv.TEST_PAYMENT_APP_WEBHOOK_SECRET,
     },
   ],
   channelToConfigurationId: {
