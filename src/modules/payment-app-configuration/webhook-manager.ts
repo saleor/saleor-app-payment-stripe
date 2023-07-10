@@ -1,6 +1,7 @@
 import urlJoin from "url-join";
 import { type Stripe } from "stripe";
 import { getStripeApiClient } from "../stripe/stripe-api";
+import { type PaymentAppConfigurator } from "./payment-app-configuration";
 import { invariant } from "@/lib/invariant";
 import { createLogger, redactLogObject } from "@/lib/logger";
 
@@ -34,20 +35,32 @@ export const createStripeWebhook = async ({
   appUrl,
   saleorApiUrl,
   secretKey,
+  configurator,
 }: {
   appUrl: string;
   saleorApiUrl: string;
   secretKey: string;
+  configurator: PaymentAppConfigurator;
 }): Promise<StripeWebhookResult> => {
   const logger = createLogger({ saleorApiUrl, appUrl }, { msgPrefix: "[createStripeWebhook] " });
   const stripe = getStripeApiClient(secretKey);
 
   const url = getWebhookUrl(appUrl, saleorApiUrl);
 
-  const existingWebhook = await findExistingWebhook({ appUrl, saleorApiUrl, secretKey });
-  if (existingWebhook) {
+  const existingStripeWebhook = await findExistingWebhook({ appUrl, saleorApiUrl, secretKey });
+  if (existingStripeWebhook) {
+    const existingAppWebhook = await checkWebhookUsage({
+      webhookId: existingStripeWebhook.id,
+      configurator,
+    });
+
+    if (existingAppWebhook) {
+      // There's already a webhook for this app, so we can just
+      return existingAppWebhook;
+    }
+
     // We cannot retreive webhook secret after it was created, so we need to delete it and create a new one
-    await deleteStripeWebhook({ webhookId: existingWebhook.id, secretKey });
+    await deleteStripeWebhook({ webhookId: existingStripeWebhook.id, secretKey });
   }
 
   logger.debug({ url }, "Creating stripe webhook");
@@ -106,4 +119,36 @@ export const deleteStripeWebhook = async ({
   logger.debug("Deleting stripe webhook");
   await stripe.webhookEndpoints.del(webhookId);
   logger.debug("Webhook was deleted");
+};
+
+export const checkWebhookUsage = async ({
+  webhookId,
+  configurator,
+}: {
+  webhookId: string;
+  configurator: PaymentAppConfigurator;
+}) => {
+  const logger = createLogger(
+    { webhookId, saleorApiUrl: configurator.saleorApiUrl },
+    { msgPrefix: "[checkWebhookUsage] " },
+  );
+
+  logger.debug("Fetching all config entries");
+
+  const config = await configurator.getConfig();
+  const entries = config.configurations;
+
+  logger.debug("Got all entries");
+  const entry = entries.find((entry) => entry.webhookId === webhookId);
+
+  if (entry) {
+    logger.debug("Found entry with matching webhook id");
+    return {
+      webhookId: entry.webhookId,
+      webhookSecret: entry.webhookSecret,
+    };
+  }
+
+  logger.debug("Entry with matching webhook id was not found");
+  return null;
 };

@@ -51,8 +51,18 @@ export const paymentAppFullyConfiguredEntrySchema = z
   .required();
 
 // Schema used as input validation for saving config entires
-export const paymentAppFormConfigEntrySchema = paymentAppConfigEntryEncryptedSchema
-  .merge(paymentAppConfigEntryPublicSchema)
+export const paymentAppFormConfigEntrySchema = z
+  .object({
+    configurationName: paymentAppConfigEntryPublicSchema.shape.configurationName,
+    secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey.startsWith(
+      "sk_",
+      "This isn't a Stripe secret key, it must start with sk_",
+    ),
+    publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey.startsWith(
+      "pk_",
+      "This isn't a Stripe publishable key, it must start with pk_",
+    ),
+  })
   .strict()
   .default({
     secretKey: "",

@@ -8,7 +8,7 @@ import {
   type PaymentAppFormConfigEntry,
 } from "./config-entry";
 import { createStripeWebhook, deleteStripeWebhook } from "./webhook-manager";
-import { createLogger, redactLogObject } from "@/lib/logger";
+import { createLogger, redactError, redactLogObject } from "@/lib/logger";
 import { BaseError } from "@/errors";
 
 export const EntryNotFoundError = BaseError.subclass("EntryNotFoundError");
@@ -93,6 +93,7 @@ export const addConfigEntry = async (
     appUrl,
     secretKey: newConfigEntry.secretKey,
     saleorApiUrl: configurator.saleorApiUrl,
+    configurator,
   });
 
   const uuid = uuidv7();
@@ -146,14 +147,38 @@ export const deleteConfigEntry = async (
   );
 
   logger.debug("Checking if config entry with provided ID exists");
-  const existingEntry = await getConfigEntryDecrypted(configurationId, configurator);
+  const entries = await getAllConfigEntriesDecrypted(configurator);
+  const existingEntry = entries.find((entry) => entry.configurationId === configurationId);
+
+  if (!existingEntry) {
+    logger.error({ configurationId }, "Entry was not found");
+    throw new EntryNotFoundError(`Entry with id ${configurationId} was not found`);
+  }
+
   logger.debug({ existingEntry: redactLogObject(existingEntry) }, "Found entry");
 
+  logger.debug(
+    { webhookId: existingEntry.webhookId },
+    "Checking if other config is using assosiated webhook",
+  );
+
+  const isWebhookUsed = entries.some((entry) => entry.webhookId === existingEntry.webhookId);
+
   logger.debug("Deleting webhook linked with config entry");
-  await deleteStripeWebhook({
-    webhookId: existingEntry.webhookId,
-    secretKey: existingEntry.secretKey,
-  });
+  if (!isWebhookUsed) {
+    try {
+      await deleteStripeWebhook({
+        webhookId: existingEntry.webhookId,
+        secretKey: existingEntry.secretKey,
+      });
+    } catch (e) {
+      // Ignore error
+      logger.warn(
+        { error: redactError(e), webhookId: existingEntry.webhookId },
+        "Webhook couldn't be deleted with the config",
+      );
+    }
+  }
 
   await configurator.deleteConfigEntry(configurationId);
   logger.info({ configurationId }, "Config entry deleted");
