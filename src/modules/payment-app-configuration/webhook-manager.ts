@@ -1,4 +1,3 @@
-import urlJoin from "url-join";
 import { type Stripe } from "stripe";
 import { getStripeApiClient } from "../stripe/stripe-api";
 import { type PaymentAppConfigurator } from "./payment-app-configuration";
@@ -24,7 +23,7 @@ const getWebhookUrl = (appUrl: string, saleorApiUrl: string): string => {
   const url = new URL(appUrl);
   url.pathname = stripeWebhookEndpointRoute;
   url.searchParams.set("saleorApiUrl", saleorApiUrl);
-	return url.toString();
+  return url.toString();
 };
 
 interface StripeWebhookResult {
