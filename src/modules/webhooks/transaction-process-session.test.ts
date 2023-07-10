@@ -14,24 +14,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 import { TransactionFlowStrategyEnum } from "generated/graphql";
 
 describe(`TransactionProcessSessionWebhookHandler`, () => {
-  setupRecording({
-    matchRequestsBy: {
-      headers: {
-        exclude: [
-          "date",
-          "idempotency-key",
-          "original-request",
-          "request-id",
-          "content-length",
-          "x-stripe-client-user-agent",
-        ],
-      },
-      method: true,
-      body: true,
-      order: true,
-      url: true,
-    },
-  });
+  setupRecording({});
 
   describe.each([
     {

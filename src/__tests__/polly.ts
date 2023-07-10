@@ -45,6 +45,7 @@ const VARIABLES_BLACKLIST = new Set([
   "refreshToken",
   "token",
   "authorisationToken",
+  "client_secret",
 ]);
 
 const removeBlacklistedVariables = (
@@ -191,9 +192,18 @@ export const setupRecording = (config?: PollyConfig) => {
         hash: false,
       },
       body: true,
-      order: true,
+      order: false,
       method: true,
-      headers: false,
+      headers: {
+        exclude: [
+          "date",
+          "idempotency-key",
+          "original-request",
+          "request-id",
+          "content-length",
+          "x-stripe-client-user-agent",
+        ],
+      },
     },
   };
 

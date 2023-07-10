@@ -199,6 +199,7 @@ export async function processStripePaymentIntentCancelRequest({
   secretKey: string;
 }) {
   const stripeClient = getStripeApiClient(secretKey);
+
   return stripeClient.paymentIntents.cancel(paymentIntentId);
 }
 
