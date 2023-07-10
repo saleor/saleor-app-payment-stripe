@@ -13,12 +13,26 @@ import { configEntryAll } from "./__tests__/mocks";
 import { obfuscateConfigEntry } from "./utils";
 import { type ConfigEntryUpdate } from "./input-schemas";
 import { type PaymentAppConfigurator } from "./payment-app-configuration";
-import { type PaymentAppFormConfigEntry } from "./config-entry";
+import {
+  type PaymentAppConfigEntryFullyConfigured,
+  type PaymentAppFormConfigEntry,
+} from "./config-entry";
+import { deleteStripeWebhook } from "./webhook-manager";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
-vi.mock("@/modules/stripe/stripe-api", () => {
+vi.mock("@/modules/stripe/stripe-api", async () => {
   return {
     validateStripeKeys: () => {},
+  };
+});
+
+vi.mock("@/modules/payment-app-configuration/webhook-manager", () => {
+  return {
+    createStripeWebhook: async () => ({
+      webhookSecret: "ws_secret",
+      webhookId: "12345",
+    }),
+    deleteStripeWebhook: vi.fn(async () => {}),
   };
 });
 
@@ -51,7 +65,7 @@ describe("findConfigEntry", () => {
 });
 
 describe("addConfigEntry", () => {
-  it("generates random id for new config entry, saves config entry in configurator, returns new config entry which has obfuscated fields", async () => {
+  it("generates random id for new config entry, creates webhook in Stripe, saves config entry in configurator, returns new config entry which has obfuscated fields", async () => {
     const input: PaymentAppFormConfigEntry = {
       configurationName: "new-config",
       secretKey: "new-key",
@@ -60,13 +74,20 @@ describe("addConfigEntry", () => {
     const result = await addConfigEntry(input, mockConfigurator, "http://stripe.saleor.io");
 
     expect(result).toStrictEqual({
+      configurationId: expect.any(String),
       configurationName: input.configurationName,
       secretKey: `${OBFUSCATION_DOTS}key`,
-      webhookSecret: `${OBFUSCATION_DOTS}test`,
-      configurationId: expect.any(String),
-      publishableKey: expect.any(String),
+      publishableKey: "client-key",
     });
     expect(mockConfigurator.setConfigEntry).toHaveBeenCalledTimes(1);
+    expect(mockConfigurator.setConfigEntry).toHaveBeenCalledWith({
+      configurationId: expect.any(String),
+      configurationName: input.configurationName,
+      secretKey: "new-key",
+      publishableKey: "client-key",
+      webhookId: "12345",
+      webhookSecret: "ws_secret",
+    });
   });
 });
 
@@ -110,12 +131,31 @@ describe("updateConfigEntry", () => {
 });
 
 describe("deleteConfigEntry", () => {
-  it("checks if entry exists, deletes entry in configurator", async () => {
+  it("checks if entry exists, deletes entry in configurator, deletes Stripe webhook", async () => {
     const result = await deleteConfigEntry(configEntryAll.configurationId, mockConfigurator);
 
     expect(result).toBeUndefined();
     expect(mockConfigurator.getConfig).toHaveBeenCalledOnce();
     expect(mockConfigurator.deleteConfigEntry).toHaveBeenCalledWith(configEntryAll.configurationId);
+    expect(deleteStripeWebhook).toHaveBeenCalledOnce();
+  });
+
+  it("checks if entry exists, skips deleting Stripe webhook if it exists in other config", async () => {
+    const additionalEntry = {
+      ...configEntryAll,
+      configurationId: "other-config-id",
+    } satisfies PaymentAppConfigEntryFullyConfigured;
+
+    const testMockConfigurator = {
+      ...mockConfigurator,
+      getConfig: vi.fn(async () => ({ configurations: [configEntryAll, additionalEntry] })),
+    } as unknown as PaymentAppConfigurator;
+
+    const result = await deleteConfigEntry(configEntryAll.configurationId, testMockConfigurator);
+    expect(result).toBeUndefined();
+    expect(testMockConfigurator.getConfig).toHaveBeenCalledOnce();
+    expect(mockConfigurator.deleteConfigEntry).toHaveBeenCalledWith(configEntryAll.configurationId);
+    expect(deleteStripeWebhook).not.toHaveBeenCalled();
   });
 
   it("throws an error if config entry is not found", async () => {
