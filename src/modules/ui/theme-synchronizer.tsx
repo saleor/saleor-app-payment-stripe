@@ -13,7 +13,7 @@ const mapAppBridgeToMacawTheme: Record<ThemeType, DefaultTheme> = {
  *
  * If you are not using Macaw, you can remove this.
  */
-function _ThemeSynchronizer() {
+export const ThemeSynchronizer = memo(function ThemeSynchronizer() {
   const { appBridgeState } = useAppBridge();
   const { setTheme, theme } = useTheme();
 
@@ -30,6 +30,4 @@ function _ThemeSynchronizer() {
   }, [appBridgeState?.theme, setTheme, theme]);
 
   return null;
-}
-
-export const ThemeSynchronizer = memo(_ThemeSynchronizer);
+});

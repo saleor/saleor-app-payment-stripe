@@ -8,8 +8,8 @@ import { trpcClient } from "@/modules/trpc/trpc-client";
 import { type Channel } from "@/types";
 import { getErrorHandler } from "@/modules/trpc/utils";
 import {
+  type PaymentAppUserVisibleEntries,
   type ChannelMapping,
-  type PaymentAppConfigEntries,
 } from "@/modules/payment-app-configuration/app-config";
 import { type PaymentAppConfigEntry } from "@/modules/payment-app-configuration/config-entry";
 import { getEnvironmentFromKey } from "@/modules/stripe/stripe-api";
@@ -21,7 +21,7 @@ const ChannelToConfigurationTableRow = ({
   disabled,
 }: {
   channel: Channel;
-  configurations: PaymentAppConfigEntries;
+  configurations: PaymentAppUserVisibleEntries;
   selectedConfigurationId?: PaymentAppConfigEntry["configurationId"] | null;
   disabled?: boolean;
 }) => {
@@ -116,7 +116,7 @@ export const ChannelToConfigurationTable = ({
 }: {
   channelMappings: ChannelMapping;
   channels: readonly Channel[];
-  configurations: PaymentAppConfigEntries;
+  configurations: PaymentAppUserVisibleEntries;
   disabled?: boolean;
 }) => {
   return (

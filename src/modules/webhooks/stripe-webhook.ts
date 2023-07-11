@@ -1,5 +1,6 @@
 /// <reference types="stripe-event-types" />
 import { type Readable } from "node:stream";
+
 import * as Sentry from "@sentry/nextjs";
 import { type NextApiRequest } from "next";
 import Stripe from "stripe";
@@ -24,7 +25,7 @@ import {
   TransactionActionEnum,
 } from "generated/graphql";
 import { assertUnreachableButNotThrow } from "@/lib/invariant";
-import { unpackPromise } from "@/lib/utils";
+import { __do, unpackPromise } from "@/lib/utils";
 
 export const stripeWebhookHandler = async (req: NextApiRequest) => {
   const logger = createLogger({}, { msgPrefix: "[stripeWebhookHandler] " });
@@ -226,8 +227,8 @@ async function stripeEventToTransactionEventReport({
     return null;
   }
 
-  const adyenConfig = getConfigurationForChannel(appConfig, channelId);
-  if (!adyenConfig) {
+  const stripeConfig = getConfigurationForChannel(appConfig, channelId);
+  if (!stripeConfig) {
     logger.warn(`Missing configuration for channel: ${channelId}`);
     return null;
   }
@@ -244,8 +245,7 @@ export async function stripeEventToTransactionEventReportMutationVariables(
     { msgPrefix: "[stripeEventToTransactionEventReportMutationVariables] " },
   );
 
-  const partialVariables =
-    stripeEventToPartialToTransactionEventReportMutationVariables(stripeEvent);
+  const partialVariables = stripeEventToPartialTransactionEventReportMutationVariables(stripeEvent);
   if (!partialVariables) {
     return null;
   }
@@ -311,7 +311,7 @@ const getAvailableActionsForType = (
   }
 };
 
-function stripeEventToPartialToTransactionEventReportMutationVariables(
+function stripeEventToPartialTransactionEventReportMutationVariables(
   stripeEvent: Stripe.DiscriminatedEvent,
 ) {
   switch (stripeEvent.type) {
@@ -323,7 +323,16 @@ function stripeEventToPartialToTransactionEventReportMutationVariables(
     case "payment_intent.partially_funded":
     case "payment_intent.amount_capturable_updated":
     case "payment_intent.requires_action":
-      return stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
+      return stripePaymentIntentEventToPartialTransactionEventReportMutationVariables(stripeEvent);
+    case "charge.refunded":
+      return stripeChargeRefundedEventToPartialTransactionEventReportMutationVariables({
+        ...stripeEvent,
+        // TypeScript incorrectly widens the type of `type`
+        // This fixes the problem
+        type: stripeEvent.type,
+      });
+    case "charge.refund.updated":
+      return stripeChargeRefundUpdatedEventToPartialTransactionEventReportMutationVariables(
         stripeEvent,
       );
     default:
@@ -331,7 +340,71 @@ function stripeEventToPartialToTransactionEventReportMutationVariables(
   }
 }
 
-function stripePaymentIntentEventToPartialToTransactionEventReportMutationVariables(
+const getPaymentIntentIdFromObject = ({ payment_intent }: Stripe.Refund | Stripe.Charge) =>
+  typeof payment_intent === "string" ? payment_intent : payment_intent?.id;
+
+function stripeChargeRefundUpdatedEventToPartialTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent.ChargeRefundEvent,
+) {
+  const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
+
+  // we can use chargeID for externalURL - it automatically redirects to the right place
+  const pspReference = paymentIntentId || stripeEvent.id;
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripeEvent.data.object.amount,
+    currency: stripeEvent.data.object.currency,
+  });
+
+  const typeAndMessage = __do(() => {
+    switch (stripeEvent.data.object.status) {
+      case "canceled":
+      case "failed":
+        return {
+          type: TransactionEventTypeEnum.RefundFailure,
+          message: stripeEvent.data.object.failure_reason,
+        };
+      case "pending":
+        return { type: TransactionEventTypeEnum.RefundRequest };
+      case "succeeded":
+        return { type: TransactionEventTypeEnum.RefundSuccess };
+      case "requires_action":
+        return { type: TransactionEventTypeEnum.RefundRequest, message: "requires_action" };
+    }
+  });
+
+  if (!typeAndMessage) {
+    return;
+  }
+
+  return {
+    amount,
+    message: typeAndMessage.message || stripeEvent.data.object.description,
+    type: typeAndMessage.type,
+    pspReference,
+    externalUrl,
+  };
+}
+
+function stripeChargeRefundedEventToPartialTransactionEventReportMutationVariables(
+  stripeEvent: Stripe.DiscriminatedEvent.ChargeEvent & { type: "charge.refunded" },
+) {
+  const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
+
+  // we can use chargeID for externalURL - it automatically redirects to the right place
+  const pspReference = paymentIntentId || stripeEvent.id;
+  const externalUrl = getStripeExternalUrlForIntentId(pspReference);
+
+  const amount = getSaleorAmountFromStripeAmount({
+    amount: stripeEvent.data.object.amount_refunded,
+    currency: stripeEvent.data.object.currency,
+  });
+  const type = TransactionEventTypeEnum.RefundSuccess;
+  return { amount, type, message: stripeEvent.data.object.description, pspReference, externalUrl };
+}
+
+function stripePaymentIntentEventToPartialTransactionEventReportMutationVariables(
   stripeEvent: Stripe.DiscriminatedEvent.PaymentIntentEvent,
 ) {
   const paymentIntent = stripeEvent.data.object;
@@ -413,7 +486,7 @@ function stripePaymentIntentEventToPartialToTransactionEventReportMutationVariab
         amount: paymentIntent.amount,
         currency: paymentIntent.currency,
       });
-      const type = TransactionEventTypeEnum.Info;
+      const type = TransactionEventTypeEnum.AuthorizationAdjustment;
       return { amount, type, externalUrl, pspReference, message };
     }
 

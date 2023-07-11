@@ -80,9 +80,6 @@ export const transactionSessionInitializeEventToStripeCreate = (
       currency: event.sourceObject.total.gross.currency,
     }),
     currency: event.sourceObject.total.gross.currency,
-    automatic_payment_methods: {
-      enabled: true,
-    },
     capture_method:
       event.action.actionType === TransactionFlowStrategyEnum.Charge ? "automatic" : "manual",
     metadata: {
@@ -134,17 +131,18 @@ export const stripePaymentIntentToTransactionResult = (
   invariant(prefix, `Unsupported transactionFlowStrategy: ${transactionFlowStrategy}`);
 
   switch (stripeResult) {
-    case "requires_payment_method":
     case "processing":
       return `${prefix}_REQUESTED`;
+    case "requires_payment_method":
     case "requires_action":
-    case "requires_capture":
     case "requires_confirmation":
       return `${prefix}_ACTION_REQUIRED`;
     case "canceled":
       return `${prefix}_FAILURE`;
     case "succeeded":
       return `${prefix}_SUCCESS`;
+    case "requires_capture":
+      return "AUTHORIZATION_SUCCESS";
   }
 };
 
@@ -176,3 +174,46 @@ export const getStripeExternalUrlForIntentId = (intentId: string) => {
   const externalUrl = `https://dashboard.stripe.com/payments/${encodeURIComponent(intentId)}`;
   return externalUrl;
 };
+
+export async function processStripePaymentIntentRefundRequest({
+  paymentIntentId,
+  stripeAmount,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  stripeAmount: number | null | undefined;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+  return stripeClient.refunds.create({
+    payment_intent: paymentIntentId,
+    amount: stripeAmount ?? undefined,
+  });
+}
+
+export async function processStripePaymentIntentCancelRequest({
+  paymentIntentId,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+
+  return stripeClient.paymentIntents.cancel(paymentIntentId);
+}
+
+export async function processStripePaymentIntentCaptureRequest({
+  paymentIntentId,
+  stripeAmount,
+  secretKey,
+}: {
+  paymentIntentId: string;
+  stripeAmount: number | null | undefined;
+  secretKey: string;
+}) {
+  const stripeClient = getStripeApiClient(secretKey);
+  return stripeClient.paymentIntents.capture(paymentIntentId, {
+    amount_to_capture: stripeAmount ?? undefined,
+  });
+}

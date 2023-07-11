@@ -1,9 +1,9 @@
 import { Box } from "@saleor/macaw-ui/next";
 import { ChipSuccess, ChipDanger } from "../../atoms/Chip/Chip";
-import { type PaymentAppConfigEntry } from "@/modules/payment-app-configuration/config-entry";
+import { type PaymentAppUserVisibleConfigEntry } from "@/modules/payment-app-configuration/config-entry";
 import { getEnvironmentFromKey } from "@/modules/stripe/stripe-api";
 
-export const ConfigurationSummary = ({ config }: { config: PaymentAppConfigEntry }) => {
+export const ConfigurationSummary = ({ config }: { config: PaymentAppUserVisibleConfigEntry }) => {
   return (
     <Box
       as="dl"

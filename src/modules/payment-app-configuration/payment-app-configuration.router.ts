@@ -1,12 +1,11 @@
 import { z } from "zod";
 import { protectedClientProcedure } from "../trpc/protected-client-procedure";
 import { router } from "../trpc/trpc-server";
-import { channelMappingSchema, paymentAppConfigEntriesSchema } from "./app-config";
+import { channelMappingSchema, paymentAppUserVisibleConfigEntriesSchema } from "./app-config";
 import { mappingUpdate, paymentConfigEntryDelete, paymentConfigEntryUpdate } from "./input-schemas";
 import { getMappingFromAppConfig, setMappingInAppConfig } from "./mapping-manager";
 import { getPaymentAppConfigurator } from "./payment-app-configuration-factory";
 import {
-  paymentAppConfigEntrySchema,
   paymentAppFormConfigEntrySchema,
   paymentAppUserVisibleConfigEntrySchema,
 } from "./config-entry";
@@ -44,7 +43,7 @@ export const paymentAppConfigurationRouter = router({
   paymentConfig: router({
     get: protectedClientProcedure
       .input(z.object({ configurationId: z.string() }))
-      .output(paymentAppConfigEntrySchema)
+      .output(paymentAppUserVisibleConfigEntrySchema)
       .query(async ({ input, ctx }) => {
         const { configurationId } = input;
         ctx.logger.info({ configurationId }, "appConfigurationRouter.paymentConfig.getAll called");
@@ -53,7 +52,7 @@ export const paymentAppConfigurationRouter = router({
         return getConfigEntryObfuscated(input.configurationId, configurator);
       }),
     getAll: protectedClientProcedure
-      .output(paymentAppConfigEntriesSchema)
+      .output(paymentAppUserVisibleConfigEntriesSchema)
       .query(async ({ ctx }) => {
         ctx.logger.info("appConfigurationRouter.paymentConfig.getAll called");
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
@@ -68,9 +67,10 @@ export const paymentAppConfigurationRouter = router({
           { configurationName, secretKey: redactLogValue(secretKey) },
           "appConfigurationRouter.paymentConfig.add input",
         );
+        invariant(ctx.appUrl, "Missing app url");
 
         const configurator = getPaymentAppConfigurator(ctx.apiClient, ctx.saleorApiUrl);
-        return addConfigEntry(input, configurator);
+        return addConfigEntry(input, configurator, ctx.appUrl);
       }),
     update: protectedClientProcedure
       .input(paymentConfigEntryUpdate)

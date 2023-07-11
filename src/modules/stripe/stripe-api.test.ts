@@ -22,33 +22,35 @@ describe("stripe-api", () => {
       canceled: "FAILURE",
       processing: "REQUESTED",
       requires_action: "ACTION_REQUIRED",
-      requires_capture: "ACTION_REQUIRED",
+      requires_capture: "SUCCESS",
       requires_confirmation: "ACTION_REQUIRED",
-      requires_payment_method: "REQUESTED",
+      requires_payment_method: "ACTION_REQUIRED",
       succeeded: "SUCCESS",
     } satisfies Record<Stripe.PaymentIntent.Status, ResultWithoutPrefix>;
 
-    describe.each(Object.entries(exhaustiveCheck))(
-      "$resultCode",
-      (stripeResult, expectedResult) => {
-        it.each([
-          {
-            strategy: TransactionFlowStrategyEnum.Authorization,
-            expectedAction: "AUTHORIZATION",
-          },
-          {
-            strategy: TransactionFlowStrategyEnum.Charge,
-            expectedAction: "CHARGE",
-          },
-        ])("%p", async ({ strategy, expectedAction }) => {
-          const returned = stripePaymentIntentToTransactionResult(strategy, {
-            status: stripeResult,
-          } as Stripe.PaymentIntent);
+    describe.each(Object.entries(exhaustiveCheck))("%p", (stripeResult, expectedResult) => {
+      it.each([
+        {
+          strategy: TransactionFlowStrategyEnum.Authorization,
+          expectedAction: "AUTHORIZATION",
+        },
+        {
+          strategy: TransactionFlowStrategyEnum.Charge,
+          expectedAction: "CHARGE",
+        },
+      ])("%p", async ({ strategy, expectedAction }) => {
+        const returned = stripePaymentIntentToTransactionResult(strategy, {
+          status: stripeResult,
+        } as Stripe.PaymentIntent);
 
+        if (stripeResult === "requires_capture") {
+          // special case
+          expect(returned).toBe("AUTHORIZATION_SUCCESS");
+        } else {
           expect(returned).toBe(`${expectedAction}_${expectedResult}`);
-        });
-      },
-    );
+        }
+      });
+    });
   });
 
   describe("getStripeExternalUrlForIntentId", () => {

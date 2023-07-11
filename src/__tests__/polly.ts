@@ -9,8 +9,8 @@ import merge from "lodash-es/merge";
 import omit from "lodash-es/omit";
 import omitDeep from "omit-deep-lodash";
 import { tryJsonParse, tryIgnore } from "../lib/utils";
-import { env } from "@/lib/env.mjs";
 import { testEnv } from "@/__tests__/test-env.mjs";
+import { env } from "@/lib/env.mjs";
 
 declare module "vitest" {
   export interface TestContext {
@@ -52,6 +52,10 @@ const removeBlacklistedVariables = (
 ): {} | undefined | string | null => {
   if (!obj || typeof obj === "string") {
     return obj;
+  }
+
+  if ("client_secret" in obj) {
+    obj.client_secret = "pi_FAKE_CLIENT_SECRET";
   }
 
   return omitDeep(obj, ...VARIABLES_BLACKLIST);
@@ -191,9 +195,18 @@ export const setupRecording = (config?: PollyConfig) => {
         hash: false,
       },
       body: true,
-      order: true,
+      order: false,
       method: true,
-      headers: false,
+      headers: {
+        exclude: [
+          "date",
+          "idempotency-key",
+          "original-request",
+          "request-id",
+          "content-length",
+          "x-stripe-client-user-agent",
+        ],
+      },
     },
   };
 
