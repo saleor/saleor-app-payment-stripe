@@ -184,8 +184,8 @@ devDependencies:
     specifier: 3.2.0
     version: 3.2.0(graphql@16.7.1)
   '@next/env':
-    specifier: 13.4.7
-    version: 13.4.7
+    specifier: 13.4.9
+    version: 13.4.9
   '@pollyjs/adapter-fetch':
     specifier: 6.0.5
     version: 6.0.5
@@ -2388,10 +2388,6 @@ packages:
       fs-extra: 8.1.0
       globby: 11.1.0
       read-yaml-file: 1.1.0
-
-  /@next/env@13.4.7:
-    resolution: {integrity: sha512-ZlbiFulnwiFsW9UV1ku1OvX/oyIPLtMk9p/nnvDSwI0s7vSoZdRtxXNsaO+ZXrLv/pMbXVGq4lL8TbY9iuGmVw==}
-    dev: true
 
   /@next/env@13.4.9:
     resolution: {integrity: sha512-vuDRK05BOKfmoBYLNi2cujG2jrYbEod/ubSSyqgmEx9n/W3eZaJQdRNhTfumO+qmq/QTzLurW487n/PM/fHOkw==}
