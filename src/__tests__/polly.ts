@@ -9,8 +9,8 @@ import merge from "lodash-es/merge";
 import omit from "lodash-es/omit";
 import omitDeep from "omit-deep-lodash";
 import { tryJsonParse, tryIgnore } from "../lib/utils";
-import { env } from "@/lib/env.mjs";
 import { testEnv } from "@/__tests__/test-env.mjs";
+import { env } from "@/lib/env.mjs";
 
 declare module "vitest" {
   export interface TestContext {
@@ -45,7 +45,6 @@ const VARIABLES_BLACKLIST = new Set([
   "refreshToken",
   "token",
   "authorisationToken",
-  "client_secret",
 ]);
 
 const removeBlacklistedVariables = (
@@ -53,6 +52,10 @@ const removeBlacklistedVariables = (
 ): {} | undefined | string | null => {
   if (!obj || typeof obj === "string") {
     return obj;
+  }
+
+  if ("client_secret" in obj) {
+    obj.client_secret = `pi_FAKE_CLIENT_SECRET`;
   }
 
   return omitDeep(obj, ...VARIABLES_BLACKLIST);
