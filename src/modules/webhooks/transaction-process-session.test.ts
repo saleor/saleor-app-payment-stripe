@@ -14,24 +14,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 import { TransactionFlowStrategyEnum } from "generated/graphql";
 
 describe(`TransactionProcessSessionWebhookHandler`, () => {
-  setupRecording({
-    matchRequestsBy: {
-      headers: {
-        exclude: [
-          "date",
-          "idempotency-key",
-          "original-request",
-          "request-id",
-          "content-length",
-          "x-stripe-client-user-agent",
-        ],
-      },
-      method: false,
-      body: false,
-      order: false,
-      url: false,
-    },
-  });
+  setupRecording({});
 
   describe.each([
     {
@@ -43,15 +26,23 @@ describe(`TransactionProcessSessionWebhookHandler`, () => {
     it.each([
       {
         title: `should work authorization`,
-        data: {},
-        result: "AUTHORIZATION_REQUESTED",
+        data: {
+          automatic_payment_methods: {
+            enabled: true,
+          },
+        },
+        result: "AUTHORIZATION_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Authorization,
       },
       {
         title: `should work charge`,
-        data: {},
-        result: "CHARGE_REQUESTED",
+        data: {
+          automatic_payment_methods: {
+            enabled: true,
+          },
+        },
+        result: "CHARGE_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Charge,
       },
@@ -71,7 +62,7 @@ describe(`TransactionProcessSessionWebhookHandler`, () => {
 
       // Update payment
       const processEvent = await createMockTransactionProcessSessionEvent({
-        data,
+        data: {},
         sourceObject: getSourceObject(),
         action: {
           amount: amount + 100,

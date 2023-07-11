@@ -471,3 +471,7 @@ export const createMockTransactionProcessSessionEvent: CreateMockAsyncFn<
     overrides,
   );
 };
+
+export const createMockStripeDataActionNotRequired = () => {
+  return {};
+};
