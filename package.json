@@ -72,7 +72,7 @@
     "stripe": "12.10.0",
     "stripe-event-types": "2.3.0",
     "urql": "3.0.4",
-    "uuidv7": "0.5.2",
+    "uuidv7": "0.5.3",
     "vite": "4.4.1",
     "vitest": "0.33.0",
     "webpack": "5.88.1",
