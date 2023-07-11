@@ -69,7 +69,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.45.1",
-    "stripe": "12.10.0",
+    "stripe": "12.12.0",
     "stripe-event-types": "2.3.0",
     "urql": "3.0.4",
     "uuidv7": "0.5.3",
