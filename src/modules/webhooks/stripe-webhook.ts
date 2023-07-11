@@ -36,7 +36,7 @@ export const stripeWebhookHandler = async (req: NextApiRequest) => {
 
   const stripeEvent = await requestToStripeEvent({ req, appConfig });
   if (!stripeEvent) {
-    logger.debug(`stripeEvent was null`);
+    logger.debug("stripeEvent was null");
     return null;
   }
 
@@ -87,7 +87,7 @@ async function processStripeEvent({
   );
 
   if (transactionEventReportResult.errors.length > 0) {
-    const message = transactionEventReportResult.errors.map((err) => err.message).join(`\n`);
+    const message = transactionEventReportResult.errors.map((err) => err.message).join("\n");
     throw new UnexpectedTransactionEventReportError(message, {
       errors: transactionEventReportResult.errors,
     });
@@ -152,7 +152,7 @@ async function requestToStripeEvent({
   if (stripeEventError instanceof Stripe.errors.StripeSignatureVerificationError) {
     logger.warn(
       { message: stripeEventError.message, name: stripeEventError.name },
-      `Invalid signature for event`,
+      "Invalid signature for event",
     );
     return null;
   } else if (stripeEventError) {
@@ -218,12 +218,12 @@ async function stripeEventToTransactionEventReport({
 
   const transactionId = getTransactionIdFromEventData(stripeEvent.data);
   if (!transactionId) {
-    logger.warn(`stripeEvent is missing metadata.transactionId`);
+    logger.warn("stripeEvent is missing metadata.transactionId");
     return null;
   }
   const channelId = getChannelIdFromEventData(stripeEvent.data);
   if (!channelId) {
-    logger.warn(`stripeEvent is missing metadata.channelId`);
+    logger.warn("stripeEvent is missing metadata.channelId");
     return null;
   }
 
@@ -242,7 +242,7 @@ export async function stripeEventToTransactionEventReportMutationVariables(
 ): Promise<TransactionEventReportMutationVariables | null> {
   const logger = createLogger(
     {},
-    { msgPrefix: `[stripeEventToTransactionEventReportMutationVariables] ` },
+    { msgPrefix: "[stripeEventToTransactionEventReportMutationVariables] " },
   );
 
   const partialVariables = stripeEventToPartialTransactionEventReportMutationVariables(stripeEvent);
@@ -365,12 +365,12 @@ function stripeChargeRefundUpdatedEventToPartialTransactionEventReportMutationVa
           type: TransactionEventTypeEnum.RefundFailure,
           message: stripeEvent.data.object.failure_reason,
         };
-      case `pending`:
+      case "pending":
         return { type: TransactionEventTypeEnum.RefundRequest };
-      case `succeeded`:
+      case "succeeded":
         return { type: TransactionEventTypeEnum.RefundSuccess };
-      case `requires_action`:
-        return { type: TransactionEventTypeEnum.RefundRequest, message: `requires_action` };
+      case "requires_action":
+        return { type: TransactionEventTypeEnum.RefundRequest, message: "requires_action" };
     }
   });
 

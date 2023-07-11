@@ -55,7 +55,7 @@ const removeBlacklistedVariables = (
   }
 
   if ("client_secret" in obj) {
-    obj.client_secret = `pi_FAKE_CLIENT_SECRET`;
+    obj.client_secret = "pi_FAKE_CLIENT_SECRET";
   }
 
   return omitDeep(obj, ...VARIABLES_BLACKLIST);
@@ -213,7 +213,7 @@ export const setupRecording = (config?: PollyConfig) => {
   beforeEach(async (ctx) => {
     const { currentTestName } = expect.getState();
     if (!currentTestName) {
-      throw new Error(`This function must be run inside a test case!`);
+      throw new Error("This function must be run inside a test case!");
     }
 
     const recordingsRoot = path.dirname(expect.getState().testPath || "");

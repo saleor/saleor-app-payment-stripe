@@ -23,14 +23,14 @@ export const TransactionChargeRequestedWebhookHandler = async (
   saleorApiUrl: string,
 ): Promise<TransactionChargeRequestedResponse> => {
   const app = event.recipient;
-  invariant(app, `Missing event.recipient!`);
+  invariant(app, "Missing event.recipient!");
   invariant(
     event.action.actionType === TransactionActionEnum.Charge,
     `Incorrect action.actionType: ${event.action.actionType}`,
   );
-  invariant(event.transaction, `Missing transaction`);
-  invariant(event.action.amount, `Missing action.amount`);
-  invariant(event.transaction.sourceObject, `Missing transaction.sourceObject`);
+  invariant(event.transaction, "Missing transaction");
+  invariant(event.action.amount, "Missing action.amount");
+  invariant(event.transaction.sourceObject, "Missing transaction.sourceObject");
 
   const { privateMetadata } = app;
   const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);

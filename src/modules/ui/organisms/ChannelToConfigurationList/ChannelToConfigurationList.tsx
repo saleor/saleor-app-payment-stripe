@@ -78,7 +78,7 @@ const Empty = ({ disabled }: { disabled?: boolean }) => {
           e.preventDefault();
           void appBridge?.dispatch({
             type: "redirect",
-            payload: { actionId: "go-to-channels", to: `/channels/` },
+            payload: { actionId: "go-to-channels", to: "/channels/" },
           });
         }}
       >

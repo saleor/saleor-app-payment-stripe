@@ -10,7 +10,7 @@ export const dropdownColumnTd = style(
       width: "50%",
     },
   ],
-  `summaryColumnTd`,
+  "summaryColumnTd",
 );
 export const statusColumnTd = style(
   [
@@ -19,6 +19,6 @@ export const statusColumnTd = style(
       paddingLeft: 10,
     }),
   ],
-  `actionsColumnTd`,
+  "actionsColumnTd",
 );
-export const td = style([{ verticalAlign: "middle" }], `td`);
+export const td = style([{ verticalAlign: "middle" }], "td");

@@ -9,7 +9,7 @@ globalStyle("*", {
   MozOsxFontSmoothing: "grayscale",
 });
 
-globalStyle(`.visually-hidden`, {
+globalStyle(".visually-hidden", {
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
   height: "1px",

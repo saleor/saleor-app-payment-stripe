@@ -2,7 +2,7 @@ import { type Money } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 
 const getDecimalsForStripe = (currency: string) => {
-  invariant(currency.length === 3, `currency needs to be a 3-letter code`);
+  invariant(currency.length === 3, "currency needs to be a 3-letter code");
 
   const stripeDecimals = stripeCurrencies[currency.toUpperCase()];
   const decimals = stripeDecimals ?? 2;

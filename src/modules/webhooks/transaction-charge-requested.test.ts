@@ -14,7 +14,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 import { TransactionEventTypeEnum, TransactionFlowStrategyEnum } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 
-describe(`TransactionChargeRequestedWebhookHandler`, () => {
+describe("TransactionChargeRequestedWebhookHandler", () => {
   setupRecording({});
 
   // https://stripe.com/docs/testing?testing-method=payment-methods#visa
@@ -32,7 +32,7 @@ describe(`TransactionChargeRequestedWebhookHandler`, () => {
     ${"Diners Club"}          | ${"pm_card_diners"}
     ${"UnionPay"}             | ${"pm_card_unionpay"}
   `("$brand $paymentMethod", ({ paymentMethod }) => {
-    it(`should charge pre-authorized card`, async () => {
+    it("should charge pre-authorized card", async () => {
       // preauthorize
       const data = createMockStripeDataActionNotRequired();
       const transactionInitializeEvent = await createMockTransactionInitializeSessionEvent({
@@ -46,7 +46,7 @@ describe(`TransactionChargeRequestedWebhookHandler`, () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
@@ -72,7 +72,7 @@ describe(`TransactionChargeRequestedWebhookHandler`, () => {
       expect(chargeResult.externalUrl).toContain(pspReference);
     });
 
-    it(`should partially charge pre-authorized card`, async () => {
+    it("should partially charge pre-authorized card", async () => {
       // preauthorize
       const data = createMockStripeDataActionNotRequired();
       const transactionInitializeEvent = await createMockTransactionInitializeSessionEvent({
@@ -86,7 +86,7 @@ describe(`TransactionChargeRequestedWebhookHandler`, () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);

@@ -28,7 +28,7 @@ export const TransactionRefundRequestedWebhookHandler = async (
     event.action.actionType === TransactionActionEnum.Refund,
     `Incorrect action.actionType: ${event.action.actionType}`,
   );
-  invariant(event.transaction?.pspReference, `Missing event.transaction.pspReference!`);
+  invariant(event.transaction?.pspReference, "Missing event.transaction.pspReference!");
 
   const { privateMetadata } = app;
 
@@ -80,7 +80,7 @@ export const TransactionRefundRequestedWebhookHandler = async (
     case "requires_action": {
       const transactionRefundRequestedResponse: TransactionRefundRequestedResponse = {
         pspReference,
-        message: `requires_action`,
+        message: "requires_action",
       };
       return transactionRefundRequestedResponse;
     }

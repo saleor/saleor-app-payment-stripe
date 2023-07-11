@@ -21,7 +21,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
 ): Promise<TransactionInitializeSessionResponse> => {
   const logger = createLogger(
     { saleorApiUrl },
-    { msgPrefix: `[TransactionInitializeSessionWebhookHandler] ` },
+    { msgPrefix: "[TransactionInitializeSessionWebhookHandler] " },
   );
   logger.debug(
     {
@@ -34,11 +34,11 @@ export const TransactionInitializeSessionWebhookHandler = async (
       },
       merchantReference: event.merchantReference,
     },
-    `Received event`,
+    "Received event",
   );
 
   const app = event.recipient;
-  invariant(app, `Missing event.recipient!`);
+  invariant(app, "Missing event.recipient!");
 
   const { privateMetadata } = app;
   const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
@@ -48,7 +48,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
     getConfigurationForChannel(appConfig, event.sourceObject.channel.id),
   );
 
-  logger.info({}, `Processing Transaction Initialize request`);
+  logger.info({}, "Processing Transaction Initialize request");
 
   const paymentIntentCreateParams = transactionSessionInitializeEventToStripeCreate(event);
   logger.debug({
@@ -74,7 +74,7 @@ export const TransactionInitializeSessionWebhookHandler = async (
       },
       publishableKey: obfuscateValue(data.publishableKey),
     },
-    `Transaction Initialize response`,
+    "Transaction Initialize response",
   );
 
   const result = stripePaymentIntentToTransactionResult(

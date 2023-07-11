@@ -10,8 +10,8 @@ import { type TransactionInitializeSessionResponse } from "@/schemas/Transaction
 import { setupRecording } from "@/__tests__/polly";
 import { testEnv } from "@/__tests__/test-env.mjs";
 
-describe(`stripe-api`, () => {
-  describe(`stripeResultCodeToTransactionResult`, () => {
+describe("stripe-api", () => {
+  describe("stripeResultCodeToTransactionResult", () => {
     type ResultWithoutPrefix =
       TransactionInitializeSessionResponse["result"] extends `${infer _Prefix}_${infer Result}`
         ? Result
@@ -45,7 +45,7 @@ describe(`stripe-api`, () => {
 
         if (stripeResult === "requires_capture") {
           // special case
-          expect(returned).toBe(`AUTHORIZATION_SUCCESS`);
+          expect(returned).toBe("AUTHORIZATION_SUCCESS");
         } else {
           expect(returned).toBe(`${expectedAction}_${expectedResult}`);
         }
@@ -53,8 +53,8 @@ describe(`stripe-api`, () => {
     });
   });
 
-  describe(`getStripeExternalUrlForIntentId`, () => {
-    it(`should get external url for intentId`, () => {
+  describe("getStripeExternalUrlForIntentId", () => {
+    it("should get external url for intentId", () => {
       expect(getStripeExternalUrlForIntentId("pi_3MmHAnLE6YuwiJ1e0lqUR2OC")).toMatchInlineSnapshot(
         '"https://dashboard.stripe.com/payments/pi_3MmHAnLE6YuwiJ1e0lqUR2OC"',
       );

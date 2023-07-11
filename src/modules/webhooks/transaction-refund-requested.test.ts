@@ -46,7 +46,7 @@ describe("TransactionRefundRequestedWebhookHandler", () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
@@ -98,7 +98,7 @@ describe("TransactionRefundRequestedWebhookHandler", () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
@@ -139,7 +139,7 @@ describe("TransactionRefundRequestedWebhookHandler", () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
@@ -194,7 +194,7 @@ describe("TransactionRefundRequestedWebhookHandler", () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);

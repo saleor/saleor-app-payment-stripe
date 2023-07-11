@@ -14,7 +14,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 import { TransactionEventTypeEnum, TransactionFlowStrategyEnum } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
 
-describe(`TransactionCancelationRequestedWebhookHandler`, () => {
+describe("TransactionCancelationRequestedWebhookHandler", () => {
   setupRecording({});
 
   // https://stripe.com/docs/testing?testing-method=payment-methods#visa
@@ -32,7 +32,7 @@ describe(`TransactionCancelationRequestedWebhookHandler`, () => {
     ${"Diners Club"}          | ${"pm_card_diners"}
     ${"UnionPay"}             | ${"pm_card_unionpay"}
   `("$brand $paymentMethod", ({ paymentMethod }) => {
-    it(`should cancel pre-authorized card`, async () => {
+    it("should cancel pre-authorized card", async () => {
       // preauthorize
       const data = createMockStripeDataActionNotRequired();
       const transactionInitializeEvent = await createMockTransactionInitializeSessionEvent({
@@ -46,7 +46,7 @@ describe(`TransactionCancelationRequestedWebhookHandler`, () => {
         testEnv.TEST_SALEOR_API_URL,
       );
 
-      invariant(initializeResult.pspReference, `Missing initializeResult.pspReference`);
+      invariant(initializeResult.pspReference, "Missing initializeResult.pspReference");
 
       // mock frontend action – adding payment method details (card)
       const stripeClient = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);

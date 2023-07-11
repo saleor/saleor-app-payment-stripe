@@ -19,13 +19,13 @@ export const TransactionCancelationRequestedWebhookHandler = async (
   saleorApiUrl: string,
 ): Promise<TransactionCancelationRequestedResponse> => {
   const app = event.recipient;
-  invariant(app, `Missing event.recipient!`);
+  invariant(app, "Missing event.recipient!");
   invariant(
     event.action.actionType === TransactionActionEnum.Cancel,
     `Incorrect action.actionType: ${event.action.actionType}`,
   );
-  invariant(event.action.amount, `Missing action.amount`);
-  invariant(event.transaction, `Missing transaction`);
+  invariant(event.action.amount, "Missing action.amount");
+  invariant(event.transaction, "Missing transaction");
 
   const { privateMetadata } = app;
   const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);

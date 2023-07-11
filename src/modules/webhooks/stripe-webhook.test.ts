@@ -259,7 +259,7 @@ describe("stripe-webhook", () => {
   setupRecording({});
 
   describe("stripeWebhookHandler", () => {
-    it(`throw if saleorApiUrl is not provided in query`, async () => {
+    it("throw if saleorApiUrl is not provided in query", async () => {
       const stripe = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
       const body = JSON.stringify(createMockStripeEvent({ type: "payment_intent.succeeded" }));
       const signature = stripe.webhooks.generateTestHeaderString({
@@ -280,7 +280,7 @@ describe("stripe-webhook", () => {
       ).rejects.toMatch(/MissingSaleorApiUrlError/);
     });
 
-    it(`throw if Stripe signature header is not provided`, async () => {
+    it("throw if Stripe signature header is not provided", async () => {
       await expect(
         stripeWebhookHandler(
           createMockRequest({
@@ -294,7 +294,7 @@ describe("stripe-webhook", () => {
       ).rejects.toMatch(/MissingSignatureError/);
     });
 
-    it(`ignores misconfigured requests`, async () => {
+    it("ignores misconfigured requests", async () => {
       const stripe = getStripeApiClient(testEnv.TEST_PAYMENT_APP_SECRET_KEY);
       const body = JSON.stringify(
         createMockStripeEvent({
@@ -322,7 +322,7 @@ describe("stripe-webhook", () => {
       ).resolves.toBeNull();
     });
 
-    it(`handles payment_intent.succeeded`, async (ctx) => {
+    it("handles payment_intent.succeeded", async (ctx) => {
       const localGraphqlUrl = testEnv.TEST_SALEOR_API_URL;
       const event = createMockStripeEvent({ type: "payment_intent.succeeded" });
 
@@ -330,7 +330,7 @@ describe("stripe-webhook", () => {
         expect(req.headers["authorization-bearer"]).toEqual(testEnv.TEST_SALEOR_APP_TOKEN);
         // @todo maybe we should parse graphql to AST here?
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        expect(req.jsonBody().query).toMatch(`transactionEventReport(`);
+        expect(req.jsonBody().query).toMatch("transactionEventReport(");
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const variables = req.jsonBody().variables;
@@ -386,7 +386,7 @@ describe("stripe-webhook", () => {
       `);
     });
 
-    it(`handles payment_intent.payment_failed`, async (ctx) => {
+    it("handles payment_intent.payment_failed", async (ctx) => {
       const localGraphqlUrl = testEnv.TEST_SALEOR_API_URL;
       const event = createMockStripeEvent({ type: "payment_intent.payment_failed" });
 
@@ -394,7 +394,7 @@ describe("stripe-webhook", () => {
         expect(req.headers["authorization-bearer"]).toEqual(testEnv.TEST_SALEOR_APP_TOKEN);
         // @todo maybe we should parse graphql to AST here?
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        expect(req.jsonBody().query).toMatch(`transactionEventReport(`);
+        expect(req.jsonBody().query).toMatch("transactionEventReport(");
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const variables = req.jsonBody().variables;

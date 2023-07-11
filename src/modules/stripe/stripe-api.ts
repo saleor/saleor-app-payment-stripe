@@ -142,7 +142,7 @@ export const stripePaymentIntentToTransactionResult = (
     case "succeeded":
       return `${prefix}_SUCCESS`;
     case "requires_capture":
-      return `AUTHORIZATION_SUCCESS`;
+      return "AUTHORIZATION_SUCCESS";
   }
 };
 

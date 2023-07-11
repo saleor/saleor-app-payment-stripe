@@ -16,9 +16,9 @@ export const BaseError = ModernError.subclass("BaseError", {
 });
 export const UnknownError = BaseError.subclass("UnknownError");
 export const JsonSchemaError = BaseError.subclass("JsonSchemaError");
-export const MissingSaleorApiUrlError = BaseError.subclass(`MissingSaleorApiUrlError`);
-export const MissingAuthDataError = BaseError.subclass(`MissingAuthDataError`);
-export const HttpRequestError = BaseError.subclass(`HttpRequestError`, {
+export const MissingSaleorApiUrlError = BaseError.subclass("MissingSaleorApiUrlError");
+export const MissingAuthDataError = BaseError.subclass("MissingAuthDataError");
+export const HttpRequestError = BaseError.subclass("HttpRequestError", {
   props: {} as { statusCode: number; body: string; headers: IncomingHttpHeaders },
 });
 

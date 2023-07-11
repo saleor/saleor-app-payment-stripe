@@ -13,7 +13,7 @@ import { testEnv } from "@/__tests__/test-env.mjs";
 
 import { TransactionFlowStrategyEnum } from "generated/graphql";
 
-describe(`TransactionProcessSessionWebhookHandler`, () => {
+describe("TransactionProcessSessionWebhookHandler", () => {
   setupRecording({});
 
   describe.each([
@@ -22,10 +22,10 @@ describe(`TransactionProcessSessionWebhookHandler`, () => {
       getSourceObject: createMockTransactionInitializeSessionSourceObjectCheckout,
     },
     { name: "Order", getSourceObject: createMockTransactionInitializeSessionSourceObjectOrder },
-  ])(`$name`, ({ getSourceObject }) => {
+  ])("$name", ({ getSourceObject }) => {
     it.each([
       {
-        title: `should work authorization`,
+        title: "should work authorization",
         data: {
           automatic_payment_methods: {
             enabled: true,
@@ -36,7 +36,7 @@ describe(`TransactionProcessSessionWebhookHandler`, () => {
         actionType: TransactionFlowStrategyEnum.Authorization,
       },
       {
-        title: `should work charge`,
+        title: "should work charge",
         data: {
           automatic_payment_methods: {
             enabled: true,
@@ -46,7 +46,7 @@ describe(`TransactionProcessSessionWebhookHandler`, () => {
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Charge,
       },
-    ])(`$title`, async ({ title, data, result, amount, actionType }) => {
+    ])("$title", async ({ title, data, result, amount, actionType }) => {
       // Create payment
       const initializeEvent = await createMockTransactionInitializeSessionEvent({
         data,

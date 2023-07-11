@@ -19,15 +19,15 @@ const getApl = async () => {
   /* c8 ignore start */
   switch (env.APL) {
     case "upstash":
-      invariant(env.UPSTASH_URL, `Missing UPSTASH_URL env variable!`);
-      invariant(env.UPSTASH_TOKEN, `Missing UPSTASH_TOKEN env variable!`);
+      invariant(env.UPSTASH_URL, "Missing UPSTASH_URL env variable!");
+      invariant(env.UPSTASH_TOKEN, "Missing UPSTASH_TOKEN env variable!");
       return new UpstashAPL({
         restURL: env.UPSTASH_URL,
         restToken: env.UPSTASH_TOKEN,
       });
     case "saleor-cloud": {
-      invariant(env.REST_APL_ENDPOINT, `Missing REST_APL_ENDPOINT env variable!`);
-      invariant(env.REST_APL_TOKEN, `Missing REST_APL_TOKEN env variable!`);
+      invariant(env.REST_APL_ENDPOINT, "Missing REST_APL_ENDPOINT env variable!");
+      invariant(env.REST_APL_TOKEN, "Missing REST_APL_TOKEN env variable!");
       return new SaleorCloudAPL({
         resourceUrl: env.REST_APL_ENDPOINT,
         token: env.REST_APL_TOKEN,

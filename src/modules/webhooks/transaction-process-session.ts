@@ -19,7 +19,7 @@ export const TransactionProcessSessionWebhookHandler = async (
   event: TransactionProcessSessionEventFragment,
   saleorApiUrl: string,
 ): Promise<TransactionProcessSessionResponse> => {
-  const logger = createLogger({}, { msgPrefix: `[TransactionProcessSessionWebhookHandler] ` });
+  const logger = createLogger({}, { msgPrefix: "[TransactionProcessSessionWebhookHandler] " });
   logger.debug(
     {
       transaction: event.transaction,
@@ -31,11 +31,11 @@ export const TransactionProcessSessionWebhookHandler = async (
       },
       merchantReference: event.merchantReference,
     },
-    `Received event`,
+    "Received event",
   );
 
   const app = event.recipient;
-  invariant(app, `Missing event.recipient!`);
+  invariant(app, "Missing event.recipient!");
 
   const { privateMetadata } = app;
   const configurator = getWebhookPaymentAppConfigurator({ privateMetadata }, saleorApiUrl);
@@ -45,7 +45,7 @@ export const TransactionProcessSessionWebhookHandler = async (
     getConfigurationForChannel(appConfig, event.sourceObject.channel.id),
   );
 
-  logger.info({}, `Processing Transaction Initialize request`);
+  logger.info({}, "Processing Transaction Initialize request");
 
   const paymentIntentUpdateParams = transactionSessionProcessEventToStripeUpdate(event);
   logger.debug({
@@ -72,7 +72,7 @@ export const TransactionProcessSessionWebhookHandler = async (
       },
       publishableKey: obfuscateValue(data.publishableKey),
     },
-    `Transaction Process response`,
+    "Transaction Process response",
   );
 
   const result = stripePaymentIntentToTransactionResult(
