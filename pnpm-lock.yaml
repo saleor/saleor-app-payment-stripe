@@ -128,8 +128,8 @@ dependencies:
     specifier: 12.12.0
     version: 12.12.0
   stripe-event-types:
-    specifier: 2.3.0
-    version: 2.3.0(stripe@12.12.0)
+    specifier: 2.4.0
+    version: 2.4.0(stripe@12.12.0)
   urql:
     specifier: 3.0.4
     version: 3.0.4(graphql@16.7.1)(react@18.2.0)
@@ -10423,8 +10423,8 @@ packages:
     dependencies:
       acorn: 8.10.0
 
-  /stripe-event-types@2.3.0(stripe@12.12.0):
-    resolution: {integrity: sha512-4qh0wblfZBbdHn3IH9bbRrGZw+TJuIern6UjoG1+17grSyhIJFvrrqTn2ACE/wx3PE7ZLXNG5Qzo7BEXXkuyoA==}
+  /stripe-event-types@2.4.0(stripe@12.12.0):
+    resolution: {integrity: sha512-5ORZMW/WKjc31nsGMCUECOS+xVjtHhAFJJ8833ft3471hIjQrMbLMPBEb5AcJM8mKRRULpKmCVMDU0lLYrxERQ==}
     peerDependencies:
       stripe: '>=10.0.0'
     dependencies:
