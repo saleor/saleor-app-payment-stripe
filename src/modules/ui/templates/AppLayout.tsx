@@ -1,5 +1,6 @@
 import { Box, Text } from "@saleor/macaw-ui/next";
 import { type ReactNode, isValidElement } from "react";
+import Head from "next/head";
 import { appLayoutBoxRecipe, appLayoutTextRecipe } from "./appLayout.css";
 
 export const AppLayout = ({
@@ -12,29 +13,35 @@ export const AppLayout = ({
   children: ReactNode;
 }) => {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      rowGap={9}
-      marginX="auto"
-      __maxWidth={1156}
-      paddingTop={10}
-      __paddingBottom="20rem"
-    >
-      <Box display="flex" flexDirection="column" rowGap={2}>
-        <Text as="h1" variant="hero" size="medium">
-          {title}
-        </Text>
-        {isValidElement(description) ? (
-          description
-        ) : (
-          <Text as="p" variant="body" size="medium">
-            {description}
+    <>
+      <Head>
+        <title>Saleor App Payment {title}</title>
+      </Head>
+
+      <Box
+        display="flex"
+        flexDirection="column"
+        rowGap={9}
+        marginX="auto"
+        __maxWidth={1156}
+        paddingTop={10}
+        __paddingBottom="20rem"
+      >
+        <Box display="flex" flexDirection="column" rowGap={2}>
+          <Text as="h1" variant="hero" size="medium">
+            {title}
           </Text>
-        )}
+          {isValidElement(description) ? (
+            description
+          ) : (
+            <Text as="p" variant="body" size="medium">
+              {description}
+            </Text>
+          )}
+        </Box>
+        {children}
       </Box>
-      {children}
-    </Box>
+    </>
   );
 };
 
