@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: "canary"
+          token: ${{ secrets.PAT }}
 
       - run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
