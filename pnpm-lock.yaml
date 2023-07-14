@@ -23,8 +23,8 @@ dependencies:
     specifier: 0.41.1
     version: 0.41.1(next@13.4.9)(react-dom@18.2.0)(react@18.2.0)
   '@saleor/macaw-ui':
-    specifier: 0.8.0-pre.98
-    version: 0.8.0-pre.98(@types/react-dom@18.2.7)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 0.8.0-pre.105
+    version: 0.8.0-pre.105(@types/react-dom@18.2.7)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0)
   '@sentry/nextjs':
     specifier: 7.58.1
     version: 7.58.1(next@13.4.9)(react@18.2.0)(webpack@5.88.1)
@@ -3630,8 +3630,8 @@ packages:
       json-schema-to-typescript: 13.0.2
     dev: true
 
-  /@saleor/macaw-ui@0.8.0-pre.98(@types/react-dom@18.2.7)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-W/KCjRoVVr751JxPET/ebXt9im5lleCGAtydFcuDwmxoU11wTlyxHM25owsJJBpTq1L+jdrMyXO/vZ1FL06Osg==}
+  /@saleor/macaw-ui@0.8.0-pre.105(@types/react-dom@18.2.7)(@types/react@18.2.14)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-UfI8NWknBCEJfFakQM71W5DghQZZT+WNU4C0t/A6xHxQQj8qOxoilOeFy+e7rqtovx3x0tkcWIlVy2TTbuJDKg==}
     engines: {node: '>=16 <19', pnpm: '>=8'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
