@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "saleor-app-payment-stripe",
   "description": "Saleor App Payment Stripe is a payment integration app that allows merchants using the Saleor e-commerce platform to accept online payments from customers using Stripe as their payment processor.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "repository": "github:saleor/saleor-app-payment-stripe",
   "homepage": "https://github.com/saleor/saleor-app-payment-stripe",
