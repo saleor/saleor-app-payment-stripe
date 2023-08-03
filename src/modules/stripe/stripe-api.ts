@@ -68,6 +68,17 @@ export const getEnvironmentFromKey = (secretKeyOrPublishableKey: string) => {
     : "test";
 };
 
+export const getStripeWebhookDashboardLink = (
+  webhookId: string,
+  environment: "live" | "test",
+): string => {
+  if (environment === "live") {
+    return `https://dashboard.stripe.com/webhooks/${webhookId}`;
+  } else {
+    return `https://dashboard.stripe.com/test/webhooks/${webhookId}`;
+  }
+};
+
 export const transactionSessionInitializeEventToStripeCreate = (
   event: TransactionInitializeSessionEventFragment,
 ): Stripe.PaymentIntentCreateParams => {
