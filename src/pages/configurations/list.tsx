@@ -1,5 +1,5 @@
 import { useAppBridge, withAuthorization } from "@saleor/app-sdk/app-bridge";
-import { Box, Text } from "@saleor/macaw-ui/next";
+import { Box, Text, Skeleton } from "@saleor/macaw-ui/next";
 import { AppLayout, AppLayoutRow } from "@/modules/ui/templates/AppLayout";
 import { trpcClient } from "@/modules/trpc/trpc-client";
 import { getErrorHandler } from "@/modules/trpc/utils";
@@ -33,31 +33,28 @@ function ListConfigurationPage() {
   const hasAnyConfigs = allConfigurations.data && allConfigurations.data.length > 0;
   const hasAnyMappings = Object.values(channelMappings.data || {}).filter(Boolean).length > 0;
 
-  if (allConfigurations.isLoading) {
-    return (
-      <AppLayout title="Stripe">
-        <div />
-      </AppLayout>
-    );
-  }
-
   return (
     <AppLayout title="Stripe">
       <AppLayoutRow
         title="Stripe Configurations"
         description="Create Stripe configurations that can be later assigned to Saleor channels."
+        disabled={channelMappings.isLoading}
       >
-        <StripeConfigurationsList configurations={allConfigurations.data || []} />
+        {allConfigurations.isLoading ? (
+          <Skeleton height={40} />
+        ) : (
+          <StripeConfigurationsList configurations={allConfigurations.data || []} />
+        )}
       </AppLayoutRow>
       <AppLayoutRow
-        disabled={!hasAnyConfigs}
+        disabled={!hasAnyConfigs || channelMappings.isLoading}
         title="Saleor channel mappings"
         description={
           <Box>
             <Text as="p" variant="body" size="medium">
               Assign Stripe configurations to Saleor channels.
             </Text>
-            {!hasAnyMappings && (
+            {!channelMappings.isLoading && !hasAnyMappings && (
               <Box marginTop={6}>
                 <Text as="p" variant="body" size="medium" color="textCriticalDefault">
                   No channels have configurations assigned.
@@ -70,12 +67,16 @@ function ListConfigurationPage() {
           </Box>
         }
       >
-        <ChannelToConfigurationList
-          disabled={!hasAnyConfigs || channelMappings.isLoading}
-          configurations={allConfigurations.data || []}
-          channelMappings={channelMappings.data || {}}
-          channels={channels.data?.channels || []}
-        />
+        {channelMappings.isLoading ? (
+          <Skeleton height={40}></Skeleton>
+        ) : (
+          <ChannelToConfigurationList
+            disabled={!hasAnyConfigs || channelMappings.isLoading}
+            configurations={allConfigurations.data || []}
+            channelMappings={channelMappings.data || {}}
+            channels={channels.data?.channels || []}
+          />
+        )}
       </AppLayoutRow>
     </AppLayout>
   );
