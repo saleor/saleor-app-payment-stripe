@@ -14,9 +14,9 @@ import { type TransactionChargeRequestedResponse } from "@/schemas/TransactionCh
 import {
   type TransactionChargeRequestedEventFragment,
   TransactionFlowStrategyEnum,
+  TransactionActionEnum,
 } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
-import { TransactionActionEnum } from "generated/graphql";
 
 export const TransactionChargeRequestedWebhookHandler = async (
   event: TransactionChargeRequestedEventFragment,
