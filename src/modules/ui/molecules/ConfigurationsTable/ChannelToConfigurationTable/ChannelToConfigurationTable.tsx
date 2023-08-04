@@ -1,9 +1,10 @@
 import { Combobox, Text } from "@saleor/macaw-ui/next";
 import classNames from "classnames";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
+import { useMemo } from "react";
 import * as tableStyles from "./channelToConfigurationTable.css";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@/modules/ui/atoms/Table/Table";
-import { ChipDanger, ChipNeutral, ChipSuccess } from "@/modules/ui/atoms/Chip/Chip";
+import { ChipStripeOrange, ChipNeutral, ChipSuccess } from "@/modules/ui/atoms/Chip/Chip";
 import { trpcClient } from "@/modules/trpc/trpc-client";
 import { type Channel } from "@/types";
 import { getErrorHandler } from "@/modules/trpc/utils";
@@ -56,6 +57,19 @@ const ChannelToConfigurationTableRow = ({
       },
     });
 
+  // @todo remove this when macaw-ui is fixed https://github.com/saleor/macaw-ui/issues/512
+  const options = useMemo(
+    () => [
+      { value: "", label: "(disabled)" },
+      ...configurations.map((c) => ({
+        value: c.configurationId,
+        label: c.configurationName,
+      })),
+    ],
+    [configurations],
+  );
+  const value = options.find((o) => o.value === selectedConfigurationId) || options[0]!;
+
   return (
     <Tr>
       <Td className={tableStyles.td}>
@@ -72,7 +86,8 @@ const ChannelToConfigurationTableRow = ({
           label="Configuration name"
           size="small"
           disabled={disabled}
-          value={selectedConfigurationId || ""}
+          value={value}
+          options={options}
           onChange={(e) => {
             const newMapping = {
               channelId: channel.id,
@@ -86,13 +101,6 @@ const ChannelToConfigurationTableRow = ({
             });
             saveMapping(newMapping);
           }}
-          options={[
-            { value: "", label: "(disabled)" },
-            ...configurations.map((c) => ({
-              value: c.configurationId,
-              label: c.configurationName,
-            })),
-          ]}
         />
       </Td>
       <Td className={classNames(tableStyles.td, tableStyles.statusColumnTd)}>
@@ -101,7 +109,7 @@ const ChannelToConfigurationTableRow = ({
         ) : getEnvironmentFromKey(selectedConfiguration.publishableKey) === "live" ? (
           <ChipSuccess>LIVE</ChipSuccess>
         ) : (
-          <ChipDanger>TESTING</ChipDanger>
+          <ChipStripeOrange>TESTING</ChipStripeOrange>
         )}
       </Td>
     </Tr>
