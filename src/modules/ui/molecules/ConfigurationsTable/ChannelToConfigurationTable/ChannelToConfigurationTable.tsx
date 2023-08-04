@@ -1,7 +1,6 @@
 import { Combobox, Text } from "@saleor/macaw-ui/next";
 import classNames from "classnames";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
-import { useMemo } from "react";
 import * as tableStyles from "./channelToConfigurationTable.css";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@/modules/ui/atoms/Table/Table";
 import { ChipStripeOrange, ChipNeutral, ChipSuccess } from "@/modules/ui/atoms/Chip/Chip";
@@ -57,19 +56,6 @@ const ChannelToConfigurationTableRow = ({
       },
     });
 
-  // @todo remove this when macaw-ui is fixed https://github.com/saleor/macaw-ui/issues/512
-  const options = useMemo(
-    () => [
-      { value: "", label: "(disabled)" },
-      ...configurations.map((c) => ({
-        value: c.configurationId,
-        label: c.configurationName,
-      })),
-    ],
-    [configurations],
-  );
-  const value = options.find((o) => o.value === selectedConfigurationId) || options[0]!;
-
   return (
     <Tr>
       <Td className={tableStyles.td}>
@@ -86,8 +72,14 @@ const ChannelToConfigurationTableRow = ({
           label="Configuration name"
           size="small"
           disabled={disabled}
-          value={value}
-          options={options}
+          value={selectedConfigurationId || ""}
+          options={[
+            { value: "", label: "(disabled)" },
+            ...configurations.map((c) => ({
+              value: c.configurationId,
+              label: c.configurationName,
+            })),
+          ]}
           onChange={(e) => {
             const newMapping = {
               channelId: channel.id,

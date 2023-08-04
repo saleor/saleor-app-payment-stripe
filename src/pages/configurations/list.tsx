@@ -1,11 +1,12 @@
 import { useAppBridge, withAuthorization } from "@saleor/app-sdk/app-bridge";
-import { Box, Text, Skeleton } from "@saleor/macaw-ui/next";
+import { Box, Text } from "@saleor/macaw-ui/next";
 import { AppLayout, AppLayoutRow } from "@/modules/ui/templates/AppLayout";
 import { trpcClient } from "@/modules/trpc/trpc-client";
 import { getErrorHandler } from "@/modules/trpc/utils";
 import { useFetchChannelsQuery } from "generated/graphql";
 import { StripeConfigurationsList } from "@/modules/ui/organisms/StripeConfigurationList/StripeConfigurationList";
 import { ChannelToConfigurationList } from "@/modules/ui/organisms/ChannelToConfigurationList/ChannelToConfigurationList";
+import { Skeleton } from "@/modules/ui/atoms/Skeleton/Skeleton";
 
 function ListConfigurationPage() {
   const { appBridge } = useAppBridge();
@@ -68,7 +69,7 @@ function ListConfigurationPage() {
         }
       >
         {channelMappings.isLoading ? (
-          <Skeleton height={40}></Skeleton>
+          <Skeleton height={40} />
         ) : (
           <ChannelToConfigurationList
             disabled={!hasAnyConfigs || channelMappings.isLoading}
