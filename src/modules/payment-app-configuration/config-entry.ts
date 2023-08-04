@@ -3,11 +3,11 @@ import { deobfuscateValues } from "../app-configuration/utils";
 
 export const DANGEROUS_paymentAppConfigHiddenSchema = z.object({
   webhookSecret: z.string().min(1),
-  webhookId: z.string().min(1),
 });
 
 export const paymentAppConfigEntryInternalSchema = z.object({
   configurationId: z.string().min(1),
+  webhookId: z.string().min(1),
 });
 
 export const paymentAppConfigEntryEncryptedSchema = z.object({
@@ -46,7 +46,7 @@ export const paymentAppFullyConfiguredEntrySchema = z
     secretKey: paymentAppConfigEntryEncryptedSchema.shape.secretKey,
     publishableKey: paymentAppConfigEntryPublicSchema.shape.publishableKey,
     webhookSecret: DANGEROUS_paymentAppConfigHiddenSchema.shape.webhookSecret,
-    webhookId: DANGEROUS_paymentAppConfigHiddenSchema.shape.webhookId,
+    webhookId: paymentAppConfigEntryInternalSchema.shape.webhookId,
   })
   .required();
 

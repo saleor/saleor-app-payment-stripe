@@ -10,9 +10,9 @@ import { type TransactionCancelationRequestedResponse } from "@/schemas/Transact
 import {
   TransactionEventTypeEnum,
   type TransactionCancelationRequestedEventFragment,
+  TransactionActionEnum,
 } from "generated/graphql";
 import { invariant } from "@/lib/invariant";
-import { TransactionActionEnum } from "generated/graphql";
 
 export const TransactionCancelationRequestedWebhookHandler = async (
   event: TransactionCancelationRequestedEventFragment,

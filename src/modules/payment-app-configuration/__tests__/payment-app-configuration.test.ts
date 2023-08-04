@@ -60,6 +60,7 @@ describe("PaymentAppConfigurator", () => {
             secretKey: `${OBFUSCATION_DOTS}-key`, // from super-secret-key
             publishableKey: "pk_that-secret-key",
             configurationName: "test",
+            webhookId: "webhook-id",
           },
         ],
         channelToConfigurationId: mockConfig.channelToConfigurationId,
