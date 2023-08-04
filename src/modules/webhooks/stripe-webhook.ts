@@ -53,6 +53,13 @@ async function processStripeEvent({
   client: Client;
 }) {
   const logger = createLogger({}, { msgPrefix: "[processStripeEvent] " });
+  logger.debug(
+    {
+      id: stripeEvent.id,
+      type: stripeEvent.type,
+    },
+    "Got Stripe event",
+  );
 
   const transactionEventReport = await stripeEventToTransactionEventReport({
     appConfig,
@@ -61,12 +68,13 @@ async function processStripeEvent({
   logger.debug({
     transactionEventReport: transactionEventReport && {
       transactionId: transactionEventReport.transactionId,
+      amount: transactionEventReport.amount,
       availableActions: transactionEventReport.availableActions,
-      pspReference: transactionEventReport.pspReference,
       externalUrl: transactionEventReport.externalUrl,
       message: transactionEventReport.message,
-      type: transactionEventReport.type,
+      pspReference: transactionEventReport.pspReference,
       time: transactionEventReport.time,
+      type: transactionEventReport.type,
     },
   });
 
@@ -80,7 +88,7 @@ async function processStripeEvent({
   });
   logger.debug(
     {
-      alreadyProcessed: transactionEventReportResult.data?.transactionEventReport?.alreadyProcessed,
+      data: transactionEventReportResult.data,
       errors: transactionEventReportResult.errors,
     },
     "Received response from event report",
@@ -265,6 +273,8 @@ export async function stripeEventToTransactionEventReportMutationVariables(
   logger.debug(
     {
       transactionId: result.transactionId,
+      amount: result.amount,
+      externalUrl: result.externalUrl,
       message: result.message,
       pspReference: result.pspReference,
       time: result.time,

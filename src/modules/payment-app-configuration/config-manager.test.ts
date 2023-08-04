@@ -78,6 +78,7 @@ describe("addConfigEntry", () => {
       configurationName: input.configurationName,
       secretKey: `${OBFUSCATION_DOTS}key`,
       publishableKey: "client-key",
+      webhookId: "12345",
     });
     expect(mockConfigurator.setConfigEntry).toHaveBeenCalledTimes(1);
     expect(mockConfigurator.setConfigEntry).toHaveBeenCalledWith({

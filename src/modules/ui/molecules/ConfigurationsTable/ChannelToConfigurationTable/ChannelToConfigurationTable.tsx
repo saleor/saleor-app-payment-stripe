@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useAppBridge } from "@saleor/app-sdk/app-bridge";
 import * as tableStyles from "./channelToConfigurationTable.css";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@/modules/ui/atoms/Table/Table";
-import { ChipDanger, ChipNeutral, ChipSuccess } from "@/modules/ui/atoms/Chip/Chip";
+import { ChipStripeOrange, ChipNeutral, ChipSuccess } from "@/modules/ui/atoms/Chip/Chip";
 import { trpcClient } from "@/modules/trpc/trpc-client";
 import { type Channel } from "@/types";
 import { getErrorHandler } from "@/modules/trpc/utils";
@@ -73,6 +73,13 @@ const ChannelToConfigurationTableRow = ({
           size="small"
           disabled={disabled}
           value={selectedConfigurationId || ""}
+          options={[
+            { value: "", label: "(disabled)" },
+            ...configurations.map((c) => ({
+              value: c.configurationId,
+              label: c.configurationName,
+            })),
+          ]}
           onChange={(e) => {
             const newMapping = {
               channelId: channel.id,
@@ -86,13 +93,6 @@ const ChannelToConfigurationTableRow = ({
             });
             saveMapping(newMapping);
           }}
-          options={[
-            { value: "", label: "(disabled)" },
-            ...configurations.map((c) => ({
-              value: c.configurationId,
-              label: c.configurationName,
-            })),
-          ]}
         />
       </Td>
       <Td className={classNames(tableStyles.td, tableStyles.statusColumnTd)}>
@@ -101,7 +101,7 @@ const ChannelToConfigurationTableRow = ({
         ) : getEnvironmentFromKey(selectedConfiguration.publishableKey) === "live" ? (
           <ChipSuccess>LIVE</ChipSuccess>
         ) : (
-          <ChipDanger>TESTING</ChipDanger>
+          <ChipStripeOrange>TESTING</ChipStripeOrange>
         )}
       </Td>
     </Tr>
