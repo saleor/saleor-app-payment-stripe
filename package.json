@@ -78,7 +78,7 @@
     "webpack": "5.88.2",
     "yup": "1.2.0",
     "zod": "3.21.4",
-    "zustand": "4.4.0"
+    "zustand": "4.4.1"
   },
   "devDependencies": {
     "@changesets/cli": "2.26.2",
