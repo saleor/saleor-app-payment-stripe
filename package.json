@@ -64,7 +64,7 @@
     "modern-errors-serialize": "5.0.0",
     "next": "13.4.12",
     "omit-deep-lodash": "1.1.7",
-    "pino": "8.14.2",
+    "pino": "8.15.0",
     "pino-pretty": "10.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
