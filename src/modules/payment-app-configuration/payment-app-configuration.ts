@@ -1,6 +1,6 @@
 import { encrypt, type MetadataEntry } from "@saleor/app-sdk/settings-manager";
 import {
-  type AppConfigurator,
+  type GenericAppConfigurator,
   PrivateMetadataAppConfigurator,
 } from "../app-configuration/app-configuration";
 import { type BrandedEncryptedMetadataManager } from "../app-configuration/metadata-manager";
@@ -14,9 +14,9 @@ export const privateMetadataKey = "payment-app-config-private";
 export const hiddenMetadataKey = "payment-app-config-hidden";
 export const publicMetadataKey = "payment-app-config-public";
 
-export const AppNotConfiguredError = BaseError.subclass(`AppNotConfiguredError`);
+export const AppNotConfiguredError = BaseError.subclass("AppNotConfiguredError");
 
-export class PaymentAppConfigurator implements AppConfigurator<PaymentAppConfig> {
+export class PaymentAppConfigurator implements GenericAppConfigurator<PaymentAppConfig> {
   private configurator: PrivateMetadataAppConfigurator<PaymentAppConfig>;
   public saleorApiUrl: string;
 

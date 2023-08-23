@@ -33,7 +33,7 @@ export const unpackPromise = async <T extends Promise<unknown>>(
     const result = await promise;
     return [null, result];
   } catch (maybeError) {
-    if (maybeError instanceof BaseError) {
+    if (maybeError instanceof Error) {
       return [maybeError, null];
     }
     return [BaseError.normalize(maybeError, UnknownError), null];
@@ -46,7 +46,7 @@ export const unpackThrowable = <T>(throwable: () => T): ThrowableToTupleResult<T
     const result = throwable();
     return [null, result];
   } catch (maybeError) {
-    if (maybeError instanceof BaseError) {
+    if (maybeError instanceof Error) {
       return [maybeError, null];
     }
     return [BaseError.normalize(maybeError, UnknownError), null];
@@ -58,3 +58,5 @@ export const isNotNullish = <T>(val: T | null | undefined): val is T =>
 
 export const isObject = (val: unknown): val is Record<string, unknown> =>
   typeof val === "object" && val !== null && !Array.isArray(val);
+
+export const __do = <T>(fn: () => T): T => fn();

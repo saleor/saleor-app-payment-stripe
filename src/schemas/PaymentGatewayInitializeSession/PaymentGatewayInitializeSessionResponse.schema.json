@@ -3,10 +3,52 @@
   "type": "object",
   "properties": {
     "data": {
-      "type": "object",
-      "additionalProperties": true,
-      "properties": {},
-      "tsType": "JSONObject"
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "paymentMethodsResponse": { "$ref": "definitions.json#/definitions/JSON" },
+            "clientKey": { "type": "string" },
+            "environment": { "type": "string", "enum": ["LIVE", "TEST"] },
+            "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
+          },
+          "required": ["paymentMethodsResponse", "clientKey", "environment"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "applePayMerchantSession": { "$ref": "definitions.json#/definitions/JSON" },
+            "errors": { "$ref": "definitions.json#/definitions/SyncWebhookAppErrors" }
+          },
+          "required": ["applePayMerchantSession"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "giftCardBalanceResponse": { "$ref": "definitions.json#/definitions/JSON" }
+          },
+          "required": ["giftCardBalanceResponse"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "orderCreateResponse": { "$ref": "definitions.json#/definitions/JSON" }
+          },
+          "required": ["orderCreateResponse"]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "orderCancelResponse": { "$ref": "definitions.json#/definitions/JSON" }
+          },
+          "required": ["orderCancelResponse"]
+        }
+      ]
     }
   },
   "additionalProperties": false,

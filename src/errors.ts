@@ -16,8 +16,8 @@ export const BaseError = ModernError.subclass("BaseError", {
 export const UnknownError = BaseError.subclass("UnknownError");
 export const JsonParseError = ModernError.subclass("JsonParseError");
 export const JsonSchemaError = ModernError.subclass("JsonSchemaError");
-export const MissingSaleorApiUrlError = BaseError.subclass(`MissingSaleorApiUrlError`);
-export const MissingAuthDataError = BaseError.subclass(`MissingAuthDataError`);
+export const MissingSaleorApiUrlError = BaseError.subclass("MissingSaleorApiUrlError");
+export const MissingAuthDataError = BaseError.subclass("MissingAuthDataError");
 
 // TRPC Errors
 export interface TrpcErrorOptions {

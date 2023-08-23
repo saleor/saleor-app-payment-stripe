@@ -5,10 +5,19 @@ fragment PaymentGatewayInitializeSessionEvent on PaymentGatewayInitializeSession
   }
   data
   amount
+  issuingPrincipal {
+    ... on Node {
+      id
+    }
+  }
   sourceObject {
     __typename
     ... on Checkout {
       id
+      channel {
+        id
+        slug
+      }
       languageCode
       billingAddress {
         ...PaymentGatewayInitializeSessionAddress
@@ -21,6 +30,10 @@ fragment PaymentGatewayInitializeSessionEvent on PaymentGatewayInitializeSession
     }
     ... on Order {
       id
+      channel {
+        id
+        slug
+      }
       languageCodeEnum
       userEmail
       billingAddress {

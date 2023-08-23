@@ -19,7 +19,7 @@ describe("PaymentAppConfigurator", () => {
   appConfigurator["configurator"] = configuratorMock;
 
   describe("getConfig", () => {
-    const defaultConfig = { configurations: [], channelToConfigurationId: {} };
+    const defaultConfig = { configurations: [], channelToConfigurationId: {}, lastMigration: null };
     it("should call the configurator and return value that matches schema", async () => {
       const getConfig = vi.spyOn(configuratorMock, "getConfig").mockResolvedValue(defaultConfig);
 

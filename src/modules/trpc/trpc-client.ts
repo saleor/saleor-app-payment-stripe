@@ -54,7 +54,7 @@ export const trpcClient = createTRPCNext<AppRouter>({
           },
         }),
         httpBatchLink({
-          url: `/api/trpc`,
+          url: "/api/trpc",
           headers() {
             return {
               /**

@@ -10,5 +10,11 @@ fragment TransactionCancelationRequestedEvent on TransactionCancelationRequested
   transaction {
     id
     pspReference
+    sourceObject: order {
+      channel {
+        id
+        slug
+      }
+    }
   }
 }

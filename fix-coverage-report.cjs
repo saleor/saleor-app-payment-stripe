@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
 // https://github.com/ArtiomTr/jest-coverage-report-action/issues/244#issuecomment-1260555231
 const fs = require("fs");

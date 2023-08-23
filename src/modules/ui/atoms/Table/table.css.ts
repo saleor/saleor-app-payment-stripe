@@ -8,12 +8,12 @@ export const table = style(
       borderCollapse: "collapse",
     },
   ],
-  `table`,
+  "table",
 );
-export const thead = style([sprinkles({})], `thead`);
-export const tbody = style([sprinkles({})], `tbody`);
+export const thead = style([sprinkles({})], "thead");
+export const tbody = style([sprinkles({})], "tbody");
 
-export const tr = style([sprinkles({})], `tr`);
+export const tr = style([sprinkles({})], "tr");
 // --mu-space-0: 0px;
 // --mu-space-1: 1px;
 // --mu-space-2: 2px;
@@ -48,7 +48,7 @@ export const th = style(
       },
     },
   ],
-  `th`,
+  "th",
 );
 
 export const td = style(
@@ -70,5 +70,5 @@ export const td = style(
       },
     },
   ],
-  `td`,
+  "td",
 );

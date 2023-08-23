@@ -79,7 +79,7 @@ export function getSyncWebhookHandler<TPayload, TResult, TSchema extends Validat
     try {
       const result = await webhookHandler(payload, authData.saleorApiUrl);
       logger.info(`${webhookHandler.name} was successful`);
-      logger.debug({ result }, `Sending successful response`);
+      logger.debug({ result }, "Sending successful response");
       return res.json(await validateData(result, ResponseSchema));
     } catch (err) {
       logger.error({ err: redactError(err) }, `${webhookHandler.name} error`);
@@ -95,7 +95,7 @@ export function getSyncWebhookHandler<TPayload, TResult, TSchema extends Validat
 
       Sentry.captureException(...response.sentry);
       const finalErrorResponse = errorMapper(payload, response);
-      logger.debug({ finalErrorResponse }, `Sending error response`);
+      logger.debug({ finalErrorResponse }, "Sending error response");
       return res.status(200).json(await validateData(finalErrorResponse, ResponseSchema));
     }
   };

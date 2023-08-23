@@ -8,7 +8,7 @@ import { toStringOrEmpty } from "../../lib/utils";
 import { filterConfigValues, obfuscateValue } from "./utils";
 import { logger as pinoLogger } from "@/lib/logger";
 
-export interface AppConfigurator<TConfig extends Record<string, unknown>> {
+export interface GenericAppConfigurator<TConfig extends Record<string, unknown>> {
   setConfig(config: TConfig): Promise<void>;
   getConfig(): Promise<TConfig | undefined>;
 }
@@ -31,7 +31,7 @@ export const serializeSettingsToMetadata = ({
 };
 
 export abstract class MetadataConfigurator<TConfig extends Record<string, unknown>>
-  implements AppConfigurator<TConfig>
+  implements GenericAppConfigurator<TConfig>
 {
   constructor(
     protected metadataManager: SettingsManager,

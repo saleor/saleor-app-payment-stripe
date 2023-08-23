@@ -1,8 +1,7 @@
 import path from "path";
 import NodeHttpAdapter from "@pollyjs/adapter-node-http";
 import FetchAdapter from "@pollyjs/adapter-fetch";
-import type { Headers, PollyConfig } from "@pollyjs/core";
-import { Polly } from "@pollyjs/core";
+import { Polly, type Headers, type PollyConfig } from "@pollyjs/core";
 import FSPersister from "@pollyjs/persister-fs";
 import { afterEach, beforeEach, expect } from "vitest";
 import merge from "lodash-es/merge";
@@ -194,7 +193,7 @@ export const setupRecording = (config?: PollyConfig) => {
   beforeEach(async (ctx) => {
     const { currentTestName } = expect.getState();
     if (!currentTestName) {
-      throw new Error(`This function must be run inside a test case!`);
+      throw new Error("This function must be run inside a test case!");
     }
 
     const recordingsRoot = path.dirname(expect.getState().testPath || "");

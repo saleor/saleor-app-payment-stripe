@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "action": { "const": "APPLEPAY_onvalidatemerchant" },
+        "validationURL": { "type": "string" },
+        "domain": { "type": "string" },
+        "merchantIdentifier": { "type": "string" },
+        "merchantName": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "required": ["action", "validationURL", "domain", "merchantIdentifier", "merchantName"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "checkBalance"
+        },
+        "paymentMethod": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": ["action", "paymentMethod"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "createOrder"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["action"]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "cancelOrder"
+        },
+        "orderData": {
+          "type": "string"
+        },
+        "pspReference": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["action", "orderData", "pspReference"]
+    }
+  ]
+}

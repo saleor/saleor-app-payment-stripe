@@ -21,6 +21,16 @@
     },
     "typeRoots": ["node_modules/@types", "typings"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", "**/*.mts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.js",
+    "**/*.cjs",
+    "**/*.mjs",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.cts",
+    "**/*.mts",
+    "**/*.tsx"
+  ],
   "exclude": ["node_modules"]
 }
