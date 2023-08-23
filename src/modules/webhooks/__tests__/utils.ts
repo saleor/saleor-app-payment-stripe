@@ -49,6 +49,7 @@ export const createMockPaymentGatewayInitializeSessionEvent: CreateMockAsyncFn<
   return merge(
     {
       __typename: "PaymentGatewayInitializeSession",
+      issuingPrincipal: null,
       sourceObject: {
         __typename: "Checkout",
         id: "c29tZS1jaGVja291dC1pZA==",
@@ -440,6 +441,7 @@ export const createMockTransactionInitializeSessionEvent: CreateMockAsyncFn<
         id: "555555",
         pspReference: "",
       },
+      issuingPrincipal: null,
       data: {} as JSONValue,
     } as const,
     overrides,

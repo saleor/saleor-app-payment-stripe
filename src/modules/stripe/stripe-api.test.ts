@@ -20,7 +20,7 @@ describe("stripe-api", () => {
     // exhaustiveCheck is used to ensure that all Stripe.PaymentIntent.Status are covered
     const exhaustiveCheck = {
       canceled: "FAILURE",
-      processing: "REQUESTED",
+      processing: "REQUEST",
       requires_action: "ACTION_REQUIRED",
       requires_capture: "SUCCESS",
       requires_confirmation: "ACTION_REQUIRED",

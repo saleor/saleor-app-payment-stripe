@@ -143,7 +143,7 @@ export const stripePaymentIntentToTransactionResult = (
 
   switch (stripeResult) {
     case "processing":
-      return `${prefix}_REQUESTED`;
+      return `${prefix}_REQUEST`;
     case "requires_payment_method":
     case "requires_action":
     case "requires_confirmation":
