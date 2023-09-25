@@ -76,7 +76,7 @@ jobs:
 
       - name: Coverage report
         if: ${{ github.event_name != 'push' && github.actor != 'dependabot[bot]' }}
-        uses: ArtiomTr/jest-coverage-report-action@v2.2.4
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.5
         with:
           skip-step: all
           coverage-file: coverage/report.json
