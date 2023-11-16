@@ -74,7 +74,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.45.4",
     "semver": "7.5.4",
-    "stripe": "12.16.0",
+    "stripe": "14.4.0",
     "stripe-event-types": "2.4.0",
     "tsx": "3.12.7",
     "url-join": "5.0.0",
