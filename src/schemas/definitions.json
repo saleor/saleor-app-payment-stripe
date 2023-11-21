@@ -10,54 +10,60 @@
       "properties": {},
       "tsType": "JSONObject"
     },
+    "TransactionActions": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "type": "string", "const": "CHARGE" },
+          { "type": "string", "const": "REFUND" },
+          { "type": "string", "const": "CANCEL" }
+        ]
+      }
+    },
     "TransactionSessionResult": {
-      "anyOf": [
-        { "type": "string", "const": "CHARGE_SUCCESS" },
-        { "type": "string", "const": "CHARGE_FAILURE" },
-        { "type": "string", "const": "CHARGE_REQUESTED" },
-        { "type": "string", "const": "CHARGE_ACTION_REQUIRED" },
-        { "type": "string", "const": "AUTHORIZATION_SUCCESS" },
-        { "type": "string", "const": "AUTHORIZATION_FAILURE" },
-        { "type": "string", "const": "AUTHORIZATION_REQUESTED" },
-        { "type": "string", "const": "AUTHORIZATION_ACTION_REQUIRED" }
+      "type": "string",
+      "enum": [
+        "AUTHORIZATION_SUCCESS",
+        "AUTHORIZATION_FAILURE",
+        "AUTHORIZATION_REQUEST",
+        "AUTHORIZATION_ACTION_REQUIRED",
+        "CHARGE_SUCCESS",
+        "CHARGE_FAILURE",
+        "CHARGE_REQUEST",
+        "CHARGE_ACTION_REQUIRED"
       ]
     },
     "TransactionEventType": {
-      "anyOf": [
-        { "type": "string", "const": "AUTHORIZATION_SUCCESS" },
-        { "type": "string", "const": "AUTHORIZATION_FAILURE" },
-        { "type": "string", "const": "AUTHORIZATION_ADJUSTMENT" },
-        { "type": "string", "const": "AUTHORIZATION_REQUEST" },
-        { "type": "string", "const": "CHARGE_SUCCESS" },
-        { "type": "string", "const": "CHARGE_FAILURE" },
-        { "type": "string", "const": "CHARGE_BACK" },
-        { "type": "string", "const": "CHARGE_REQUEST" },
-        { "type": "string", "const": "REFUND_SUCCESS" },
-        { "type": "string", "const": "REFUND_FAILURE" },
-        { "type": "string", "const": "REFUND_REVERSE" },
-        { "type": "string", "const": "REFUND_REQUEST" },
-        { "type": "string", "const": "CANCEL_SUCCESS" },
-        { "type": "string", "const": "CANCEL_FAILURE" },
-        { "type": "string", "const": "CANCEL_REQUEST" }
+      "type": "string",
+      "enum": [
+        "AUTHORIZATION_SUCCESS",
+        "AUTHORIZATION_FAILURE",
+        "AUTHORIZATION_ADJUSTMENT",
+        "AUTHORIZATION_REQUEST",
+        "CHARGE_SUCCESS",
+        "CHARGE_FAILURE",
+        "CHARGE_BACK",
+        "CHARGE_REQUEST",
+        "REFUND_SUCCESS",
+        "REFUND_FAILURE",
+        "REFUND_REVERSE",
+        "REFUND_REQUEST",
+        "CANCEL_SUCCESS",
+        "CANCEL_FAILURE",
+        "CANCEL_REQUEST"
       ]
     },
     "TransactionCancelationRequestedAllowedResult": {
-      "anyOf": [
-        { "type": "string", "const": "CANCEL_SUCCESS" },
-        { "type": "string", "const": "CANCEL_FAILURE" }
-      ]
+      "type": "string",
+      "enum": ["CANCEL_SUCCESS", "CANCEL_FAILURE"]
     },
     "TransactionChargeRequestedAllowedResult": {
-      "anyOf": [
-        { "type": "string", "const": "CHARGE_SUCCESS" },
-        { "type": "string", "const": "CHARGE_FAILURE" }
-      ]
+      "type": "string",
+      "enum": ["CHARGE_SUCCESS", "CHARGE_FAILURE"]
     },
     "TransactionRefundRequestedAllowedResult": {
-      "anyOf": [
-        { "type": "string", "const": "REFUND_SUCCESS" },
-        { "type": "string", "const": "REFUND_FAILURE" }
-      ]
+      "type": "string",
+      "enum": ["REFUND_SUCCESS", "REFUND_FAILURE"]
     },
     "SyncWebhookAppError": {
       "type": "object",

@@ -25,5 +25,6 @@ export default defineConfig({
     unstubGlobals: true,
     unstubEnvs: true,
     include: ["**/?(*.)test.?(c|m)[jt]s?(x)"],
+    useAtomics: true,
   },
 });

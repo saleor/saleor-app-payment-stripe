@@ -4,7 +4,12 @@ export const InvariantError = ModernError.subclass("InvariantError");
 
 export function invariant(condition: unknown, message?: string): asserts condition {
   if (!condition) {
-    throw new InvariantError(`Invariant failed: ${message || ""}`);
+    const err = new InvariantError(`Invariant failed: ${message || ""}`);
+    // remove utils.js from stack trace for better error messages
+    const stack = (err.stack ?? "").split("\n");
+    stack.splice(1, 1);
+    err.stack = stack.join("\n");
+    throw err;
   }
 }
 

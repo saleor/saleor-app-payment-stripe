@@ -19,10 +19,12 @@ export const paymentAppConfigSchema = z
   .object({
     configurations: paymentAppConfigEntriesSchema,
     channelToConfigurationId: channelMappingSchema,
+    lastMigration: z.number().nullish(),
   })
   .default({
     configurations: [],
     channelToConfigurationId: {},
+    lastMigration: null,
   });
 
 export const paymentAppUserVisibleConfigSchema = z

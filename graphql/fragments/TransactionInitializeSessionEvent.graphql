@@ -10,6 +10,11 @@ fragment TransactionInitializeSessionEvent on TransactionInitializeSession {
     currency
     actionType
   }
+  issuingPrincipal {
+    ... on Node {
+      id
+    }
+  }
   transaction {
     id
     pspReference

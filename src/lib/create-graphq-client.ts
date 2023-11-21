@@ -46,3 +46,7 @@ export const createClient = (url: string, getAuth: AuthConfig<IAuthState>["getAu
       fetchExchange,
     ],
   });
+
+export function createServerClient(saleorApiUrl: string, token: string) {
+  return createClient(saleorApiUrl, async () => Promise.resolve({ token }));
+}
