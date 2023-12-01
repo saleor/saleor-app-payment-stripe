@@ -127,11 +127,11 @@ dependencies:
     specifier: 7.5.4
     version: 7.5.4
   stripe:
-    specifier: 12.16.0
-    version: 12.16.0
+    specifier: 14.7.0
+    version: 14.7.0
   stripe-event-types:
     specifier: 2.4.0
-    version: 2.4.0(stripe@12.16.0)
+    version: 2.4.0(stripe@14.7.0)
   tsx:
     specifier: 3.12.7
     version: 3.12.7
@@ -2303,7 +2303,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.8.0
-      tslib: 2.4.1
+      tslib: 2.6.2
     dev: true
 
   /@graphql-tools/optimize@2.0.0(graphql@16.8.0):
@@ -2313,7 +2313,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.8.0
-      tslib: 2.5.3
+      tslib: 2.6.2
     dev: true
 
   /@graphql-tools/prisma-loader@8.0.1(@types/node@20.5.4)(graphql@16.8.0):
@@ -2357,7 +2357,7 @@ packages:
       '@ardatan/relay-compiler': 12.0.0(graphql@16.8.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.8.0)
       graphql: 16.8.0
-      tslib: 2.4.1
+      tslib: 2.6.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -2372,7 +2372,7 @@ packages:
       '@ardatan/relay-compiler': 12.0.0(graphql@16.8.0)
       '@graphql-tools/utils': 10.0.5(graphql@16.8.0)
       graphql: 16.8.0
-      tslib: 2.5.3
+      tslib: 2.6.2
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -2436,7 +2436,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.8.0
-      tslib: 2.4.1
+      tslib: 2.6.2
     dev: true
 
   /@graphql-tools/utils@9.2.1(graphql@16.8.0):
@@ -2446,7 +2446,7 @@ packages:
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.0)
       graphql: 16.8.0
-      tslib: 2.4.1
+      tslib: 2.6.2
     dev: true
 
   /@graphql-tools/wrap@10.0.0(graphql@16.8.0):
@@ -10291,16 +10291,16 @@ packages:
     dependencies:
       acorn: 8.10.0
 
-  /stripe-event-types@2.4.0(stripe@12.16.0):
+  /stripe-event-types@2.4.0(stripe@14.7.0):
     resolution: {integrity: sha512-5ORZMW/WKjc31nsGMCUECOS+xVjtHhAFJJ8833ft3471hIjQrMbLMPBEb5AcJM8mKRRULpKmCVMDU0lLYrxERQ==}
     peerDependencies:
       stripe: '>=10.0.0'
     dependencies:
-      stripe: 12.16.0
+      stripe: 14.7.0
     dev: false
 
-  /stripe@12.16.0:
-    resolution: {integrity: sha512-iwVkyZsS9KsWmEVK5qnbPeX/m94+Z3fXIRU7Q4iNBS2Zuj1spGIjLKMN3tejUs/ZZ2o7dCYFJvVdC2aZMYo8GA==}
+  /stripe@14.7.0:
+    resolution: {integrity: sha512-A6XWH76K0K7IgEBz4odIVxjhkdPduSPafZju6ltAFU0oMbWJlfeaDyMTfRJ9vcYA9zqENfwRizExD/2nZ4rQ1A==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 20.5.4
