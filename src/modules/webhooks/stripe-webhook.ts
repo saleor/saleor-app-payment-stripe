@@ -55,7 +55,7 @@ async function processStripeEvent({
   const logger = createLogger({}, { msgPrefix: "[processStripeEvent] " });
   logger.debug(
     {
-      id: stripeEvent.id,
+      id: "id" in stripeEvent && typeof stripeEvent.id === "string" ? stripeEvent.id : "",
       type: stripeEvent.type,
     },
     "Got Stripe event",
@@ -96,6 +96,7 @@ async function processStripeEvent({
 
   if (transactionEventReportResult.errors.length > 0) {
     const message = transactionEventReportResult.errors.map((err) => err.message).join("\n");
+    console.dir(transactionEventReportResult.errors);
     throw new UnexpectedTransactionEventReportError(message, {
       errors: transactionEventReportResult.errors,
     });
@@ -266,7 +267,10 @@ export async function stripeEventToTransactionEventReportMutationVariables(
     externalUrl: partialVariables.externalUrl,
     message: partialVariables.message,
     pspReference: partialVariables.pspReference,
-    time: new Date(stripeEvent.created * 1000).toISOString(),
+    time:
+      "created" in stripeEvent && typeof stripeEvent.created === "number"
+        ? new Date(stripeEvent.created * 1000).toISOString()
+        : new Date().toISOString(),
     type: partialVariables.type,
     availableActions,
   };
@@ -359,7 +363,9 @@ function stripeChargeRefundUpdatedEventToPartialTransactionEventReportMutationVa
   const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
 
   // we can use chargeID for externalURL - it automatically redirects to the right place
-  const pspReference = paymentIntentId || stripeEvent.id;
+  const pspReference =
+    paymentIntentId ||
+    ("id" in stripeEvent && typeof stripeEvent.id === "string" ? stripeEvent.id : "");
   const externalUrl = getStripeExternalUrlForIntentId(pspReference);
 
   const amount = getSaleorAmountFromStripeAmount({
@@ -403,7 +409,9 @@ function stripeChargeRefundedEventToPartialTransactionEventReportMutationVariabl
   const paymentIntentId = getPaymentIntentIdFromObject(stripeEvent.data.object);
 
   // we can use chargeID for externalURL - it automatically redirects to the right place
-  const pspReference = paymentIntentId || stripeEvent.id;
+  const pspReference =
+    paymentIntentId ||
+    ("id" in stripeEvent && typeof stripeEvent.id === "string" ? stripeEvent.id : "");
   const externalUrl = getStripeExternalUrlForIntentId(pspReference);
 
   const amount = getSaleorAmountFromStripeAmount({

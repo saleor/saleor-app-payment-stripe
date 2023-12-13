@@ -64,17 +64,24 @@ export const setMappingInAppConfig = async (
     (entry) => entry.configurationId === input.configurationId,
   );
 
-  if (!entry) {
+  if (!input.configurationId) {
+    logger.info("Removing entry");
+
+    await configurator.setMapping({
+      [input.channelId]: null,
+    });
+  } else if (entry) {
+    logger.info("Entry with configurationId exists, updating app config");
+
+    await configurator.setMapping({
+      [input.channelId]: input.configurationId,
+    });
+  } else {
     logger.error("Entry with configurationId doesn't exist");
     throw new EntryDoesntExistError(
       `Entry with configurationId ${input.configurationId} doesn't exist`,
     );
   }
-  logger.info("Entry with configurationId exists, updating app config");
-
-  await configurator.setMapping({
-    [input.channelId]: input.configurationId,
-  });
 
   logger.debug("Updated app config");
 

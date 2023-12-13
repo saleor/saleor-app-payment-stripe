@@ -1,10 +1,9 @@
-import { createSecretKey } from "crypto";
 import { describe, it, expect, vi } from "vitest";
 import { SignJWT } from "jose";
 import { checkTokenExpiration } from "./check-token-expiration";
 
 describe("checkTokenExpiration", () => {
-  const secretKey = createSecretKey("test", "utf-8");
+  const secretKey = new TextEncoder().encode("test");
 
   it("returns false if token is undefined", () => {
     expect(checkTokenExpiration(undefined)).toBe(false);
@@ -14,7 +13,7 @@ describe("checkTokenExpiration", () => {
     // create JWT token without exp claim
     const jwt = await new SignJWT({ id: "12345" })
       .setProtectedHeader({ alg: "HS256" })
-      .sign(secretKey);
+      .sign(new Uint8Array(secretKey));
     expect(checkTokenExpiration(jwt)).toBe(false);
   });
 

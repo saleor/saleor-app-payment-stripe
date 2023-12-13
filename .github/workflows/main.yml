@@ -14,15 +14,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.12.0
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: "package.json"
           cache: "pnpm"
 
       - uses: actions/cache@v3
