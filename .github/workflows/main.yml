@@ -66,7 +66,7 @@ jobs:
 
       - name: Download coverage report from canary
         if: ${{ github.event_name != 'push' && github.actor != 'dependabot[bot]' }}
-        uses: dawidd6/action-download-artifact@v2
+        uses: dawidd6/action-download-artifact@v3
         with:
           workflow_conclusion: success
           branch: canary
