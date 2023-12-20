@@ -96,7 +96,6 @@ async function processStripeEvent({
 
   if (transactionEventReportResult.errors.length > 0) {
     const message = transactionEventReportResult.errors.map((err) => err.message).join("\n");
-    console.dir(transactionEventReportResult.errors);
     throw new UnexpectedTransactionEventReportError(message, {
       errors: transactionEventReportResult.errors,
     });
