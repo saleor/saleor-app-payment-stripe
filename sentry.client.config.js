@@ -5,7 +5,7 @@
 import * as Sentry from "@sentry/nextjs";
 import { env } from "./src/lib/env.mjs";
 
-const SENTRY_DSN = env.SENTRY_DSN || env.NEXT_PUBLIC_SENTRY_DSN;
+const SENTRY_DSN = env.NEXT_PUBLIC_SENTRY_DSN;
 
 Sentry.init({
   dsn: SENTRY_DSN,
