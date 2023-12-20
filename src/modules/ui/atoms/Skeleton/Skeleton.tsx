@@ -1,14 +1,8 @@
-import { type HTMLAttributes } from "react";
-import { Box, type PropsWithBox } from "@saleor/macaw-ui/next";
+import { Box, type BoxProps } from "@saleor/macaw-ui/next";
 import classNames from "classnames";
 import { skeleton } from "./Skeleton.css";
 
-export type SkeletonProps = Omit<
-  PropsWithBox<Omit<HTMLAttributes<HTMLDivElement>, "color">>,
-  "dangerouslySetInnerHTML"
->;
-
-export const Skeleton = ({ className, ...props }: SkeletonProps) => {
+export const Skeleton = ({ className, ...props }: BoxProps) => {
   return (
     <Box
       className={classNames(skeleton, className)}

@@ -13,7 +13,7 @@ import { createLogger, redactError } from "@/lib/logger";
 
 export const getStripeApiClient = (secretKey: string) => {
   const stripe = new Stripe(secretKey, {
-    apiVersion: "2022-11-15",
+    apiVersion: "2023-10-16",
     typescript: true,
     httpClient: Stripe.createFetchHttpClient(fetch),
   });
@@ -136,9 +136,9 @@ export const stripePaymentIntentToTransactionResult = (
     transactionFlowStrategy === TransactionFlowStrategyEnum.Authorization
       ? "AUTHORIZATION"
       : transactionFlowStrategy === TransactionFlowStrategyEnum.Charge
-      ? "CHARGE"
-      : /* c8 ignore next */
-        null;
+        ? "CHARGE"
+        : /* c8 ignore next */
+          null;
   invariant(prefix, `Unsupported transactionFlowStrategy: ${transactionFlowStrategy}`);
 
   switch (stripeResult) {
