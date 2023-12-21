@@ -1,5 +1,15 @@
 # saleor-app-payment-stripe
 
+## 0.3.0
+
+### Minor Changes
+
+- 6817fbe: Fixed blank configuration screen; Stripe API is now on the latest version
+
+### Patch Changes
+
+- e47cd4e: Bumped zod from 3.22.2 to 3.22.3
+
 ## 0.2.1
 
 ### Patch Changes
