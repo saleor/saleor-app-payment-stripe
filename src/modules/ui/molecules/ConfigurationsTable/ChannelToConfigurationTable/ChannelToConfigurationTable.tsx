@@ -80,10 +80,10 @@ const ChannelToConfigurationTableRow = ({
               label: c.configurationName,
             })),
           ]}
-          onChange={(e) => {
+          onChange={(e: string | { value: string | null } | null) => {
             const newMapping = {
               channelId: channel.id,
-              configurationId: String(e),
+              configurationId: e === null || typeof e === "string" ? e : e.value,
             };
             context.paymentAppConfigurationRouter.mapping.getAll.setData(undefined, (mappings) => {
               return {

@@ -442,7 +442,12 @@ export const createMockTransactionInitializeSessionEvent: CreateMockAsyncFn<
         pspReference: "",
       },
       issuingPrincipal: null,
-      data: {} as JSONValue,
+      data: {
+        automatic_payment_methods: {
+          enabled: true,
+          allow_redirects: "never",
+        },
+      } as JSONValue,
     } as const,
     overrides,
   );
@@ -475,5 +480,10 @@ export const createMockTransactionProcessSessionEvent: CreateMockAsyncFn<
 };
 
 export const createMockStripeDataActionNotRequired = () => {
-  return {};
+  return {
+    automatic_payment_methods: {
+      enabled: true,
+      allow_redirects: "never",
+    },
+  };
 };

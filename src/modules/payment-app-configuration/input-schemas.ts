@@ -3,7 +3,7 @@ import { paymentAppFormConfigEntrySchema } from "./config-entry";
 
 export const mappingUpdate = z.object({
   channelId: z.string().min(1),
-  configurationId: z.string().min(1),
+  configurationId: z.string().nullable(),
 });
 
 export const paymentConfigEntryUpdate = z.object({

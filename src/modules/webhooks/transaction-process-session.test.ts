@@ -26,22 +26,14 @@ describe("TransactionProcessSessionWebhookHandler", () => {
     it.each([
       {
         title: "should work authorization",
-        data: {
-          automatic_payment_methods: {
-            enabled: true,
-          },
-        },
+        data: {},
         result: "AUTHORIZATION_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Authorization,
       },
       {
         title: "should work charge",
-        data: {
-          automatic_payment_methods: {
-            enabled: true,
-          },
-        },
+        data: {},
         result: "CHARGE_ACTION_REQUIRED",
         amount: 99.99 + 123.0,
         actionType: TransactionFlowStrategyEnum.Charge,
