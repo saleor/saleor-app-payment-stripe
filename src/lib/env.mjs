@@ -24,6 +24,7 @@ export const env = createEnv({
     UPSTASH_TOKEN: z.string().optional(),
     REST_APL_ENDPOINT: z.string().optional(),
     REST_APL_TOKEN: z.string().optional(),
+    ALLOWED_DOMAIN_PATTERN: z.string().optional()
   },
 
   /*
@@ -56,5 +57,6 @@ export const env = createEnv({
     UPSTASH_TOKEN: process.env.UPSTASH_TOKEN,
     REST_APL_ENDPOINT: process.env.REST_APL_ENDPOINT,
     REST_APL_TOKEN: process.env.REST_APL_TOKEN,
+    ALLOWED_DOMAIN_PATTERN: process.env.ALLOWED_DOMAIN_PATTERN,
   },
 });
