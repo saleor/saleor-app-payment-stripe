@@ -24,7 +24,7 @@ export const env = createEnv({
     UPSTASH_TOKEN: z.string().optional(),
     REST_APL_ENDPOINT: z.string().optional(),
     REST_APL_TOKEN: z.string().optional(),
-    ALLOWED_DOMAIN_PATTERN: z.string().optional()
+    ALLOWED_DOMAIN_PATTERN: z.string().optional(),
   },
 
   /*
