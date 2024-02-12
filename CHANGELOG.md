@@ -1,5 +1,11 @@
 # saleor-app-payment-stripe
 
+## 0.4.0
+
+### Minor Changes
+
+- c69f6b8: Added "ALLOWED_DOMAIN_PATTERN" env that can be used to allow/disallow specific Saleor instances
+
 ## 0.3.0
 
 ### Minor Changes
