@@ -433,15 +433,12 @@ function stripePaymentIntentEventToPartialTransactionEventReportMutationVariable
   switch (stripeEvent.type) {
     // handling these is required
     case "payment_intent.succeeded": {
+      if (manualCapture) break;
       const amount = getSaleorAmountFromStripeAmount({
         amount: manualCapture ? paymentIntent.amount_capturable : paymentIntent.amount_received,
         currency: paymentIntent.currency,
       });
-      const type =
-        // manualCapture
-        //   ? TransactionEventTypeEnum.AuthorizationSuccess
-        //   :
-        TransactionEventTypeEnum.ChargeSuccess;
+      const type = TransactionEventTypeEnum.ChargeSuccess;
 
       return { amount, type, externalUrl, pspReference, message };
     }
