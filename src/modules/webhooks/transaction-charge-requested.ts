@@ -68,7 +68,7 @@ export const TransactionChargeRequestedWebhookHandler = async (
       amount,
       externalUrl,
       //@ts-expect-error: just for testing
-      availableActions: ["REFUND"],
+      actions: result === "CHARGE_SUCCESS" ? ["REFUND"] : ["CANCEL", "CHARGE"],
     };
     return transactionChargeRequestedResponse;
   } else {
