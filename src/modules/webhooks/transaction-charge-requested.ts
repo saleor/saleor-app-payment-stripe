@@ -67,6 +67,7 @@ export const TransactionChargeRequestedWebhookHandler = async (
       pspReference,
       amount,
       externalUrl,
+      availableActions: ["REFUND"],
     };
     return transactionChargeRequestedResponse;
   } else {
