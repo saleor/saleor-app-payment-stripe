@@ -437,9 +437,11 @@ function stripePaymentIntentEventToPartialTransactionEventReportMutationVariable
         amount: manualCapture ? paymentIntent.amount_capturable : paymentIntent.amount_received,
         currency: paymentIntent.currency,
       });
-      const type = manualCapture
-        ? TransactionEventTypeEnum.AuthorizationSuccess
-        : TransactionEventTypeEnum.ChargeSuccess;
+      const type =
+        // manualCapture
+        //   ? TransactionEventTypeEnum.AuthorizationSuccess
+        //   :
+        TransactionEventTypeEnum.ChargeSuccess;
 
       return { amount, type, externalUrl, pspReference, message };
     }
