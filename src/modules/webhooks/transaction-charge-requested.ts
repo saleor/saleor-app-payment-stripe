@@ -67,6 +67,7 @@ export const TransactionChargeRequestedWebhookHandler = async (
       pspReference,
       amount,
       externalUrl,
+      //@ts-expect-error: just for testing
       availableActions: ["REFUND"],
     };
     return transactionChargeRequestedResponse;
