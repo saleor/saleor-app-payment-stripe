@@ -503,7 +503,10 @@ function stripePaymentIntentEventToPartialTransactionEventReportMutationVariable
         amount: paymentIntent.amount,
         currency: paymentIntent.currency,
       });
-      const type = TransactionEventTypeEnum.AuthorizationAdjustment;
+      const type =
+        paymentIntent.status == "requires_capture"
+          ? TransactionEventTypeEnum.AuthorizationSuccess
+          : TransactionEventTypeEnum.AuthorizationAdjustment;
       return { amount, type, externalUrl, pspReference, message };
     }
 
