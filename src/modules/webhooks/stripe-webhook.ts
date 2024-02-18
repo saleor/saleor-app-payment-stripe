@@ -437,7 +437,9 @@ function stripePaymentIntentEventToPartialTransactionEventReportMutationVariable
         amount: manualCapture ? paymentIntent.amount_capturable : paymentIntent.amount_received,
         currency: paymentIntent.currency,
       });
-      const type = TransactionEventTypeEnum.ChargeSuccess;
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationSuccess
+        : TransactionEventTypeEnum.ChargeSuccess;
 
       return { amount, type, externalUrl, pspReference, message };
     }
@@ -501,10 +503,9 @@ function stripePaymentIntentEventToPartialTransactionEventReportMutationVariable
         amount: paymentIntent.amount,
         currency: paymentIntent.currency,
       });
-      const type =
-        paymentIntent.status == "requires_capture"
-          ? TransactionEventTypeEnum.AuthorizationSuccess
-          : TransactionEventTypeEnum.AuthorizationAdjustment;
+      const type = manualCapture
+        ? TransactionEventTypeEnum.AuthorizationSuccess
+        : TransactionEventTypeEnum.AuthorizationAdjustment;
       return { amount, type, externalUrl, pspReference, message };
     }
 
