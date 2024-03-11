@@ -14,6 +14,11 @@
   <a target="_blank" rel="noopener noreferrer" href="https://www.stripe.com/"><img src="" width="200" alt=""></a>
 </div>
 
+## Saleor Cloud notice
+
+Saleor apps are available out of the box via Saleor Cloud. 
+For self-hosted Saleor usage, you need to fork and deploy on your own.
+
 ## What is Saleor App Payment Stripe
 
 Saleor App Payment Stripe is a payment integration app that allows merchants using the Saleor e-commerce platform to accept online payments from customers using Stripe as their payment processor. Stripe is a popular global payment provider that offers a range of payment methods, including credit cards, bank transfers, and digital wallets.
