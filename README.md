@@ -73,7 +73,7 @@ The response:
 ```
 
 > [!NOTE]
-> `availablePaymentGateways` may contain other Payment Apps as well as [legacy plugins](https://docs.saleor.io/docs/3.x/developer/extending/payment-gateways) configured in the Dashboard. You should ignore the ones that you don't want to use for a specific checkout.
+> The `availablePaymentGateways` may contain other Payment Apps as well as [legacy plugins](https://docs.saleor.io/docs/3.x/developer/extending/payment-gateways) configured in the Dashboard. You should ignore the ones that you don't want to use for a specific checkout.
 
 ### Paying with Stripe Payment Element
 
@@ -281,16 +281,16 @@ The app will be available at `http://localhost:3000`.
 
 To run tests, one needs to provide additional environment variables. Copy the `.env.test` file to `.env.test.local`.The `.env.test.local` should contain the following variables:
 
-| env variable name                  | required?  | description                                               | example                                                                                                                            |
-| ---------------------------------- | :--------: | :-------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `TEST_SALEOR_API_URL`              | _required_ | Full URL to the Saleor GraphQL endpoint                   | `https://saleor.cloud/graphql/`                                                                                                    |
+| env variable name                  | required?  | description                                                                      | example                                                                                                                            |
+| ---------------------------------- | :--------: | :------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| `TEST_SALEOR_API_URL`              | _required_ | Full URL to the Saleor GraphQL endpoint                                          | `https://saleor.cloud/graphql/`                                                                                                    |
 | `TEST_SALEOR_APP_TOKEN`            | _required_ | [AppToken](https://docs.saleor.io/docs/3.x/api-reference/apps/objects/app-token) | `3DZ7CbFTyPETthDixPtFpPysoKG4FP`                                                                                                   |
 | `TEST_SALEOR_APP_ID`               | _required_ | [App.id](https://docs.saleor.io/docs/3.x/api-reference/apps/objects/app)         | `QXBwOjk=`                                                                                                                         |
-| `TEST_SALEOR_JWKS`                 | _required_ | stringified JWKS                                          | `"{\"keys\": [{\"kty\": \"RSA\", \"key_ops\": [\"verify\"], \"n\": \"...\", \"e\": \"AQAB\", \"use\": \"sig\", \"kid\": \"1\"}]}"` |
-| `TEST_PAYMENT_APP_SECRET_KEY`      | _required_ | Secret Key from Stripe                                    | `sk_test_51LVZwxEosE…`                                                                                                             |
-| `TEST_PAYMENT_APP_PUBLISHABLE_KEY` | _required_ | Publishable Key from Stripe                               | `pk_test_51LVZwxEos…`                                                                                                              |
-| `TEST_PAYMENT_APP_WEBHOOK_ID`      | _required_ | ID of a webhook                                           | `we_1JaGFlH1Vac4G4dbZnQ8bviV`                                                                                                      |
-| `TEST_PAYMENT_APP_WEBHOOK_SECRET`  | _required_ | Webhook Secret from Stripe                                | `whsec_c09e3d87…`                                                                                                                  |
+| `TEST_SALEOR_JWKS`                 | _required_ | stringified JWKS                                                                 | `"{\"keys\": [{\"kty\": \"RSA\", \"key_ops\": [\"verify\"], \"n\": \"...\", \"e\": \"AQAB\", \"use\": \"sig\", \"kid\": \"1\"}]}"` |
+| `TEST_PAYMENT_APP_SECRET_KEY`      | _required_ | Secret Key from Stripe                                                           | `sk_test_51LVZwxEosE…`                                                                                                             |
+| `TEST_PAYMENT_APP_PUBLISHABLE_KEY` | _required_ | Publishable Key from Stripe                                                      | `pk_test_51LVZwxEos…`                                                                                                              |
+| `TEST_PAYMENT_APP_WEBHOOK_ID`      | _required_ | ID of a webhook                                                                  | `we_1JaGFlH1Vac4G4dbZnQ8bviV`                                                                                                      |
+| `TEST_PAYMENT_APP_WEBHOOK_SECRET`  | _required_ | Webhook Secret from Stripe                                                       | `whsec_c09e3d87…`                                                                                                                  |
 
 Then run the following command:
 
