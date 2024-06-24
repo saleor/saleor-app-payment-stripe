@@ -1,5 +1,7 @@
 # Stripe app
 
+Warning: Stripe App is not yet available on the Saleor App store. You can a fork of this repository to self host it.
+
 ## Overview
 
 Stripe App is a payment integration app that allows merchants to accept online payments from customers using Stripe as their payment processor. Stripe is a popular global payment provider that offers a range of payment methods, including credit cards, bank transfers, and digital wallets.
