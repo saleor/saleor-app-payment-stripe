@@ -1,6 +1,7 @@
-# Stripe app
+# Stripe App
 
-Warning: Stripe App is not yet available on the Saleor App store. You can a fork of this repository to self host it.
+> [!CAUTION]
+> Stripe App is not a production-ready app, but an integration example. It is not feature complete and must be self-hosted.
 
 ## Overview
 
