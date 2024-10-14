@@ -3,6 +3,9 @@
 > [!CAUTION]
 > Stripe App is not a production-ready app, but an integration example. It is not feature complete and must be self-hosted.
 
+> [!TIP]
+> Questions or issues? Check our [discord](https://discord.gg/H52JTZAtSH) channel for help.
+
 ## Overview
 
 Stripe App is a payment integration app that allows merchants to accept online payments from customers using Stripe as their payment processor. Stripe is a popular global payment provider that offers a range of payment methods, including credit cards, bank transfers, and digital wallets.
