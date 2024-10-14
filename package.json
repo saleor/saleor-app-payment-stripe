@@ -28,7 +28,7 @@
     "test:ci": "CI=true vitest --coverage --reporter=json --reporter=default && tsx fix-coverage-report.cjs",
     "migrate": "pnpm tsx ./src/run-migrations.ts",
     "ts-node-esm": "node --loader ts-node/esm --experimental-specifier-resolution=node",
-    "prepare": "husky install",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
     "github:release": "pnpm changeset tag && git push --follow-tags"
   },
   "saleor": {
