@@ -1,7 +1,8 @@
 # Stripe App
 
 > [!CAUTION]
-> Stripe App is not a production-ready app, but an integration example. It is not feature complete and must be self-hosted.
+> Deprecated
+> This repository contains the legacy Stripe App example. Please check the new Stripe App version: [docs](https://docs.saleor.io/developer/app-store/apps/stripe/overview) and [repo](https://github.com/saleor/apps/tree/main/apps/stripe)
 
 > [!TIP]
 > Questions or issues? Check our [discord](https://discord.gg/H52JTZAtSH) channel for help.
