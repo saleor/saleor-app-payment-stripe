@@ -7,7 +7,10 @@
     "amount": { "$ref": "definitions.json#/definitions/PositiveDecimal" },
     "time": { "$ref": "definitions.json#/definitions/DateTime" },
     "externalUrl": { "type": "string" },
-    "message": { "type": "string" }
+    "message": { "type": "string" },
+    "actions": {
+      "$ref": "definitions.json#/definitions/TransactionActions"
+    }
   },
   "additionalProperties": false,
   "required": ["pspReference"]
